@@ -1,0 +1,83 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model Admin {
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  email        String   @unique
+  passwordHash String
+  name         String?  @default("Admin")
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model Enquiry {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  company     String?
+  phone       String
+  email       String?
+  serviceType String?
+  notes       String?
+  source      String?  @default("Website Form")
+  status      String   @default("NEW")
+  adminNotes  String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model PortfolioItem {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  title       String
+  category    String
+  badgeType   String?
+  badgeStatus String?
+  location    String
+  dimensions  String?
+  specs       String[]
+  imageUrl    String
+  serviceName String?
+  isVacant    Boolean  @default(false)
+  isActive    Boolean  @default(true)
+  order       Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model ClientLogo {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  logoUrl   String
+  order     Int      @default(0)
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Service {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  title       String
+  subtitle    String?
+  icon        String?  @default("billboard")
+  description String
+  features    String[]
+  order       Int      @default(0)
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model SiteSettings {
+  id                String   @id @default(auto()) @map("_id") @db.ObjectId
+  primaryPhone      String   @default("+91 95390 00640")
+  altPhone          String   @default("+91 95263 64446")
+  contactEmail      String   @default("novainnovations2020@gmail.com")
+  hqAddress         String   @default("T.C 26/929(2), C.K. Tower, Panavila Jn., Thiruvananthapuram - 695001")
+  cityOfficeAddress String   @default("T.C. 29/314, S J Tower, MP Appan Road, Vazhuthacaud, Trivandrum - 695014")
+  updatedAt         DateTime @updatedAt
+}
