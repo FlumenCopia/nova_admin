@@ -1,10 +1,28 @@
 'use client';
 
+import { useState } from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
+import { apiRequest } from '../lib/api';
+import Modal from './Modal';
 
 export default function Sidebar({ isOpen, onClose }) {
   const pathname = usePathname();
+  const router = useRouter();
+  const [showLogoutModal, setShowLogoutModal] = useState(false);
+  const [loggingOut, setLoggingOut] = useState(false);
+
+  const confirmLogout = async () => {
+    try {
+      setLoggingOut(true);
+      await apiRequest('/admin/auth/logout', { method: 'POST' });
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setShowLogoutModal(false);
+      router.push('/login?logout=success');
+    }
+  };
 
   const navItems = [
     {
@@ -89,37 +107,81 @@ export default function Sidebar({ isOpen, onClose }) {
   ];
 
   return (
-    <aside className={`admin-sidebar ${isOpen ? 'open' : ''}`}>
-      <div className="sidebar-header" style={{ gap: '10px' }}>
-        <img src="/logo.png" alt="Nova Innovations" style={{ height: '34px', width: 'auto', objectFit: 'contain' }} />
-        <span style={{ fontWeight: 800, fontSize: '0.8rem', color: 'var(--color-primary)', background: 'var(--color-primary-soft)', padding: '3px 8px', borderRadius: '4px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-          Admin
-        </span>
-      </div>
-
-      <nav className="sidebar-nav">
-        {navItems.map((item) => {
-          const isActive = pathname === item.path;
-          return (
-            <Link
-              key={item.path}
-              href={item.path}
-              className={`nav-item ${isActive ? 'active' : ''}`}
-              onClick={onClose}
-            >
-              {item.icon}
-              <span>{item.name}</span>
-            </Link>
-          );
-        })}
-      </nav>
-
-      <div className="sidebar-footer">
-        <div style={{ fontSize: '0.8rem', color: 'var(--color-text-muted)' }}>
-          Nova Innovations Admin v1.0<br />
-          MVP Control Panel
+    <>
+      <aside className={`admin-sidebar ${isOpen ? 'open' : ''}`}>
+        <div className="sidebar-header" style={{ gap: '10px' }}>
+          <img src="/logo.png" alt="Nova Innovations" style={{ height: '34px', width: 'auto', objectFit: 'contain' }} />
+          <span style={{ fontWeight: 800, fontSize: '0.8rem', color: 'var(--color-primary)', background: 'var(--color-primary-soft)', padding: '3px 8px', borderRadius: '4px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+            Admin
+          </span>
         </div>
-      </div>
-    </aside>
+
+        <nav className="sidebar-nav">
+          {navItems.map((item) => {
+            const isActive = pathname === item.path;
+            return (
+              <Link
+                key={item.path}
+                href={item.path}
+                className={`nav-item ${isActive ? 'active' : ''}`}
+                onClick={onClose}
+              >
+                {item.icon}
+                <span>{item.name}</span>
+              </Link>
+            );
+          })}
+        </nav>
+
+        <div className="sidebar-footer">
+          <button
+            onClick={() => setShowLogoutModal(true)}
+            className="btn-secondary"
+            style={{
+              width: '100%',
+              justify: 'center',
+              color: 'var(--color-danger)',
+              borderColor: 'rgba(217, 45, 32, 0.25)',
+              gap: '8px',
+              padding: '10px',
+              fontSize: '0.88rem',
+              fontWeight: 700,
+            }}
+          >
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+              <polyline points="16 17 21 12 16 7"></polyline>
+              <line x1="21" y1="12" x2="9" y2="12"></line>
+            </svg>
+            Logout
+          </button>
+        </div>
+      </aside>
+
+      {/* LOGOUT CONFIRMATION MODAL */}
+      <Modal isOpen={showLogoutModal} onClose={() => setShowLogoutModal(false)} title="Confirm Logout">
+        <div style={{ padding: '8px 0' }}>
+          <p style={{ color: 'var(--color-text-secondary)', marginBottom: '24px', fontSize: '0.95rem' }}>
+            Are you sure you want to end your administrative session and log out?
+          </p>
+
+          <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '12px' }}>
+            <button
+              onClick={() => setShowLogoutModal(false)}
+              className="btn-secondary"
+            >
+              Cancel
+            </button>
+            <button
+              onClick={confirmLogout}
+              className="btn-danger"
+              disabled={loggingOut}
+            >
+              {loggingOut ? 'Logging out...' : 'Confirm Logout'}
+            </button>
+          </div>
+        </div>
+      </Modal>
+    </>
   );
 }

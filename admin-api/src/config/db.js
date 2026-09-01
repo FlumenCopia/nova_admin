@@ -314,8 +314,11 @@ const safeDb = {
       } catch (err) {
         if (err.code === 'P2031') {
           const db = await getNativeDb();
-          await db.collection('Service').updateOne({ _id: new ObjectId(where.id) }, { $set: { ...data, updatedAt: new Date() } });
-          const updated = await db.collection('Service').findOne({ _id: new ObjectId(where.id) });
+          const filter = ObjectId.isValid(where.id)
+            ? { $or: [{ _id: new ObjectId(where.id) }, { id: where.id }] }
+            : { id: where.id };
+          await db.collection('Service').updateOne(filter, { $set: { ...data, updatedAt: new Date() } });
+          const updated = await db.collection('Service').findOne(filter);
           return formatDoc(updated);
         }
         throw err;
@@ -327,7 +330,10 @@ const safeDb = {
       } catch (err) {
         if (err.code === 'P2031') {
           const db = await getNativeDb();
-          await db.collection('Service').deleteOne({ _id: new ObjectId(where.id) });
+          const filter = ObjectId.isValid(where.id)
+            ? { $or: [{ _id: new ObjectId(where.id) }, { id: where.id }] }
+            : { id: where.id };
+          await db.collection('Service').deleteOne(filter);
           return { id: where.id };
         }
         throw err;

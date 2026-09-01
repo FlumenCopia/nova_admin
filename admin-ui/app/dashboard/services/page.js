@@ -24,8 +24,8 @@ export default function ServicesPage() {
 
   const [submitting, setSubmitting] = useState(false);
 
-  const fetchServices = async () => {
-    setLoading(true);
+  const fetchServices = async (showLoading = true) => {
+    if (showLoading) setLoading(true);
     try {
       const res = await apiFetch('/admin/services');
       if (res.success) {
@@ -34,12 +34,12 @@ export default function ServicesPage() {
     } catch (err) {
       console.error('Fetch services error:', err);
     } finally {
-      setLoading(false);
+      if (showLoading) setLoading(false);
     }
   };
 
   useEffect(() => {
-    fetchServices();
+    fetchServices(true);
   }, []);
 
   const handleOpenModal = (service = null) => {
@@ -49,10 +49,10 @@ export default function ServicesPage() {
         title: service.title,
         subtitle: service.subtitle || '',
         icon: service.icon || 'billboard',
-        description: service.description,
+        description: service.description || '',
         featuresText: Array.isArray(service.features) ? service.features.join('\n') : '',
         order: service.order || 0,
-        isActive: service.isActive !== false,
+        isActive: service.isActive !== undefined ? service.isActive : true,
       });
     } else {
       setEditingId(null);
@@ -69,26 +69,19 @@ export default function ServicesPage() {
     setIsModalOpen(true);
   };
 
-  const handleSubmit = async (e) => {
+  const handleSave = async (e) => {
     e.preventDefault();
     setSubmitting(true);
 
-    try {
-      const featuresArray = formData.featuresText
+    const payload = {
+      ...formData,
+      features: formData.featuresText
         .split('\n')
-        .map((line) => line.trim())
-        .filter(Boolean);
+        .map((f) => f.trim())
+        .filter(Boolean),
+    };
 
-      const payload = {
-        title: formData.title,
-        subtitle: formData.subtitle,
-        icon: formData.icon,
-        description: formData.description,
-        features: featuresArray,
-        order: parseInt(formData.order, 10) || 0,
-        isActive: formData.isActive,
-      };
-
+    try {
       if (editingId) {
         const res = await apiFetch(`/admin/services/${editingId}`, {
           method: 'PUT',
@@ -97,7 +90,7 @@ export default function ServicesPage() {
         if (res.success) {
           setToastMsg('Service updated successfully!');
           setIsModalOpen(false);
-          fetchServices();
+          fetchServices(false);
         } else {
           setToastMsg(res.message || 'Failed to update service.');
         }
@@ -109,7 +102,7 @@ export default function ServicesPage() {
         if (res.success) {
           setToastMsg('Service created successfully!');
           setIsModalOpen(false);
-          fetchServices();
+          fetchServices(false);
         } else {
           setToastMsg(res.message || 'Failed to create service.');
         }
@@ -122,16 +115,31 @@ export default function ServicesPage() {
   };
 
   const handleToggleActive = async (id, currentStatus) => {
+    // Optimistic state update: Update local state immediately (no flicker, no scroll jump!)
+    const nextStatus = !currentStatus;
+    setServices((prev) =>
+      prev.map((item) => (item.id === id ? { ...item, isActive: nextStatus } : item))
+    );
+
     try {
       const res = await apiFetch(`/admin/services/${id}`, {
         method: 'PUT',
-        body: JSON.stringify({ isActive: !currentStatus }),
+        body: JSON.stringify({ isActive: nextStatus }),
       });
       if (res.success) {
-        setToastMsg(`Service ${!currentStatus ? 'activated' : 'hidden'}.`);
-        fetchServices();
+        setToastMsg(`Service ${nextStatus ? 'activated' : 'hidden'}.`);
+      } else {
+        // Revert on error
+        setServices((prev) =>
+          prev.map((item) => (item.id === id ? { ...item, isActive: currentStatus } : item))
+        );
+        setToastMsg(res.message || 'Failed to update status.');
       }
     } catch (err) {
+      // Revert on error
+      setServices((prev) =>
+        prev.map((item) => (item.id === id ? { ...item, isActive: currentStatus } : item))
+      );
       setToastMsg('Failed to update status.');
     }
   };
@@ -144,7 +152,7 @@ export default function ServicesPage() {
       });
       if (res.success) {
         setToastMsg('Service deleted successfully.');
-        fetchServices();
+        fetchServices(false);
       }
     } catch (err) {
       setToastMsg('Failed to delete service.');
@@ -262,7 +270,7 @@ export default function ServicesPage() {
         onClose={() => setIsModalOpen(false)}
         title={editingId ? 'Edit Advertising Service' : 'Add New Service Package'}
       >
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSave}>
           <div className="form-group">
             <label className="form-label">Service Title *</label>
             <input
