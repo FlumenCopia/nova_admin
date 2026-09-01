@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import Modal from '../../../components/Modal';
 import Toast from '../../../components/Toast';
-import { apiFetch, uploadImage } from '../../../lib/api';
+import { apiFetch, uploadImage, uploadMultipleImages, getMediaUrl } from '../../../lib/api';
 
 export default function CampaignGalleryPage() {
   const [items, setItems] = useState([]);
@@ -13,6 +13,14 @@ export default function CampaignGalleryPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingId, setEditingId] = useState(null);
 
+  // Tabbed Photo Selection: 'upload' | 'library'
+  const [photoSourceTab, setPhotoSourceTab] = useState('upload');
+  const [selectedFiles, setSelectedFiles] = useState([]);
+  const [filePreviews, setFilePreviews] = useState([]);
+  const [mediaLibrary, setMediaLibrary] = useState([]);
+  const [loadingLibrary, setLoadingLibrary] = useState(false);
+  const [selectedLibraryUrls, setSelectedLibraryUrls] = useState([]);
+
   const [formData, setFormData] = useState({
     title: '',
     category: 'hoardings',
@@ -20,12 +28,9 @@ export default function CampaignGalleryPage() {
     location: '',
     dimensions: '',
     specsText: '',
-    isVacant: false,
     isActive: true,
   });
 
-  const [selectedFile, setSelectedFile] = useState(null);
-  const [previewUrl, setPreviewUrl] = useState('');
   const [uploading, setUploading] = useState(false);
 
   const fetchItems = async () => {
@@ -42,22 +47,33 @@ export default function CampaignGalleryPage() {
     }
   };
 
+  const fetchMediaLibrary = async () => {
+    setLoadingLibrary(true);
+    try {
+      const res = await apiFetch('/admin/portfolio/media-library');
+      if (res.success) {
+        setMediaLibrary(res.data || []);
+      }
+    } catch (err) {
+      console.error('Fetch media library error:', err);
+    } finally {
+      setLoadingLibrary(false);
+    }
+  };
+
   useEffect(() => {
     fetchItems();
   }, []);
 
   const handleOpenModal = (item = null) => {
-    setSelectedFile(null);
+    setSelectedFiles([]);
+    setFilePreviews([]);
+    setSelectedLibraryUrls([]);
+    setPhotoSourceTab('upload');
+
     if (item) {
       setEditingId(item.id);
-      const apiServer = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api').replace('/api', '');
-      setPreviewUrl(
-        !item.imageUrl
-          ? ''
-          : item.imageUrl.startsWith('http')
-            ? item.imageUrl
-            : `${apiServer}${item.imageUrl.startsWith('/') ? '' : '/'}${item.imageUrl}`
-      );
+      setFilePreviews(item.imageUrl ? [getMediaUrl(item.imageUrl)] : []);
       setFormData({
         title: item.title,
         category: item.category || 'hoardings',
@@ -65,12 +81,10 @@ export default function CampaignGalleryPage() {
         location: item.location || '',
         dimensions: item.dimensions || '',
         specsText: Array.isArray(item.specs) ? item.specs.join('\n') : '',
-        isVacant: item.isVacant || false,
         isActive: item.isActive !== false,
       });
     } else {
       setEditingId(null);
-      setPreviewUrl('');
       setFormData({
         title: '',
         category: 'hoardings',
@@ -78,19 +92,26 @@ export default function CampaignGalleryPage() {
         location: '',
         dimensions: '',
         specsText: '',
-        isVacant: false,
         isActive: true,
       });
+      fetchMediaLibrary();
     }
     setIsModalOpen(true);
   };
 
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setSelectedFile(file);
-      setPreviewUrl(URL.createObjectURL(file));
+  const handleMultipleFilesChange = (e) => {
+    const files = Array.from(e.target.files || []);
+    if (files.length > 0) {
+      setSelectedFiles(files);
+      const previews = files.map((file) => URL.createObjectURL(file));
+      setFilePreviews(previews);
     }
+  };
+
+  const toggleLibraryUrl = (url) => {
+    setSelectedLibraryUrls((prev) =>
+      prev.includes(url) ? prev.filter((u) => u !== url) : [...prev, url]
+    );
   };
 
   const handleSubmit = async (e) => {
@@ -98,47 +119,42 @@ export default function CampaignGalleryPage() {
     setUploading(true);
 
     try {
-      let finalImageUrl = previewUrl;
-
-      if (selectedFile) {
-        const uploadRes = await uploadImage(selectedFile);
-        if (uploadRes.success) {
-          finalImageUrl = uploadRes.url;
-        } else {
-          setToastMsg(uploadRes.message || 'Image upload failed.');
-          setUploading(false);
-          return;
-        }
-      }
-
-      if (!finalImageUrl) {
-        setToastMsg('Please select or upload a campaign photo.');
-        setUploading(false);
-        return;
-      }
-
       const specsArray = formData.specsText
         .split('\n')
         .map((s) => s.trim())
         .filter(Boolean);
 
-      const payload = {
-        title: formData.title,
-        category: formData.category,
-        badgeType: formData.badgeType,
-        location: formData.location,
-        dimensions: formData.dimensions,
-        specs: specsArray,
-        imageUrl: finalImageUrl,
-        isVacant: formData.isVacant,
-        isActive: formData.isActive,
-      };
-
+      // CASE 1: EDITING AN EXISTING ITEM
       if (editingId) {
+        let finalImageUrl = filePreviews[0] || '';
+
+        if (selectedFiles.length > 0) {
+          const uploadRes = await uploadImage(selectedFiles[0]);
+          if (uploadRes.success) {
+            finalImageUrl = uploadRes.url;
+          } else {
+            setToastMsg(uploadRes.message || 'Image upload failed.');
+            setUploading(false);
+            return;
+          }
+        }
+
+        const payload = {
+          title: formData.title,
+          category: formData.category,
+          badgeType: formData.badgeType,
+          location: formData.location,
+          dimensions: formData.dimensions,
+          specs: specsArray,
+          imageUrl: finalImageUrl,
+          isActive: formData.isActive,
+        };
+
         const res = await apiFetch(`/admin/portfolio/${editingId}`, {
           method: 'PUT',
           body: JSON.stringify(payload),
         });
+
         if (res.success) {
           setToastMsg('Campaign item updated!');
           setIsModalOpen(false);
@@ -146,50 +162,127 @@ export default function CampaignGalleryPage() {
         } else {
           setToastMsg(res.message || 'Update failed.');
         }
+        return;
+      }
+
+      // CASE 2: CREATING NEW ITEMS (MULTI-UPLOAD OR MEDIA LIBRARY)
+      let targetImageUrls = [];
+
+      if (photoSourceTab === 'upload') {
+        if (selectedFiles.length === 0) {
+          setToastMsg('Please select at least one photo to upload.');
+          setUploading(false);
+          return;
+        }
+
+        if (selectedFiles.length === 1) {
+          const uploadRes = await uploadImage(selectedFiles[0]);
+          if (!uploadRes.success) {
+            setToastMsg(uploadRes.message || 'Upload failed.');
+            setUploading(false);
+            return;
+          }
+          targetImageUrls = [uploadRes.url];
+        } else {
+          const uploadRes = await uploadMultipleImages(selectedFiles);
+          if (!uploadRes.success) {
+            setToastMsg(uploadRes.message || 'Multiple upload failed.');
+            setUploading(false);
+            return;
+          }
+          targetImageUrls = (uploadRes.data || []).map((img) => img.url);
+        }
       } else {
+        // Media Library Selection
+        if (selectedLibraryUrls.length === 0) {
+          setToastMsg('Please click to select at least one photo from the Media Library.');
+          setUploading(false);
+          return;
+        }
+        targetImageUrls = selectedLibraryUrls;
+      }
+
+      // Batch create items
+      let successCount = 0;
+      for (let i = 0; i < targetImageUrls.length; i++) {
+        const itemTitle =
+          targetImageUrls.length > 1
+            ? `${formData.title} (${i + 1})`
+            : formData.title;
+
+        const payload = {
+          title: itemTitle,
+          category: formData.category,
+          badgeType: formData.badgeType,
+          location: formData.location,
+          dimensions: formData.dimensions,
+          specs: specsArray,
+          imageUrl: targetImageUrls[i],
+          isActive: formData.isActive,
+        };
+
         const res = await apiFetch('/admin/portfolio', {
           method: 'POST',
           body: JSON.stringify(payload),
         });
+
         if (res.success) {
-          setToastMsg('Campaign item added to gallery!');
-          setIsModalOpen(false);
-          fetchItems();
-        } else {
-          setToastMsg(res.message || 'Creation failed.');
+          successCount++;
         }
       }
+
+      if (successCount > 0) {
+        setToastMsg(`Successfully added ${successCount} campaign photo(s) to gallery!`);
+        setIsModalOpen(false);
+        fetchItems();
+      } else {
+        setToastMsg('Failed to create gallery items.');
+      }
     } catch (err) {
-      setToastMsg('An error occurred saving campaign item.');
+      console.error('Gallery save error:', err);
+      setToastMsg('An error occurred while saving.');
     } finally {
       setUploading(false);
     }
   };
 
-  const handleToggleVacant = async (id, currentVacant) => {
+  const handleToggleActive = async (id, currentActive) => {
+    const nextActive = !currentActive;
+    // Optimistic local update (zero flicker, zero scroll jump)
+    setItems((prev) =>
+      prev.map((item) => (item.id === id ? { ...item, isActive: nextActive } : item))
+    );
+
     try {
       const res = await apiFetch(`/admin/portfolio/${id}`, {
         method: 'PUT',
-        body: JSON.stringify({ isVacant: !currentVacant }),
+        body: JSON.stringify({ isActive: nextActive }),
       });
       if (res.success) {
-        setToastMsg(`Site marked as ${!currentVacant ? 'VACANT NOW' : 'Occupied'}.`);
-        fetchItems();
+        setToastMsg(`Campaign photo is now ${nextActive ? 'Active (Visible)' : 'Draft (Hidden)'}.`);
+      } else {
+        setItems((prev) =>
+          prev.map((item) => (item.id === id ? { ...item, isActive: currentActive } : item))
+        );
+        setToastMsg(res.message || 'Failed to update visibility.');
       }
     } catch (err) {
-      setToastMsg('Failed to update status.');
+      setItems((prev) =>
+        prev.map((item) => (item.id === id ? { ...item, isActive: currentActive } : item))
+      );
+      setToastMsg('Failed to update visibility.');
     }
   };
 
   const handleDelete = async (id) => {
     if (!confirm('Are you sure you want to delete this gallery item?')) return;
     try {
-      const res = await apiFetch(`/admin/portfolio/${id}`, {
-        method: 'DELETE',
-      });
+      const res = await apiFetch(`/admin/portfolio/${id}`, { method: 'DELETE' });
       if (res.success) {
-        setToastMsg('Campaign gallery item deleted.');
+        setToastMsg('Item deleted from gallery.');
         fetchItems();
+      } else {
+        setToastMsg(res.message || 'Delete failed.');
       }
     } catch (err) {
       setToastMsg('Failed to delete item.');
@@ -198,8 +291,7 @@ export default function CampaignGalleryPage() {
 
   const filteredItems = items.filter((item) => {
     if (filterCategory === 'ALL') return true;
-    if (filterCategory === 'VACANT') return item.isVacant;
-    return (item.category || '').toLowerCase().includes(filterCategory.toLowerCase());
+    return item.category === filterCategory;
   });
 
   return (
@@ -210,7 +302,7 @@ export default function CampaignGalleryPage() {
         <div>
           <h1 style={{ fontSize: '1.75rem', fontWeight: 800 }}>Campaign Gallery Showcase</h1>
           <p style={{ color: 'var(--color-text-secondary)', fontSize: '0.9rem' }}>
-            Manage high-impact outdoor media, bus wraps, retail branding, and vacant hoarding sites
+            Manage high-impact outdoor media, bus wraps, retail branding, and campaign executions
           </p>
         </div>
 
@@ -225,8 +317,11 @@ export default function CampaignGalleryPage() {
           { key: 'ALL', label: `All Items (${items.length})` },
           { key: 'hoardings', label: 'Prime Hoardings' },
           { key: 'myg', label: 'myG Campaigns' },
-          { key: 'transit', label: 'Bus Transit' },
-          { key: 'VACANT', label: `Vacant Sites (${items.filter((i) => i.isVacant).length})` },
+          { key: 'transit', label: 'Bus & Transit' },
+          { key: 'retail', label: 'Retail Facade' },
+          { key: 'event', label: 'Events & Exhibitions' },
+          { key: 'wall', label: 'Wall Painting' },
+          { key: 'printing', label: 'Design & Printing' },
         ].map((tab) => (
           <button
             key={tab.key}
@@ -257,12 +352,7 @@ export default function CampaignGalleryPage() {
       ) : (
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '20px' }}>
           {filteredItems.map((item) => {
-            const apiServer = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api').replace('/api', '');
-            const imgSrc = !item.imageUrl
-              ? '/logo.png'
-              : item.imageUrl.startsWith('http')
-                ? item.imageUrl
-                : `${apiServer}${item.imageUrl.startsWith('/') ? '' : '/'}${item.imageUrl}`;
+            const imgSrc = getMediaUrl(item.imageUrl);
 
             return (
               <div
@@ -274,6 +364,7 @@ export default function CampaignGalleryPage() {
                   display: 'flex',
                   flexDirection: 'column',
                   justify: 'space-between',
+                  opacity: item.isActive !== false ? 1 : 0.75,
                 }}
               >
                 <div style={{ position: 'relative', height: '180px', background: '#e2e8f0' }}>
@@ -283,23 +374,22 @@ export default function CampaignGalleryPage() {
                     style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                     onError={(e) => { e.target.src = '/logo.png'; }}
                   />
-                  {item.isVacant && (
-                    <span
-                      style={{
-                        position: 'absolute',
-                        top: '10px',
-                        right: '10px',
-                        background: '#22c55e',
-                        color: '#ffffff',
-                        fontSize: '0.72rem',
-                        fontWeight: 800,
-                        padding: '4px 8px',
-                        borderRadius: '4px',
-                      }}
-                    >
-                      VACANT NOW
-                    </span>
-                  )}
+                  <span
+                    style={{
+                      position: 'absolute',
+                      top: '10px',
+                      right: '10px',
+                      background: item.isActive !== false ? '#22c55e' : '#64748b',
+                      color: '#ffffff',
+                      fontSize: '0.72rem',
+                      fontWeight: 800,
+                      padding: '3px 8px',
+                      borderRadius: '4px',
+                      letterSpacing: '0.04em',
+                    }}
+                  >
+                    {item.isActive !== false ? 'ACTIVE' : 'DRAFT'}
+                  </span>
                   <span
                     style={{
                       position: 'absolute',
@@ -347,25 +437,26 @@ export default function CampaignGalleryPage() {
                       className="btn-secondary"
                       style={{
                         flex: 1,
-                        padding: '5px 8px',
-                        fontSize: '0.78rem',
-                        borderColor: item.isVacant ? '#22c55e' : 'var(--color-border)',
-                        color: item.isVacant ? '#168A5B' : 'var(--color-text-primary)',
+                        padding: '6px 8px',
+                        fontSize: '0.8rem',
+                        fontWeight: 600,
+                        borderColor: item.isActive !== false ? '#94a3b8' : '#22c55e',
+                        color: item.isActive !== false ? '#475569' : '#16a34a',
                       }}
-                      onClick={() => handleToggleVacant(item.id, item.isVacant)}
+                      onClick={() => handleToggleActive(item.id, item.isActive !== false)}
                     >
-                      {item.isVacant ? 'Mark Occupied' : 'Mark Vacant'}
+                      {item.isActive !== false ? 'Hide (Draft)' : 'Show (Active)'}
                     </button>
                     <button
                       className="btn-secondary"
-                      style={{ padding: '5px 8px', fontSize: '0.78rem' }}
+                      style={{ padding: '6px 12px', fontSize: '0.82rem' }}
                       onClick={() => handleOpenModal(item)}
                     >
                       Edit
                     </button>
                     <button
                       className="btn-secondary"
-                      style={{ color: 'var(--color-danger)', padding: '5px 8px', fontSize: '0.78rem' }}
+                      style={{ color: 'var(--color-danger)', borderColor: 'rgba(217, 45, 32, 0.3)', padding: '6px 10px', fontSize: '0.82rem' }}
                       onClick={() => handleDelete(item.id)}
                     >
                       Delete
@@ -382,18 +473,123 @@ export default function CampaignGalleryPage() {
       <Modal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
-        title={editingId ? 'Edit Gallery Campaign Item' : 'Add Campaign Photo to Gallery'}
+        title={editingId ? 'Edit Gallery Campaign Item' : 'Add Campaign Photos to Gallery'}
       >
         <form onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label className="form-label">Campaign Photo (WebP Auto-Optimized) *</label>
-            <input type="file" accept="image/*" className="form-input" onChange={handleFileChange} />
-            {previewUrl && (
-              <div style={{ marginTop: '10px', height: '120px', borderRadius: '6px', overflow: 'hidden', border: '1px solid var(--color-border)' }}>
-                <img src={previewUrl} alt="Preview" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-              </div>
-            )}
-          </div>
+          {/* TAB HEADERS FOR PHOTO SELECTION */}
+          {!editingId && (
+            <div style={{ display: 'flex', gap: '10px', marginBottom: '16px', borderBottom: '1px solid var(--color-border)', paddingBottom: '10px' }}>
+              <button
+                type="button"
+                className="btn-secondary"
+                onClick={() => setPhotoSourceTab('upload')}
+                style={{
+                  fontSize: '0.85rem',
+                  fontWeight: 700,
+                  borderColor: photoSourceTab === 'upload' ? 'var(--color-primary)' : 'var(--color-border)',
+                  color: photoSourceTab === 'upload' ? 'var(--color-primary)' : 'var(--color-text-primary)',
+                  background: photoSourceTab === 'upload' ? 'var(--color-primary-soft)' : 'var(--color-card-background)',
+                }}
+              >
+                📁 Upload New Photos {selectedFiles.length > 0 && `(${selectedFiles.length})`}
+              </button>
+              <button
+                type="button"
+                className="btn-secondary"
+                onClick={() => {
+                  setPhotoSourceTab('library');
+                  fetchMediaLibrary();
+                }}
+                style={{
+                  fontSize: '0.85rem',
+                  fontWeight: 700,
+                  borderColor: photoSourceTab === 'library' ? 'var(--color-primary)' : 'var(--color-border)',
+                  color: photoSourceTab === 'library' ? 'var(--color-primary)' : 'var(--color-text-primary)',
+                  background: photoSourceTab === 'library' ? 'var(--color-primary-soft)' : 'var(--color-card-background)',
+                }}
+              >
+                🖼️ Choose from Media Library {selectedLibraryUrls.length > 0 && `(${selectedLibraryUrls.length})`}
+              </button>
+            </div>
+          )}
+
+          {/* TAB 1: UPLOAD NEW PHOTOS */}
+          {(editingId || photoSourceTab === 'upload') && (
+            <div className="form-group">
+              <label className="form-label">
+                {editingId ? 'Campaign Photo (WebP Auto-Optimized) *' : 'Select Photos to Upload (Hold Shift/Ctrl for Multiple) *'}
+              </label>
+              <input
+                type="file"
+                accept="image/*"
+                multiple={!editingId}
+                className="form-input"
+                onChange={handleMultipleFilesChange}
+              />
+
+              {filePreviews.length > 0 && (
+                <div style={{ marginTop: '12px' }}>
+                  <div style={{ fontSize: '0.8rem', fontWeight: 600, color: 'var(--color-text-secondary)', marginBottom: '6px' }}>
+                    Previewing {filePreviews.length} selected photo(s):
+                  </div>
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(80px, 1fr))', gap: '8px', maxHeight: '160px', overflowY: 'auto' }}>
+                    {filePreviews.map((url, pIdx) => (
+                      <div key={pIdx} style={{ height: '70px', borderRadius: '6px', overflow: 'hidden', border: '2px solid var(--color-primary)' }}>
+                        <img src={url} alt="Preview" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* TAB 2: SELECT FROM MEDIA LIBRARY */}
+          {!editingId && photoSourceTab === 'library' && (
+            <div className="form-group">
+              <label className="form-label">
+                Click photos in Media Library to select ({selectedLibraryUrls.length} selected):
+              </label>
+              {loadingLibrary ? (
+                <div style={{ padding: '16px', textAlign: 'center', color: 'var(--color-text-muted)', fontSize: '0.85rem' }}>
+                  Loading Media Library assets...
+                </div>
+              ) : mediaLibrary.length === 0 ? (
+                <div style={{ padding: '16px', textAlign: 'center', color: 'var(--color-text-muted)', fontSize: '0.85rem' }}>
+                  No previous media files found in library. Use the "Upload New Photos" tab above.
+                </div>
+              ) : (
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(90px, 1fr))', gap: '8px', maxHeight: '200px', overflowY: 'auto', padding: '4px', border: '1px solid var(--color-border)', borderRadius: '6px' }}>
+                  {mediaLibrary.map((url, mIdx) => {
+                    const isSelected = selectedLibraryUrls.includes(url);
+                    const imgSrc = getMediaUrl(url);
+                    return (
+                      <div
+                        key={mIdx}
+                        onClick={() => toggleLibraryUrl(url)}
+                        style={{
+                          position: 'relative',
+                          height: '75px',
+                          borderRadius: '6px',
+                          overflow: 'hidden',
+                          cursor: 'pointer',
+                          border: isSelected ? '3px solid #22c55e' : '1px solid var(--color-border)',
+                          boxShadow: isSelected ? '0 0 8px rgba(34, 197, 94, 0.4)' : 'none',
+                        }}
+                      >
+                        <img src={imgSrc} alt="Media Asset" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                        {isSelected && (
+                          <span style={{ position: 'absolute', top: '4px', right: '4px', background: '#22c55e', color: '#fff', borderRadius: '50%', width: '18px', height: '18px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '11px', fontWeight: 'bold' }}>
+                            ✓
+                          </span>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+          )}
 
           <div className="form-group">
             <label className="form-label">Campaign Title / Client Brand *</label>
@@ -418,8 +614,10 @@ export default function CampaignGalleryPage() {
                 <option value="hoardings">Prime Hoardings</option>
                 <option value="myg">myG Campaigns</option>
                 <option value="transit">Bus & Transit Media</option>
-                <option value="retail">Retail Facade</option>
+                <option value="retail">Retail Facade & Signboards</option>
                 <option value="event">Events & Exhibitions</option>
+                <option value="wall">Commercial Wall Painting</option>
+                <option value="printing">Design Studio & Digital Printing</option>
               </select>
             </div>
 
@@ -471,32 +669,6 @@ export default function CampaignGalleryPage() {
             />
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
-            <div className="form-group">
-              <label className="form-label">Vacant Site Toggle</label>
-              <select
-                className="form-select"
-                value={formData.isVacant}
-                onChange={(e) => setFormData({ ...formData, isVacant: e.target.value === 'true' })}
-              >
-                <option value="false">Occupied / Campaign Show</option>
-                <option value="true">VACANT NOW (Available for Booking)</option>
-              </select>
-            </div>
-
-            <div className="form-group">
-              <label className="form-label">Active Visibility</label>
-              <select
-                className="form-select"
-                value={formData.isActive}
-                onChange={(e) => setFormData({ ...formData, isActive: e.target.value === 'true' })}
-              >
-                <option value="true">Active (Visible in Gallery)</option>
-                <option value="false">Hidden (Draft)</option>
-              </select>
-            </div>
-          </div>
-
           <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '12px', marginTop: '24px' }}>
             <button
               type="button"
@@ -506,7 +678,15 @@ export default function CampaignGalleryPage() {
               Cancel
             </button>
             <button type="submit" className="btn-primary" disabled={uploading}>
-              {uploading ? 'Uploading & Saving...' : editingId ? 'Update Item' : 'Add to Gallery'}
+              {uploading
+                ? 'Uploading & Saving...'
+                : editingId
+                  ? 'Update Item'
+                  : photoSourceTab === 'upload' && selectedFiles.length > 1
+                    ? `Add ${selectedFiles.length} Photos to Gallery`
+                    : photoSourceTab === 'library' && selectedLibraryUrls.length > 0
+                      ? `Add ${selectedLibraryUrls.length} Library Photo(s)`
+                      : 'Add to Gallery'}
             </button>
           </div>
         </form>

@@ -47,3 +47,14 @@ export async function uploadImage(file) {
   });
 }
 
+export async function uploadMultipleImages(files) {
+  const formData = new FormData();
+  Array.from(files).forEach((file) => {
+    formData.append('images', file);
+  });
+
+  return apiRequest('/admin/portfolio/upload-multiple', {
+    method: 'POST',
+    body: formData,
+  });
+}
