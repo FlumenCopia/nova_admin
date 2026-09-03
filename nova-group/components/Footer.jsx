@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Phone, Mail, MapPin, Send, ShieldCheck } from 'lucide-react';
+import { Phone, Mail, MapPin, Send } from 'lucide-react';
 import { fetchApi } from '../lib/api';
 
 export default function Footer({ onShowToast }) {
@@ -132,17 +132,6 @@ export default function Footer({ onShowToast }) {
             <a href={`mailto:${settings.contactEmail}`} className="footer-link" style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
               <Mail size={13} />
               {settings.contactEmail}
-            </a>
-            <a
-              href="http://localhost:3001"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="footer-link"
-              style={{ display: 'inline-flex', alignItems: 'center', gap: '5px', opacity: 0.85 }}
-              title="Admin Management Portal"
-            >
-              <ShieldCheck size={13} />
-              Admin Portal
             </a>
           </div>
         </div>

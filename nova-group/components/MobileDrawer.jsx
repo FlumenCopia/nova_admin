@@ -69,8 +69,8 @@ export default function MobileDrawer({ isOpen, onClose, onOpenModal }) {
 
         <button
           type="button"
-          className="btn-pill-dark open-modal-btn"
-          style={{ marginTop: '20px', width: '100%', textAlign: 'center' }}
+          className="btn-pill-primary"
+          style={{ width: '100%', justifyContent: 'center', padding: '14px', marginTop: '10px' }}
           onClick={() => {
             onClose();
             onOpenModal('Book Vacant Hoardings');
@@ -78,17 +78,6 @@ export default function MobileDrawer({ isOpen, onClose, onOpenModal }) {
         >
           Book a Hoarding
         </button>
-
-        <a
-          href="http://localhost:3001"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="nav-link"
-          style={{ marginTop: '12px', textAlign: 'center', opacity: 0.75, fontSize: '0.85rem' }}
-          onClick={onClose}
-        >
-          Admin Portal ↗
-        </a>
       </div>
     </>
   );
