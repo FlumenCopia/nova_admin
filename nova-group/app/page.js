@@ -178,9 +178,6 @@ export default function HomePage() {
           <div className="how-we-work-grid">
             <div className="work-feature-visual">
               <img src="/image/other media3.webp" alt="Nova Innovations Hoarding Work" className="work-visual-img" />
-              <div className="free-consultation-seal" title="Free Site Audit">
-                <span>Free<br />Site Audit</span>
-              </div>
             </div>
 
             <div className="work-steps-list">
