@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import { MapPin, Check, X, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Check, X, ChevronLeft, ChevronRight } from 'lucide-react';
 import { campaigns as defaultCampaigns } from '../data/campaigns';
 import { fetchApi, getMediaUrl } from '../lib/api';
 
@@ -154,8 +154,7 @@ export default function GalleryGrid({ onOpenModal }) {
 
             <div className="listing-content">
               <div className="listing-price-row">
-                <span className="listing-price" style={{ color: 'var(--brand-red)', fontWeight: 700, display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
-                  <MapPin size={15} strokeWidth={2.2} />
+                <span className="listing-price">
                   {item.location || item.priceRowTitle}
                 </span>
               </div>

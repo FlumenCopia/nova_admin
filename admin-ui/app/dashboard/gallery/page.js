@@ -482,7 +482,7 @@ export default function CampaignGalleryPage() {
                 <div style={{ padding: '16px' }}>
                   <h3 style={{ fontSize: '1.05rem', fontWeight: 700, marginBottom: '4px' }}>{item.title}</h3>
                   <div style={{ fontSize: '0.82rem', color: 'var(--color-text-secondary)', marginBottom: '8px' }}>
-                    📍 {item.location} {item.dimensions ? `• ${item.dimensions}` : ''}
+                    {item.location} {item.dimensions ? `• ${item.dimensions}` : ''}
                   </div>
 
                   {item.specs && item.specs.length > 0 && (

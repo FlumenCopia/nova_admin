@@ -1748,21 +1748,22 @@ ul {
 .property-listing-card {
   background: #ffffff;
   border: 1px solid var(--border-color);
-  border-radius: var(--radius-lg);
+  border-radius: 16px;
   overflow: hidden;
   transition: var(--transition);
   display: flex;
   flex-direction: column;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.05);
 }
 
 .property-listing-card:hover {
-  transform: translateY(-8px);
-  box-shadow: var(--shadow-lg);
+  transform: translateY(-6px);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.1);
 }
 
 .listing-media {
   position: relative;
-  height: 250px;
+  height: 240px;
   overflow: hidden;
 }
 
@@ -1784,7 +1785,7 @@ ul {
   background: var(--brand-red);
   color: #ffffff;
   padding: 5px 12px;
-  border-radius: var(--radius-full);
+  border-radius: 8px;
   font-size: 0.78rem;
   font-weight: 700;
   box-shadow: 0 2px 8px rgba(216, 35, 42, 0.35);
@@ -1801,7 +1802,7 @@ ul {
   backdrop-filter: blur(4px);
   color: #11141a;
   padding: 5px 12px;
-  border-radius: var(--radius-full);
+  border-radius: 8px;
   font-size: 0.76rem;
   font-weight: 700;
   white-space: nowrap;
@@ -1812,7 +1813,7 @@ ul {
 }
 
 .listing-content {
-  padding: 24px;
+  padding: 20px;
   display: flex;
   flex-direction: column;
   flex: 1;
@@ -1822,13 +1823,14 @@ ul {
   display: flex;
   align-items: baseline;
   justify-content: space-between;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
 }
 
 .listing-price {
-  font-size: 1.45rem;
-  font-weight: 800;
+  font-size: 0.95rem;
+  font-weight: 700;
   color: var(--brand-red);
+  line-height: 1.35;
 }
 
 .listing-title {
