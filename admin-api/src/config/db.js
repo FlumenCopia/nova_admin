@@ -26,6 +26,10 @@ const formatDoc = (doc) => {
   return { id: _id ? _id.toString() : doc.id, ...rest };
 };
 
+const isReplicaSetError = (err) => {
+  return err.code === 'P2031' || (err.message && (err.message.includes('replica set') || err.message.includes('transactions')));
+};
+
 // Safe DB Abstraction supporting both Prisma and Standalone MongoDB
 const safeDb = {
   admin: {
@@ -33,7 +37,7 @@ const safeDb = {
       try {
         return await prisma.admin.findUnique({ where });
       } catch (err) {
-        if (err.code === 'P2031') {
+        if (isReplicaSetError(err)) {
           const db = await getNativeDb();
           const doc = await db.collection('Admin').findOne(where.id ? { _id: new ObjectId(where.id) } : { email: where.email });
           return formatDoc(doc);
@@ -45,7 +49,7 @@ const safeDb = {
       try {
         return await prisma.admin.create({ data });
       } catch (err) {
-        if (err.code === 'P2031') {
+        if (isReplicaSetError(err)) {
           const db = await getNativeDb();
           const docData = { ...data, createdAt: new Date(), updatedAt: new Date() };
           const res = await db.collection('Admin').insertOne(docData);
@@ -58,7 +62,7 @@ const safeDb = {
       try {
         return await prisma.admin.update({ where, data });
       } catch (err) {
-        if (err.code === 'P2031') {
+        if (isReplicaSetError(err)) {
           const db = await getNativeDb();
           const q = where.id ? { _id: new ObjectId(where.id) } : { email: where.email };
           await db.collection('Admin').updateOne(q, { $set: { ...data, updatedAt: new Date() } });
@@ -75,7 +79,7 @@ const safeDb = {
       try {
         return await prisma.enquiry.findMany(args);
       } catch (err) {
-        if (err.code === 'P2031') {
+        if (isReplicaSetError(err)) {
           const db = await getNativeDb();
           const where = args.where || {};
           let cursor = db.collection('Enquiry').find(where.status && where.status !== 'ALL' ? { status: where.status } : {}).sort({ createdAt: -1 });
@@ -91,7 +95,7 @@ const safeDb = {
       try {
         return await prisma.enquiry.findUnique({ where });
       } catch (err) {
-        if (err.code === 'P2031') {
+        if (isReplicaSetError(err)) {
           const db = await getNativeDb();
           const doc = await db.collection('Enquiry').findOne({ _id: new ObjectId(where.id) });
           return formatDoc(doc);
@@ -103,7 +107,7 @@ const safeDb = {
       try {
         return await prisma.enquiry.create({ data });
       } catch (err) {
-        if (err.code === 'P2031') {
+        if (isReplicaSetError(err)) {
           const db = await getNativeDb();
           const docData = { ...data, createdAt: new Date(), updatedAt: new Date() };
           const res = await db.collection('Enquiry').insertOne(docData);
@@ -116,7 +120,7 @@ const safeDb = {
       try {
         return await prisma.enquiry.update({ where, data });
       } catch (err) {
-        if (err.code === 'P2031') {
+        if (isReplicaSetError(err)) {
           const db = await getNativeDb();
           await db.collection('Enquiry').updateOne({ _id: new ObjectId(where.id) }, { $set: { ...data, updatedAt: new Date() } });
           const updated = await db.collection('Enquiry').findOne({ _id: new ObjectId(where.id) });
@@ -129,7 +133,7 @@ const safeDb = {
       try {
         return await prisma.enquiry.delete({ where });
       } catch (err) {
-        if (err.code === 'P2031') {
+        if (isReplicaSetError(err)) {
           const db = await getNativeDb();
           await db.collection('Enquiry').deleteOne({ _id: new ObjectId(where.id) });
           return { id: where.id };
@@ -141,7 +145,7 @@ const safeDb = {
       try {
         return await prisma.enquiry.count(args);
       } catch (err) {
-        if (err.code === 'P2031') {
+        if (isReplicaSetError(err)) {
           const db = await getNativeDb();
           return await db.collection('Enquiry').countDocuments(args.where || {});
         }
@@ -155,7 +159,7 @@ const safeDb = {
       try {
         return await prisma.portfolioItem.findMany(args);
       } catch (err) {
-        if (err.code === 'P2031') {
+        if (isReplicaSetError(err)) {
           const db = await getNativeDb();
           let cursor = db.collection('PortfolioItem').find(args.where || {}).sort({ createdAt: -1 });
           if (args.skip) cursor = cursor.skip(args.skip);
@@ -170,7 +174,7 @@ const safeDb = {
       try {
         return await prisma.portfolioItem.findUnique({ where });
       } catch (err) {
-        if (err.code === 'P2031') {
+        if (isReplicaSetError(err)) {
           const db = await getNativeDb();
           const doc = await db.collection('PortfolioItem').findOne({ _id: new ObjectId(where.id) });
           return formatDoc(doc);
@@ -182,7 +186,7 @@ const safeDb = {
       try {
         return await prisma.portfolioItem.create({ data });
       } catch (err) {
-        if (err.code === 'P2031') {
+        if (isReplicaSetError(err)) {
           const db = await getNativeDb();
           const docData = { ...data, createdAt: new Date(), updatedAt: new Date() };
           const res = await db.collection('PortfolioItem').insertOne(docData);
@@ -195,7 +199,7 @@ const safeDb = {
       try {
         return await prisma.portfolioItem.update({ where, data });
       } catch (err) {
-        if (err.code === 'P2031') {
+        if (isReplicaSetError(err)) {
           const db = await getNativeDb();
           await db.collection('PortfolioItem').updateOne({ _id: new ObjectId(where.id) }, { $set: { ...data, updatedAt: new Date() } });
           const updated = await db.collection('PortfolioItem').findOne({ _id: new ObjectId(where.id) });
@@ -208,7 +212,7 @@ const safeDb = {
       try {
         return await prisma.portfolioItem.delete({ where });
       } catch (err) {
-        if (err.code === 'P2031') {
+        if (isReplicaSetError(err)) {
           const db = await getNativeDb();
           await db.collection('PortfolioItem').deleteOne({ _id: new ObjectId(where.id) });
           return { id: where.id };
@@ -223,7 +227,7 @@ const safeDb = {
       try {
         return await prisma.clientLogo.findMany(args);
       } catch (err) {
-        if (err.code === 'P2031') {
+        if (isReplicaSetError(err)) {
           const db = await getNativeDb();
           const docs = await db.collection('ClientLogo').find(args.where || {}).sort({ createdAt: -1 }).toArray();
           return docs.map(formatDoc);
@@ -235,7 +239,7 @@ const safeDb = {
       try {
         return await prisma.clientLogo.findUnique({ where });
       } catch (err) {
-        if (err.code === 'P2031') {
+        if (isReplicaSetError(err)) {
           const db = await getNativeDb();
           const doc = await db.collection('ClientLogo').findOne({ _id: new ObjectId(where.id) });
           return formatDoc(doc);
@@ -247,7 +251,7 @@ const safeDb = {
       try {
         return await prisma.clientLogo.create({ data });
       } catch (err) {
-        if (err.code === 'P2031') {
+        if (isReplicaSetError(err)) {
           const db = await getNativeDb();
           const docData = { ...data, createdAt: new Date(), updatedAt: new Date() };
           const res = await db.collection('ClientLogo').insertOne(docData);
@@ -260,7 +264,7 @@ const safeDb = {
       try {
         return await prisma.clientLogo.delete({ where });
       } catch (err) {
-        if (err.code === 'P2031') {
+        if (isReplicaSetError(err)) {
           const db = await getNativeDb();
           await db.collection('ClientLogo').deleteOne({ _id: new ObjectId(where.id) });
           return { id: where.id };
@@ -275,7 +279,7 @@ const safeDb = {
       try {
         return await prisma.service.findMany(args);
       } catch (err) {
-        if (err.code === 'P2031') {
+        if (isReplicaSetError(err)) {
           const db = await getNativeDb();
           const docs = await db.collection('Service').find(args.where || {}).sort({ order: 1 }).toArray();
           return docs.map(formatDoc);
@@ -287,7 +291,7 @@ const safeDb = {
       try {
         return await prisma.service.findUnique({ where });
       } catch (err) {
-        if (err.code === 'P2031') {
+        if (isReplicaSetError(err)) {
           const db = await getNativeDb();
           const doc = await db.collection('Service').findOne({ _id: new ObjectId(where.id) });
           return formatDoc(doc);
@@ -299,7 +303,7 @@ const safeDb = {
       try {
         return await prisma.service.create({ data });
       } catch (err) {
-        if (err.code === 'P2031') {
+        if (isReplicaSetError(err)) {
           const db = await getNativeDb();
           const docData = { ...data, createdAt: new Date(), updatedAt: new Date() };
           const res = await db.collection('Service').insertOne(docData);
@@ -312,7 +316,7 @@ const safeDb = {
       try {
         return await prisma.service.update({ where, data });
       } catch (err) {
-        if (err.code === 'P2031') {
+        if (isReplicaSetError(err)) {
           const db = await getNativeDb();
           const filter = ObjectId.isValid(where.id)
             ? { $or: [{ _id: new ObjectId(where.id) }, { id: where.id }] }
@@ -328,7 +332,7 @@ const safeDb = {
       try {
         return await prisma.service.delete({ where });
       } catch (err) {
-        if (err.code === 'P2031') {
+        if (isReplicaSetError(err)) {
           const db = await getNativeDb();
           const filter = ObjectId.isValid(where.id)
             ? { $or: [{ _id: new ObjectId(where.id) }, { id: where.id }] }
@@ -346,7 +350,7 @@ const safeDb = {
       try {
         return await prisma.siteSettings.findFirst();
       } catch (err) {
-        if (err.code === 'P2031') {
+        if (isReplicaSetError(err)) {
           const db = await getNativeDb();
           const doc = await db.collection('SiteSettings').findOne({});
           return formatDoc(doc);
@@ -358,7 +362,7 @@ const safeDb = {
       try {
         return await prisma.siteSettings.create({ data });
       } catch (err) {
-        if (err.code === 'P2031') {
+        if (isReplicaSetError(err)) {
           const db = await getNativeDb();
           const docData = { ...data, updatedAt: new Date() };
           const res = await db.collection('SiteSettings').insertOne(docData);
@@ -371,7 +375,7 @@ const safeDb = {
       try {
         return await prisma.siteSettings.update({ where, data });
       } catch (err) {
-        if (err.code === 'P2031') {
+        if (isReplicaSetError(err)) {
           const db = await getNativeDb();
           await db.collection('SiteSettings').updateOne({ _id: new ObjectId(where.id) }, { $set: { ...data, updatedAt: new Date() } });
           const updated = await db.collection('SiteSettings').findOne({ _id: new ObjectId(where.id) });

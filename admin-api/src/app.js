@@ -19,13 +19,14 @@ const PORT = process.env.PORT || 5000;
 const allowedOrigins = [
   'http://localhost:3000',
   'http://localhost:3001',
+  'http://localhost:3002',
   process.env.PUBLIC_FRONTEND_URL,
   process.env.ADMIN_FRONTEND_URL,
 ].filter(Boolean);
 
 app.use(cors({
   origin: function (origin, callback) {
-    if (!origin || allowedOrigins.includes(origin)) {
+    if (!origin || allowedOrigins.includes(origin) || /^http:\/\/localhost:\d+$/.test(origin) || /^http:\/\/127\.0\.0\.1:\d+$/.test(origin)) {
       callback(null, true);
     } else {
       callback(new Error('CORS policy rejection: Origin not allowed'));
