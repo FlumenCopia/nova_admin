@@ -1,7 +1,7 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { MapPin, Check, X } from 'lucide-react';
+import { useState, useEffect, useRef } from 'react';
+import { MapPin, Check, X, ChevronLeft, ChevronRight } from 'lucide-react';
 import { campaigns as defaultCampaigns } from '../data/campaigns';
 import { fetchApi, getMediaUrl } from '../lib/api';
 
@@ -9,6 +9,7 @@ export default function GalleryGrid({ onOpenModal }) {
   const [filterCategory, setFilterCategory] = useState('all');
   const [campaignsList, setCampaignsList] = useState(defaultCampaigns);
   const [lightboxImg, setLightboxImg] = useState(null);
+  const filterPillsRef = useRef(null);
 
   useEffect(() => {
     async function fetchDynamicPortfolio() {
@@ -47,9 +48,18 @@ export default function GalleryGrid({ onOpenModal }) {
 
   const [visibleCount, setVisibleCount] = useState(6);
 
-  const handleFilterChange = (key) => {
+  const handleFilterChange = (key, event) => {
     setFilterCategory(key);
     setVisibleCount(6);
+    if (event && event.currentTarget) {
+      event.currentTarget.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+    }
+  };
+
+  const scrollPills = (direction) => {
+    if (!filterPillsRef.current) return;
+    const amount = direction === 'left' ? -200 : 200;
+    filterPillsRef.current.scrollBy({ left: amount, behavior: 'smooth' });
   };
 
   const filteredCampaigns = campaignsList.filter((item) => {
@@ -63,21 +73,41 @@ export default function GalleryGrid({ onOpenModal }) {
   return (
     <>
       <div className="gallery-filter-bar">
-        <div className="filter-pills">
-          {filterButtons.map((btn) => (
-            <button
-              key={btn.key}
-              type="button"
-              className={`filter-btn ${filterCategory === btn.key ? 'active' : ''}`}
-              onClick={() => handleFilterChange(btn.key)}
-            >
-              {btn.label}
-            </button>
-          ))}
+        <div className="filter-slider-wrapper">
+          <button
+            type="button"
+            className="filter-scroll-btn left"
+            aria-label="Scroll left"
+            onClick={() => scrollPills('left')}
+          >
+            <ChevronLeft size={16} strokeWidth={2.5} />
+          </button>
+
+          <div className="filter-pills" ref={filterPillsRef}>
+            {filterButtons.map((btn) => (
+              <button
+                key={btn.key}
+                type="button"
+                className={`filter-btn ${filterCategory === btn.key ? 'active' : ''}`}
+                onClick={(e) => handleFilterChange(btn.key, e)}
+              >
+                {btn.label}
+              </button>
+            ))}
+          </div>
+
+          <button
+            type="button"
+            className="filter-scroll-btn right"
+            aria-label="Scroll right"
+            onClick={() => scrollPills('right')}
+          >
+            <ChevronRight size={16} strokeWidth={2.5} />
+          </button>
         </div>
 
-        <div style={{ fontSize: '0.92rem', color: 'var(--text-muted)', fontWeight: 500 }}>
-          Showing {displayedCampaigns.length} of {filteredCampaigns.length} high-impact outdoor media executions
+        <div className="gallery-count-text">
+          Showing <strong style={{ color: 'var(--text-main)', fontWeight: 700 }}>{displayedCampaigns.length}</strong> of {filteredCampaigns.length} high-impact campaigns
         </div>
       </div>
 

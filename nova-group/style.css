@@ -1065,7 +1065,7 @@ ul {
       rgba(13, 16, 21, 0.52) 75%,
       rgba(13, 16, 21, 0.28) 100%
     ),
-    url('hero2.png');
+    url('/hero2.png');
   background-size: cover;
   background-position: center right;
   background-repeat: no-repeat;
@@ -1654,11 +1654,51 @@ ul {
   border-bottom: 1px solid var(--border-color);
 }
 
+.filter-slider-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  max-width: 100%;
+  position: relative;
+}
+
 .filter-pills {
   display: flex;
   align-items: center;
   gap: 10px;
-  flex-wrap: wrap;
+  overflow-x: auto;
+  flex-wrap: nowrap;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  padding: 4px 2px;
+  flex: 1;
+}
+
+.filter-pills::-webkit-scrollbar {
+  display: none;
+}
+
+.filter-scroll-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  color: var(--text-main);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: var(--transition);
+}
+
+.filter-scroll-btn:hover {
+  background: var(--brand-red);
+  color: #ffffff;
+  border-color: var(--brand-red);
 }
 
 .filter-btn {
@@ -1670,14 +1710,32 @@ ul {
   font-weight: 600;
   border: 1px solid var(--border-color);
   transition: var(--transition);
+  white-space: nowrap;
+  flex-shrink: 0;
+  cursor: pointer;
+  user-select: none;
 }
 
-.filter-btn:hover,
 .filter-btn.active {
   background: var(--brand-red);
   color: #ffffff;
   border-color: var(--brand-red);
   box-shadow: 0 4px 14px rgba(216, 35, 42, 0.25);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .filter-btn:hover:not(.active) {
+    background: #e2e8f0;
+    color: var(--text-main);
+    border-color: #cbd5e1;
+  }
+}
+
+.gallery-count-text {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  font-weight: 500;
+  margin-top: 4px;
 }
 
 .gallery-grid {
@@ -1721,8 +1779,8 @@ ul {
 
 .listing-badge-type {
   position: absolute;
-  top: 16px;
-  left: 16px;
+  top: 14px;
+  left: 14px;
   background: var(--brand-red);
   color: #ffffff;
   padding: 5px 12px;
@@ -1730,18 +1788,27 @@ ul {
   font-size: 0.78rem;
   font-weight: 700;
   box-shadow: 0 2px 8px rgba(216, 35, 42, 0.35);
+  z-index: 2;
+  white-space: nowrap;
 }
 
 .listing-badge-status {
   position: absolute;
-  top: 16px;
-  right: 16px;
-  background: rgba(255, 255, 255, 0.92);
+  top: 14px;
+  right: 14px;
+  max-width: calc(100% - 130px);
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(4px);
   color: #11141a;
   padding: 5px 12px;
   border-radius: var(--radius-full);
-  font-size: 0.78rem;
+  font-size: 0.76rem;
   font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  z-index: 1;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
 }
 
 .listing-content {
@@ -2695,25 +2762,55 @@ ul {
   .gallery-filter-bar {
     flex-direction: column;
     align-items: stretch;
-    gap: 14px;
+    gap: 12px;
+    width: 100%;
+    margin-bottom: 28px;
+    padding-bottom: 16px;
+  }
+
+  .filter-slider-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    width: 100%;
+    position: relative;
   }
 
   .filter-pills {
+    display: flex;
+    align-items: center;
+    gap: 8px;
     overflow-x: auto;
     flex-wrap: nowrap;
-    padding-bottom: 8px;
+    scroll-behavior: smooth;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
+    padding: 4px 2px 8px;
+    width: 100%;
   }
 
   .filter-pills::-webkit-scrollbar {
     display: none;
   }
 
+  .filter-scroll-btn {
+    width: 28px;
+    height: 28px;
+    min-width: 28px;
+    border-radius: 50%;
+  }
+
   .filter-btn {
     white-space: nowrap;
+    flex-shrink: 0;
     padding: 8px 16px;
-    font-size: 0.85rem;
+    font-size: 0.84rem;
+  }
+
+  .gallery-count-text {
+    font-size: 0.84rem;
+    color: var(--text-muted);
+    font-weight: 500;
   }
 
   /* CTA Banner */
@@ -2819,6 +2916,7 @@ ul {
     max-height: 48px;
     max-width: 130px;
   }
+
   /* Leadership Spotlight Responsive (Tablet) */
   .leadership-spotlight-section {
     padding: 56px 0;
