@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { Trophy, Users, Phone, ArrowRight } from 'lucide-react';
 
 export default function LeadershipSection() {
   return (
@@ -35,14 +36,7 @@ export default function LeadershipSection() {
             <div className="leadership-features-list">
               <div className="leadership-feature-box">
                 <div className="leadership-feature-icon">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path>
-                    <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path>
-                    <path d="M4 22h16"></path>
-                    <path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"></path>
-                    <path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"></path>
-                    <path d="M18 2H6v7a6 6 0 0 0 12 0V2z"></path>
-                  </svg>
+                  <Trophy size={20} strokeWidth={2} />
                 </div>
                 <div className="leadership-feature-text">
                   <h4>Visionary Direction</h4>
@@ -52,12 +46,7 @@ export default function LeadershipSection() {
 
               <div className="leadership-feature-box">
                 <div className="leadership-feature-icon">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-                    <circle cx="9" cy="7" r="4"></circle>
-                    <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
-                    <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-                  </svg>
+                  <Users size={20} strokeWidth={2} />
                 </div>
                 <div className="leadership-feature-text">
                   <h4>Enterprise Relationships</h4>
@@ -67,14 +56,12 @@ export default function LeadershipSection() {
             </div>
 
             <div className="leadership-actions">
-              <a href="tel:+919539000640" className="btn-leadership-phone">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
-                  <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
-                </svg>
+              <a href="tel:+919539000640" className="btn-leadership-phone" style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+                <Phone size={15} strokeWidth={2.2} />
                 Call Founder: +91 9539000640
               </a>
-              <Link href="/contact" className="btn-leadership-contact">
-                Connect with Director <span className="arrow">→</span>
+              <Link href="/contact" className="btn-leadership-contact" style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+                Connect with Director <ArrowRight size={15} />
               </Link>
             </div>
           </div>

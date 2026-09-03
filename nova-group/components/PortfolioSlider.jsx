@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { campaigns as defaultCampaigns } from '../data/campaigns';
 import { fetchApi, getMediaUrl } from '../lib/api';
 
@@ -132,11 +133,9 @@ export default function PortfolioSlider() {
               id="cat-prev-btn"
               aria-label="Previous campaigns"
               onClick={handlePrev}
-              style={{ opacity: canPrev ? 1 : 0.5, cursor: canPrev ? 'pointer' : 'default' }}
+              style={{ opacity: canPrev ? 1 : 0.5, cursor: canPrev ? 'pointer' : 'default', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
             >
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <polyline points="15 18 9 12 15 6"></polyline>
-              </svg>
+              <ChevronLeft size={20} strokeWidth={2.5} />
             </button>
             <button
               type="button"
@@ -144,11 +143,9 @@ export default function PortfolioSlider() {
               id="cat-next-btn"
               aria-label="Next campaigns"
               onClick={handleNext}
-              style={{ opacity: canNext ? 1 : 0.5, cursor: canNext ? 'pointer' : 'default' }}
+              style={{ opacity: canNext ? 1 : 0.5, cursor: canNext ? 'pointer' : 'default', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
             >
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <polyline points="9 18 15 12 9 6"></polyline>
-              </svg>
+              <ChevronRight size={20} strokeWidth={2.5} />
             </button>
           </div>
         </div>

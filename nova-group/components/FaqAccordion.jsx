@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { ChevronDown } from 'lucide-react';
 import { faqsData } from '../data/faqsData';
 
 export default function FaqAccordion() {
@@ -30,7 +31,15 @@ export default function FaqAccordion() {
                 onClick={() => toggleFaq(item.id)}
               >
                 <span>{item.question}</span>
-                <span className="faq-icon">{activeId === item.id ? '-' : '+'}</span>
+                <span className="faq-icon" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <ChevronDown
+                    size={18}
+                    style={{
+                      transform: activeId === item.id ? 'rotate(180deg)' : 'rotate(0deg)',
+                      transition: 'transform 0.25s ease',
+                    }}
+                  />
+                </span>
               </button>
               <div className="faq-answer">
                 <p>{item.answer}</p>

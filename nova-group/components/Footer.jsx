@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { Phone, Mail, MapPin, Send } from 'lucide-react';
 import { fetchApi } from '../lib/api';
 
 export default function Footer({ onShowToast }) {
@@ -90,11 +91,20 @@ export default function Footer({ onShowToast }) {
 
           <div>
             <h4 className="footer-col-title">Contact Nova</h4>
-            <p className="footer-newsletter-text" style={{ lineHeight: '1.6', marginBottom: '12px' }}>
-              <strong>Head Office:</strong> {settings.hqAddress}<br />
-              <strong>Phone:</strong> {settings.primaryPhone}{settings.altPhone ? `, ${settings.altPhone}` : ''}<br />
-              <strong>Email:</strong> {settings.contactEmail}
-            </p>
+            <div className="footer-newsletter-text" style={{ lineHeight: '1.6', marginBottom: '14px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+              <div style={{ display: 'flex', alignItems: 'flex-start', gap: '8px' }}>
+                <MapPin size={16} style={{ flexShrink: 0, marginTop: '3px', color: 'var(--brand-red)' }} />
+                <span>{settings.hqAddress}</span>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <Phone size={15} style={{ flexShrink: 0, color: 'var(--brand-red)' }} />
+                <span>{settings.primaryPhone}{settings.altPhone ? `, ${settings.altPhone}` : ''}</span>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <Mail size={15} style={{ flexShrink: 0, color: 'var(--brand-red)' }} />
+                <span>{settings.contactEmail}</span>
+              </div>
+            </div>
             <form className="newsletter-form" id="newsletter-form" onSubmit={handleNewsletterSubmit}>
               <input
                 type="text"
@@ -104,7 +114,8 @@ export default function Footer({ onShowToast }) {
                 value={newsletterInput}
                 onChange={(e) => setNewsletterInput(e.target.value)}
               />
-              <button type="submit" className="newsletter-btn" disabled={isSubmitting}>
+              <button type="submit" className="newsletter-btn" disabled={isSubmitting} style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+                <Send size={14} />
                 {isSubmitting ? 'Sending...' : 'Request Call'}
               </button>
             </form>
@@ -114,8 +125,14 @@ export default function Footer({ onShowToast }) {
         <div className="footer-bottom-row">
           <p>&copy; 2026 NOVA Innovations (Outdoors • Design Studio • Events). All Rights Reserved. www.novainnovations.in</p>
           <div className="footer-bottom-links">
-            <a href={`tel:${settings.primaryPhone.replace(/\s+/g, '')}`} className="footer-link">{settings.primaryPhone}</a>
-            <a href={`mailto:${settings.contactEmail}`} className="footer-link">{settings.contactEmail}</a>
+            <a href={`tel:${settings.primaryPhone.replace(/\s+/g, '')}`} className="footer-link" style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+              <Phone size={13} />
+              {settings.primaryPhone}
+            </a>
+            <a href={`mailto:${settings.contactEmail}`} className="footer-link" style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+              <Mail size={13} />
+              {settings.contactEmail}
+            </a>
           </div>
         </div>
       </div>

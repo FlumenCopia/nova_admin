@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { Check, Monitor } from 'lucide-react';
 import BudgetCalculator from '../../components/BudgetCalculator';
 import { servicesData as defaultServices } from '../../data/servicesData';
 import { fetchApi } from '../../lib/api';
@@ -48,15 +49,15 @@ export default function ServicesPage() {
           <p className="subheading">End-to-end highway hoardings, KSRTC transit wraps, shop branding, exhibition stall architecture, and industrial large format flex printing across Kerala.</p>
           <div className="page-hero-badges">
             <span className="hero-pill-badge">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              <Check size={14} strokeWidth={2.5} />
               Highway Unipoles & Billboards
             </span>
             <span className="hero-pill-badge">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              <Check size={14} strokeWidth={2.5} />
               KSRTC & Bus Fleet Wraps
             </span>
             <span className="hero-pill-badge">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              <Check size={14} strokeWidth={2.5} />
               Digital Flex & Offset Print
             </span>
           </div>
@@ -70,11 +71,7 @@ export default function ServicesPage() {
             {servicesList.map((s) => (
               <div key={s.id} className="service-card">
                 <div className="service-card-icon">
-                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <rect x="2" y="3" width="20" height="14" rx="2"></rect>
-                    <line x1="8" y1="21" x2="16" y2="21"></line>
-                    <line x1="12" y1="17" x2="12" y2="21"></line>
-                  </svg>
+                  <Monitor size={28} strokeWidth={2} />
                 </div>
                 <h3 className="service-card-title">{s.title}</h3>
                 {s.subtitle && (
@@ -86,9 +83,7 @@ export default function ServicesPage() {
                 <div className="service-features-list">
                   {s.features.map((feat, idx) => (
                     <div key={idx} className="service-feature-item">
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
-                        <polyline points="20 6 9 17 4 12"></polyline>
-                      </svg>
+                      <Check size={14} strokeWidth={2.5} style={{ flexShrink: 0 }} />
                       <span>{feat}</span>
                     </div>
                   ))}

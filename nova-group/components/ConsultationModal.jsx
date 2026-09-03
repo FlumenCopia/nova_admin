@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { X, Send } from 'lucide-react';
 import { fetchApi } from '../lib/api';
 
 export default function ConsultationModal({ isOpen, onClose, initialService, onShowToast }) {
@@ -87,8 +88,8 @@ export default function ConsultationModal({ isOpen, onClose, initialService, onS
       if (e.target.id === 'consultation-modal') onClose();
     }}>
       <div className="modal-card">
-        <button type="button" className="modal-close-btn" aria-label="Close dialog" onClick={onClose}>
-          &times;
+        <button type="button" className="modal-close-btn" aria-label="Close dialog" onClick={onClose} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <X size={20} />
         </button>
         <div className="modal-header">
           <h3 className="modal-title">Book Hoardings / Inquiry</h3>

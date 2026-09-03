@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { Check, Phone } from 'lucide-react';
 import LeadershipSection from '../../components/LeadershipSection';
 
 export default function AboutPage() {
@@ -21,15 +22,15 @@ export default function AboutPage() {
           <p className="subheading">Kerala's premier outdoor advertising powerhouse — pioneering high-impact highway hoardings, creative design studio excellence, and memorable corporate brand activations since 1997.</p>
           <div className="page-hero-badges">
             <span className="hero-pill-badge">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              <Check size={14} strokeWidth={2.5} />
               Est. 1997 • 27+ Years in Kerala
             </span>
             <span className="hero-pill-badge">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              <Check size={14} strokeWidth={2.5} />
               500+ Prime Hoardings
             </span>
             <span className="hero-pill-badge">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              <Check size={14} strokeWidth={2.5} />
               Overnight Statewide Deployment
             </span>
           </div>
@@ -123,7 +124,10 @@ export default function AboutPage() {
               <p className="cta-banner-subtitle">Inquire today for vacant prime hoardings, rates, and turnkey outdoor media planning.</p>
             </div>
             <div className="cta-actions">
-              <a href="tel:+919539000640" className="btn-pill-white">Call: +91 9539000640</a>
+              <a href="tel:+919539000640" className="btn-pill-white" style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+                <Phone size={14} />
+                Call: +91 9539000640
+              </a>
               <Link href="/contact" className="btn-pill-dark" style={{ border: '1px solid rgba(255,255,255,0.2)' }}>Contact Offices</Link>
             </div>
           </div>

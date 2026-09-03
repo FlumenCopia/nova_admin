@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { Zap, Check, Phone, MessageSquare, Palette, Printer, ShieldCheck, Monitor } from 'lucide-react';
 import MarqueeLogos from '../components/MarqueeLogos';
 import PortfolioSlider from '../components/PortfolioSlider';
 import LeadershipSection from '../components/LeadershipSection';
@@ -47,12 +48,13 @@ export default function HomePage() {
       <div className="speciality-strip">
         <div className="container speciality-strip-container">
           <div className="speciality-strip-text-wrap">
-            <svg className="speciality-strip-icon" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#ffffff" strokeWidth="2.2">
-              <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
-            </svg>
+            <Zap className="speciality-strip-icon" size={26} strokeWidth={2.2} color="#ffffff" fill="#ffffff" />
             <span className="speciality-strip-text">OUR SPECIALITY: We can advertise your business overnight all over Kerala.</span>
           </div>
-          <a href="tel:+919539000640" className="speciality-strip-btn">Call: +91 9539000640</a>
+          <a href="tel:+919539000640" className="speciality-strip-btn" style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+            <Phone size={14} />
+            Call: +91 9539000640
+          </a>
         </div>
       </div>
 
@@ -116,20 +118,14 @@ export default function HomePage() {
             {services.map((s) => (
               <div key={s.id} className="service-card">
                 <div className="service-card-icon">
-                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <rect x="2" y="3" width="20" height="14" rx="2"></rect>
-                    <line x1="8" y1="21" x2="16" y2="21"></line>
-                    <line x1="12" y1="17" x2="12" y2="21"></line>
-                  </svg>
+                  <Monitor size={28} strokeWidth={2} />
                 </div>
                 <h3 className="service-card-title">{s.title}</h3>
                 <p className="service-card-desc">{s.desc}</p>
                 <div className="service-features-list">
                   {s.features.slice(0, 2).map((feat, idx) => (
                     <div key={idx} className="service-feature-item">
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                        <polyline points="20 6 9 17 4 12"></polyline>
-                      </svg>
+                      <Check size={14} strokeWidth={2.5} style={{ flexShrink: 0 }} />
                       {feat}
                     </div>
                   ))}
@@ -162,9 +158,7 @@ export default function HomePage() {
             <div className="work-steps-list">
               <div className="work-step-row">
                 <div className="work-step-icon">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
-                  </svg>
+                  <MessageSquare size={22} strokeWidth={2} />
                 </div>
                 <div className="work-step-body">
                   <h4 className="work-step-title">1. Needs Analysis & Site Selection</h4>
@@ -174,10 +168,7 @@ export default function HomePage() {
 
               <div className="work-step-row">
                 <div className="work-step-icon">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <circle cx="11" cy="11" r="8"></circle>
-                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                  </svg>
+                  <Palette size={22} strokeWidth={2} />
                 </div>
                 <div className="work-step-body">
                   <h4 className="work-step-title">2. Creative Studio Design</h4>
@@ -187,17 +178,7 @@ export default function HomePage() {
 
               <div className="work-step-row">
                 <div className="work-step-icon">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <line x1="4" y1="21" x2="4" y2="14"></line>
-                    <line x1="4" y1="10" x2="4" y2="3"></line>
-                    <line x1="12" y1="21" x2="12" y2="12"></line>
-                    <line x1="12" y1="8" x2="12" y2="3"></line>
-                    <line x1="20" y1="21" x2="20" y2="16"></line>
-                    <line x1="20" y1="12" x2="20" y2="3"></line>
-                    <line x1="1" y1="14" x2="7" y2="14"></line>
-                    <line x1="9" y1="8" x2="15" y2="8"></line>
-                    <line x1="17" y1="16" x2="23" y2="16"></line>
-                  </svg>
+                  <Printer size={22} strokeWidth={2} />
                 </div>
                 <div className="work-step-body">
                   <h4 className="work-step-title">3. High-Definition Flex Printing</h4>
@@ -207,9 +188,7 @@ export default function HomePage() {
 
               <div className="work-step-row">
                 <div className="work-step-icon">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
-                  </svg>
+                  <Zap size={22} strokeWidth={2} />
                 </div>
                 <div className="work-step-body">
                   <h4 className="work-step-title">4. Overnight Pan-Kerala Installation</h4>
@@ -219,10 +198,7 @@ export default function HomePage() {
 
               <div className="work-step-row">
                 <div className="work-step-icon">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                    <circle cx="12" cy="7" r="4"></circle>
-                  </svg>
+                  <ShieldCheck size={22} strokeWidth={2} />
                 </div>
                 <div className="work-step-body">
                   <h4 className="work-step-title">5. 24/7 Monitoring & Protection</h4>

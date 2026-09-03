@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { Check, MapPin, Building2, Phone, Mail, Send, Navigation } from 'lucide-react';
 import FaqAccordion from '../../components/FaqAccordion';
 import { fetchApi } from '../../lib/api';
 
@@ -119,15 +120,15 @@ export default function ContactPage() {
           <p className="subheading">Speak directly with our media planners to reserve vacant prime hoardings, discuss transit bus branding, or coordinate an overnight statewide launch with Director Gireesh.</p>
           <div className="page-hero-badges">
             <span className="hero-pill-badge">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              <Check size={14} strokeWidth={2.5} />
               Trivandrum Panavila HQ & Vazhuthacaud
             </span>
             <span className="hero-pill-badge">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              <Check size={14} strokeWidth={2.5} />
               Direct: +91 95390 00640
             </span>
             <span className="hero-pill-badge">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              <Check size={14} strokeWidth={2.5} />
               Immediate Site Reservation Desk
             </span>
           </div>
@@ -140,10 +141,7 @@ export default function ContactPage() {
           <div className="contact-info-cards-stack">
             <div className="contact-info-card">
               <div className="contact-card-icon">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-                  <circle cx="12" cy="10" r="3"></circle>
-                </svg>
+                <MapPin size={22} strokeWidth={2} />
               </div>
               <div>
                 <h3 className="contact-card-title">Registered Head Office</h3>
@@ -155,9 +153,7 @@ export default function ContactPage() {
 
             <div className="contact-info-card">
               <div className="contact-card-icon">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-                </svg>
+                <Building2 size={22} strokeWidth={2} />
               </div>
               <div>
                 <h3 className="contact-card-title">City Office</h3>
@@ -169,9 +165,7 @@ export default function ContactPage() {
 
             <div className="contact-info-card">
               <div className="contact-card-icon">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
-                </svg>
+                <Phone size={22} strokeWidth={2} />
               </div>
               <div>
                 <h3 className="contact-card-title">Direct Contact Numbers</h3>
@@ -183,10 +177,7 @@ export default function ContactPage() {
 
             <div className="contact-info-card">
               <div className="contact-card-icon">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
-                  <polyline points="22,6 12,13 2,6"></polyline>
-                </svg>
+                <Mail size={22} strokeWidth={2} />
               </div>
               <div>
                 <h3 className="contact-card-title">Email & Official Portal</h3>
@@ -283,7 +274,8 @@ export default function ContactPage() {
                 ></textarea>
               </div>
 
-              <button type="submit" className="btn-form-submit" disabled={isSubmitting}>
+              <button type="submit" className="btn-form-submit" disabled={isSubmitting} style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
+                <Send size={16} />
                 {isSubmitting ? 'Sending...' : 'Submit Campaign Inquiry'}
               </button>
             </form>
@@ -302,25 +294,18 @@ export default function ContactPage() {
           </div>
           <div className="map-card-wrapper">
             <div className="map-overlay-badge">
-              <h4>
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
-                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-                  <circle cx="12" cy="10" r="3"></circle>
-                </svg>
+              <h4 style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <MapPin size={18} strokeWidth={2.2} />
                 Nova Innovations HQ
               </h4>
-              <p>C.K. Tower, Panavila Junction & Vazhuthacaud, Thiruvananthapuram, Kerala 695001</p>
+              <p>{settings.hqAddress}</p>
               <div className="map-overlay-actions">
-                <a href="https://maps.google.com/?q=Panavila+Junction+Thiruvananthapuram+Kerala" target="_blank" rel="noopener noreferrer" className="map-action-btn primary">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                    <polygon points="3 11 22 2 13 21 11 13 3 11"></polygon>
-                  </svg>
+                <a href="https://maps.google.com/?q=Panavila+Junction+Thiruvananthapuram+Kerala" target="_blank" rel="noopener noreferrer" className="map-action-btn primary" style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+                  <Navigation size={14} strokeWidth={2.5} />
                   Get Directions
                 </a>
-                <a href="tel:+919539000640" className="map-action-btn secondary">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
-                  </svg>
+                <a href={`tel:${settings.primaryPhone.replace(/\s+/g, '')}`} className="map-action-btn secondary" style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+                  <Phone size={14} strokeWidth={2.5} />
                   Call Office
                 </a>
               </div>

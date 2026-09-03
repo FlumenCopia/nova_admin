@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { ArrowRight } from 'lucide-react';
 
 export default function BudgetCalculator({ onOpenModal }) {
   const [ratePerSqft, setRatePerSqft] = useState(45);
@@ -63,8 +64,9 @@ export default function BudgetCalculator({ onOpenModal }) {
             type="button"
             className="btn-pill-white open-modal-btn"
             onClick={() => onOpenModal('Hoarding Campaign Estimation')}
+            style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: '6px' }}
           >
-            Book This Campaign Size
+            Book This Campaign Size <ArrowRight size={15} />
           </button>
         </div>
       </div>

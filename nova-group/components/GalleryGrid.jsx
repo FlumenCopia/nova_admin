@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { MapPin, Check, X } from 'lucide-react';
 import { campaigns as defaultCampaigns } from '../data/campaigns';
 import { fetchApi, getMediaUrl } from '../lib/api';
 
@@ -102,8 +103,9 @@ export default function GalleryGrid({ onOpenModal }) {
 
             <div className="listing-content">
               <div className="listing-price-row">
-                <span className="listing-price" style={{ color: 'var(--brand-red)', fontWeight: 700 }}>
-                  📍 {item.location || item.priceRowTitle}
+                <span className="listing-price" style={{ color: 'var(--brand-red)', fontWeight: 700, display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
+                  <MapPin size={15} strokeWidth={2.2} />
+                  {item.location || item.priceRowTitle}
                 </span>
               </div>
 
@@ -112,9 +114,7 @@ export default function GalleryGrid({ onOpenModal }) {
               <ul className="listing-specs">
                 {item.specs.map((spec, sIdx) => (
                   <li key={sIdx} className="spec-item">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                      <polyline points="20 6 9 17 4 12"></polyline>
-                    </svg>
+                    <Check size={14} strokeWidth={2.5} style={{ flexShrink: 0 }} />
                     {spec}
                   </li>
                 ))}
@@ -172,13 +172,16 @@ export default function GalleryGrid({ onOpenModal }) {
                 top: '-40px',
                 right: '0',
                 color: '#ffffff',
-                fontSize: '2rem',
                 border: 'none',
                 background: 'none',
                 cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
               }}
+              aria-label="Close image preview"
             >
-              &times;
+              <X size={28} />
             </button>
             <img
               src={lightboxImg}
