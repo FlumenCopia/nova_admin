@@ -5,6 +5,20 @@ import Modal from '../../../components/Modal';
 import Toast from '../../../components/Toast';
 import { apiFetch, uploadImage, uploadMultipleImages, getMediaUrl } from '../../../lib/api';
 
+const DEFAULT_CATEGORIES = [
+  { key: 'hoardings', label: 'Prime Hoardings' },
+  { key: 'myg', label: 'myG Campaigns' },
+  { key: 'transit', label: 'Bus & Transit Media' },
+  { key: 'retail', label: 'Retail Facade & Signboards' },
+  { key: 'event', label: 'Events & Exhibitions' },
+  { key: 'wall', label: 'Commercial Wall Painting' },
+  { key: 'printing', label: 'Design Studio & Digital Printing' },
+  { key: 'dooh', label: 'LED & Digital OOH' },
+  { key: 'unipole', label: 'Highway Gantries & Unipoles' },
+  { key: 'ksrtc', label: 'KSRTC Fleet Branding' },
+  { key: 'airport', label: 'Airport & Metro Media' },
+];
+
 export default function CampaignGalleryPage() {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -12,6 +26,10 @@ export default function CampaignGalleryPage() {
   const [filterCategory, setFilterCategory] = useState('ALL');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingId, setEditingId] = useState(null);
+
+  const [categoriesList, setCategoriesList] = useState(DEFAULT_CATEGORIES);
+  const [showCustomCategoryInput, setShowCustomCategoryInput] = useState(false);
+  const [customCategoryName, setCustomCategoryName] = useState('');
 
   // Tabbed Photo Selection: 'upload' | 'library'
   const [photoSourceTab, setPhotoSourceTab] = useState('upload');
@@ -65,11 +83,56 @@ export default function CampaignGalleryPage() {
     fetchItems();
   }, []);
 
+  // Dynamically sync any unique categories present in items
+  useEffect(() => {
+    if (items.length > 0) {
+      setCategoriesList((prev) => {
+        const existingKeys = new Set(prev.map((c) => c.key.toLowerCase()));
+        const newCats = [...prev];
+        items.forEach((item) => {
+          if (item.category && !existingKeys.has(item.category.toLowerCase())) {
+            existingKeys.add(item.category.toLowerCase());
+            const label = item.category.charAt(0).toUpperCase() + item.category.slice(1).replace(/-/g, ' ');
+            newCats.push({ key: item.category, label });
+          }
+        });
+        return newCats;
+      });
+    }
+  }, [items]);
+
+  const handleCategoryChange = (e) => {
+    const val = e.target.value;
+    if (val === '__custom__') {
+      setShowCustomCategoryInput(true);
+      setCustomCategoryName('');
+    } else {
+      setShowCustomCategoryInput(false);
+      setFormData((prev) => ({ ...prev, category: val }));
+    }
+  };
+
+  const handleAddCustomCategory = () => {
+    const trimmed = customCategoryName.trim();
+    if (!trimmed) return;
+    const key = trimmed.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+    const existing = categoriesList.find((c) => c.key === key);
+    if (!existing) {
+      const newCat = { key, label: trimmed };
+      setCategoriesList((prev) => [...prev, newCat]);
+    }
+    setFormData((prev) => ({ ...prev, category: key }));
+    setShowCustomCategoryInput(false);
+    setCustomCategoryName('');
+  };
+
   const handleOpenModal = (item = null) => {
     setSelectedFiles([]);
     setFilePreviews([]);
     setSelectedLibraryUrls([]);
     setPhotoSourceTab('upload');
+    setShowCustomCategoryInput(false);
+    setCustomCategoryName('');
 
     if (item) {
       setEditingId(item.id);
@@ -313,32 +376,41 @@ export default function CampaignGalleryPage() {
 
       {/* FILTER TABS */}
       <div style={{ display: 'flex', gap: '8px', marginBottom: '24px', flexWrap: 'wrap' }}>
-        {[
-          { key: 'ALL', label: `All Items (${items.length})` },
-          { key: 'hoardings', label: 'Prime Hoardings' },
-          { key: 'myg', label: 'myG Campaigns' },
-          { key: 'transit', label: 'Bus & Transit' },
-          { key: 'retail', label: 'Retail Facade' },
-          { key: 'event', label: 'Events & Exhibitions' },
-          { key: 'wall', label: 'Wall Painting' },
-          { key: 'printing', label: 'Design & Printing' },
-        ].map((tab) => (
-          <button
-            key={tab.key}
-            onClick={() => setFilterCategory(tab.key)}
-            className="btn-secondary"
-            style={{
-              padding: '6px 14px',
-              fontSize: '0.85rem',
-              fontWeight: 600,
-              borderColor: filterCategory === tab.key ? 'var(--color-primary)' : 'var(--color-border)',
-              color: filterCategory === tab.key ? 'var(--color-primary)' : 'var(--color-text-primary)',
-              background: filterCategory === tab.key ? 'var(--color-primary-soft)' : 'var(--color-card-background)',
-            }}
-          >
-            {tab.label}
-          </button>
-        ))}
+        <button
+          onClick={() => setFilterCategory('ALL')}
+          className="btn-secondary"
+          style={{
+            padding: '6px 14px',
+            fontSize: '0.85rem',
+            fontWeight: 600,
+            borderColor: filterCategory === 'ALL' ? 'var(--color-primary)' : 'var(--color-border)',
+            color: filterCategory === 'ALL' ? 'var(--color-primary)' : 'var(--color-text-primary)',
+            background: filterCategory === 'ALL' ? 'var(--color-primary-soft)' : 'var(--color-card-background)',
+          }}
+        >
+          All Items ({items.length})
+        </button>
+
+        {categoriesList.map((tab) => {
+          const count = items.filter((i) => i.category === tab.key).length;
+          return (
+            <button
+              key={tab.key}
+              onClick={() => setFilterCategory(tab.key)}
+              className="btn-secondary"
+              style={{
+                padding: '6px 14px',
+                fontSize: '0.85rem',
+                fontWeight: 600,
+                borderColor: filterCategory === tab.key ? 'var(--color-primary)' : 'var(--color-border)',
+                color: filterCategory === tab.key ? 'var(--color-primary)' : 'var(--color-text-primary)',
+                background: filterCategory === tab.key ? 'var(--color-primary-soft)' : 'var(--color-card-background)',
+              }}
+            >
+              {tab.label} {count > 0 ? `(${count})` : ''}
+            </button>
+          );
+        })}
       </div>
 
       {loading ? (
@@ -605,20 +677,74 @@ export default function CampaignGalleryPage() {
 
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
             <div className="form-group">
-              <label className="form-label">Category *</label>
-              <select
-                className="form-select"
-                value={formData.category}
-                onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-              >
-                <option value="hoardings">Prime Hoardings</option>
-                <option value="myg">myG Campaigns</option>
-                <option value="transit">Bus & Transit Media</option>
-                <option value="retail">Retail Facade & Signboards</option>
-                <option value="event">Events & Exhibitions</option>
-                <option value="wall">Commercial Wall Painting</option>
-                <option value="printing">Design Studio & Digital Printing</option>
-              </select>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px' }}>
+                <label className="form-label" style={{ margin: 0 }}>Category *</label>
+                {!showCustomCategoryInput && (
+                  <button
+                    type="button"
+                    onClick={() => setShowCustomCategoryInput(true)}
+                    style={{
+                      background: 'none',
+                      border: 'none',
+                      color: 'var(--color-primary)',
+                      fontSize: '0.78rem',
+                      fontWeight: 700,
+                      cursor: 'pointer',
+                      padding: 0,
+                    }}
+                  >
+                    + Add New Category
+                  </button>
+                )}
+              </div>
+
+              {!showCustomCategoryInput ? (
+                <select
+                  className="form-select"
+                  value={formData.category}
+                  onChange={handleCategoryChange}
+                >
+                  {categoriesList.map((cat) => (
+                    <option key={cat.key} value={cat.key}>
+                      {cat.label}
+                    </option>
+                  ))}
+                  <option value="__custom__">+ Add Custom Category...</option>
+                </select>
+              ) : (
+                <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                  <input
+                    type="text"
+                    className="form-input"
+                    placeholder="e.g. Airport Lounge"
+                    autoFocus
+                    value={customCategoryName}
+                    onChange={(e) => setCustomCategoryName(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter') {
+                        e.preventDefault();
+                        handleAddCustomCategory();
+                      }
+                    }}
+                  />
+                  <button
+                    type="button"
+                    className="btn-primary"
+                    style={{ padding: '8px 14px', fontSize: '0.85rem', flexShrink: 0 }}
+                    onClick={handleAddCustomCategory}
+                  >
+                    Save
+                  </button>
+                  <button
+                    type="button"
+                    className="btn-secondary"
+                    style={{ padding: '8px 10px', fontSize: '0.85rem', flexShrink: 0 }}
+                    onClick={() => setShowCustomCategoryInput(false)}
+                  >
+                    Cancel
+                  </button>
+                </div>
+              )}
             </div>
 
             <div className="form-group">

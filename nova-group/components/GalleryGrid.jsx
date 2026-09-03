@@ -35,7 +35,7 @@ export default function GalleryGrid({ onOpenModal }) {
     fetchDynamicPortfolio();
   }, []);
 
-  const filterButtons = [
+  const BASE_FILTER_BUTTONS = [
     { key: 'all', label: 'All Works' },
     { key: 'hoardings', label: 'Prime Hoardings' },
     { key: 'myg', label: 'myG Campaigns' },
@@ -44,7 +44,28 @@ export default function GalleryGrid({ onOpenModal }) {
     { key: 'event', label: 'Events & Exhibitions' },
     { key: 'wall', label: 'Wall Painting' },
     { key: 'printing', label: 'Digital Printing' },
+    { key: 'dooh', label: 'LED & Digital OOH' },
+    { key: 'unipole', label: 'Highway Gantries & Unipoles' },
+    { key: 'ksrtc', label: 'KSRTC Fleet Branding' },
+    { key: 'airport', label: 'Airport & Metro Media' },
   ];
+
+  const filterButtons = (() => {
+    const existingKeys = new Set(BASE_FILTER_BUTTONS.map((b) => b.key));
+    const dynamicButtons = [...BASE_FILTER_BUTTONS];
+    campaignsList.forEach((c) => {
+      if (c.category) {
+        c.category.split(' ').forEach((cat) => {
+          if (cat && cat !== 'vacant' && !existingKeys.has(cat)) {
+            existingKeys.add(cat);
+            const label = cat.charAt(0).toUpperCase() + cat.slice(1).replace(/-/g, ' ');
+            dynamicButtons.push({ key: cat, label });
+          }
+        });
+      }
+    });
+    return dynamicButtons;
+  })();
 
   const [visibleCount, setVisibleCount] = useState(6);
 
