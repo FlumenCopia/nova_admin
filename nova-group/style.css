@@ -1748,7 +1748,7 @@ ul {
 .property-listing-card {
   background: #ffffff;
   border: 1px solid var(--border-color);
-  border-radius: 16px;
+  border-radius: 12px;
   overflow: hidden;
   transition: var(--transition);
   display: flex;
@@ -1757,8 +1757,8 @@ ul {
 }
 
 .property-listing-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.1);
+  transform: translateY(-5px);
+  box-shadow: 0 14px 32px rgba(0, 0, 0, 0.09);
 }
 
 .listing-media {
@@ -1780,13 +1780,13 @@ ul {
 
 .listing-badge-type {
   position: absolute;
-  top: 14px;
-  left: 14px;
+  top: 12px;
+  left: 12px;
   background: var(--brand-red);
   color: #ffffff;
-  padding: 5px 12px;
-  border-radius: 8px;
-  font-size: 0.78rem;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 0.74rem;
   font-weight: 700;
   box-shadow: 0 2px 8px rgba(216, 35, 42, 0.35);
   z-index: 2;
@@ -1795,15 +1795,15 @@ ul {
 
 .listing-badge-status {
   position: absolute;
-  top: 14px;
-  right: 14px;
+  top: 12px;
+  right: 12px;
   max-width: calc(100% - 130px);
   background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(4px);
   color: #11141a;
-  padding: 5px 12px;
-  border-radius: 8px;
-  font-size: 0.76rem;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 0.74rem;
   font-weight: 700;
   white-space: nowrap;
   overflow: hidden;
@@ -1813,23 +1813,23 @@ ul {
 }
 
 .listing-content {
-  padding: 22px;
+  padding: 18px;
   display: flex;
   flex-direction: column;
   flex: 1;
 }
 
 .listing-price-row {
-  height: 38px;
+  height: 36px;
   display: flex;
   align-items: flex-start;
-  margin-bottom: 6px;
+  margin-bottom: 4px;
   overflow: hidden;
 }
 
 .listing-price {
-  font-size: 0.95rem;
-  font-weight: 700;
+  font-size: 0.88rem;
+  font-weight: 600;
   color: var(--brand-red);
   line-height: 1.35;
   display: -webkit-box;
@@ -1839,12 +1839,12 @@ ul {
 }
 
 .listing-title {
-  font-size: 1.15rem;
-  font-weight: 800;
+  font-size: 0.98rem;
+  font-weight: 700;
   color: #11141a;
   line-height: 1.35;
-  height: 48px;
-  margin-bottom: 14px;
+  height: 42px;
+  margin-bottom: 12px;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
@@ -1857,8 +1857,8 @@ ul {
   margin: 0 0 16px 0;
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  height: 84px;
+  gap: 7px;
+  height: 80px;
   overflow: hidden;
 }
 
