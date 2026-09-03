@@ -80,7 +80,7 @@ export default function AboutPage() {
         <div className="container">
           <div style={{ textAlign: 'center', maxWidth: '680px', margin: '0 auto 50px' }}>
             <span style={{ color: 'var(--brand-red)', fontWeight: 700, textTransform: 'uppercase', fontSize: '0.85rem', letterSpacing: '0.08em' }}>Core Capabilities</span>
-            <h2 className="heading-lg" style={{ marginTop: '4px' }}>Outdoors • Design Studio • Events</h2>
+            <h2 className="heading-lg" style={{ marginTop: '4px' }}>Outdoors Design Studio Events</h2>
             <p className="subheading">Three synergistic divisions delivering complete 360-degree brand visibility.</p>
           </div>
 
