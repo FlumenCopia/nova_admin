@@ -73,8 +73,36 @@ const processClientLogoImage = async (req, res, next) => {
   }
 };
 
+// Middleware to process Hero Banner image with Sharp
+const processBannerImage = async (req, res, next) => {
+  if (!req.file) return next();
+
+  try {
+    const filename = `banner-${Date.now()}-${Math.round(Math.random() * 1e9)}.webp`;
+    const targetFolder = path.join(__dirname, '../../uploads/banners');
+
+    if (!fs.existsSync(targetFolder)) {
+      fs.mkdirSync(targetFolder, { recursive: true });
+    }
+
+    const outputPath = path.join(targetFolder, filename);
+
+    await sharp(req.file.buffer)
+      .resize(2560, null, { fit: 'inside', withoutEnlargement: true })
+      .webp({ quality: 85 })
+      .toFile(outputPath);
+
+    req.processedImageUrl = `/uploads/banners/${filename}`;
+    next();
+  } catch (error) {
+    console.error('Sharp banner processing error:', error);
+    return res.status(400).json({ success: false, message: 'Failed to process banner image.' });
+  }
+};
+
 module.exports = {
   uploadSingle: upload.single('image'),
   processPortfolioImage,
   processClientLogoImage,
+  processBannerImage,
 };

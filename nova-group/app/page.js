@@ -7,38 +7,66 @@ import MarqueeLogos from '../components/MarqueeLogos';
 import PortfolioSlider from '../components/PortfolioSlider';
 import LeadershipSection from '../components/LeadershipSection';
 import { servicesData as defaultServices } from '../data/servicesData';
-import { fetchApi } from '../lib/api';
+import { fetchApi, getMediaUrl } from '../lib/api';
 
 export default function HomePage() {
   const [services, setServices] = useState(defaultServices);
+  const [heroData, setHeroData] = useState({
+    bannerUrl: '/mainhero1.png',
+    title: 'INNOVATIONS THAT\nHALLMARKS YOUR BRAND',
+    subtitle: 'Outdoors • Design Studio • Events — Prime hoardings, branding & overnight campaign execution across Kerala.',
+  });
 
   useEffect(() => {
-    async function loadServices() {
-      const res = await fetchApi('/public/services');
-      if (res && res.success && Array.isArray(res.data) && res.data.length > 0) {
-        const mapped = res.data.map((s, idx) => ({
-          id: s.id || `srv-${idx}`,
-          title: s.title,
-          desc: s.description,
-          features: Array.isArray(s.features) ? s.features : [],
-        }));
-        setServices(mapped);
+    async function loadData() {
+      try {
+        const [servicesRes, settingsRes] = await Promise.all([
+          fetchApi('/public/services'),
+          fetchApi('/public/settings'),
+        ]);
+
+        if (servicesRes && servicesRes.success && Array.isArray(servicesRes.data) && servicesRes.data.length > 0) {
+          const mapped = servicesRes.data.map((s, idx) => ({
+            id: s.id || `srv-${idx}`,
+            title: s.title,
+            desc: s.description,
+            features: Array.isArray(s.features) ? s.features : [],
+          }));
+          setServices(mapped);
+        }
+
+        if (settingsRes && settingsRes.success && settingsRes.data) {
+          setHeroData({
+            bannerUrl: settingsRes.data.heroBannerUrl || '/mainhero1.png',
+            title: settingsRes.data.heroTitle || 'INNOVATIONS THAT\nHALLMARKS YOUR BRAND',
+            subtitle: settingsRes.data.heroSubtitle || 'Outdoors • Design Studio • Events — Prime hoardings, branding & overnight campaign execution across Kerala.',
+          });
+        }
+      } catch (err) {
+        console.error('Failed to load home page data:', err);
       }
     }
-    loadServices();
+    loadData();
   }, []);
+
   return (
     <>
       {/* HERO SECTION */}
       <section className="hero-section hero-full-cover" id="hero">
         <div className="hero-banner">
-          <img src="/mainhero1.png" alt="Nova Innovations Advertising Billboard" className="hero-bg-img" />
+          <img
+            src={getMediaUrl(heroData.bannerUrl, '/mainhero1.png')}
+            alt="Nova Innovations Advertising Billboard"
+            className="hero-bg-img"
+          />
           <div className="hero-overlay"></div>
 
           <div className="container hero-container">
             <div className="hero-content">
-              <h1 className="hero-title">INNOVATIONS THAT<br />HALLMARKS YOUR BRAND</h1>
-              <p className="hero-description">Outdoors • Design Studio • Events — Prime hoardings, branding & overnight campaign execution across Kerala.</p>
+              <h1 className="hero-title" style={{ whiteSpace: 'pre-line' }}>
+                {heroData.title}
+              </h1>
+              <p className="hero-description">{heroData.subtitle}</p>
             </div>
           </div>
         </div>

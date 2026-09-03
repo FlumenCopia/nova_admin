@@ -12,6 +12,9 @@ const getSettings = async (req, res) => {
           contactEmail: 'novainnovations2020@gmail.com',
           hqAddress: 'T.C 26/929(2), C.K. Tower, Panavila Jn., Thiruvananthapuram - 695001',
           cityOfficeAddress: 'T.C. 29/314, S J Tower, MP Appan Road, Vazhuthacaud, Trivandrum - 695014',
+          heroBannerUrl: '/mainhero1.png',
+          heroTitle: 'INNOVATIONS THAT\nHALLMARKS YOUR BRAND',
+          heroSubtitle: 'Outdoors • Design Studio • Events — Prime hoardings, branding & overnight campaign execution across Kerala.',
         },
       });
     }
@@ -25,20 +28,34 @@ const getSettings = async (req, res) => {
 
 const updateSettings = async (req, res) => {
   try {
-    const { primaryPhone, altPhone, contactEmail, hqAddress, cityOfficeAddress } = req.body;
+    const {
+      primaryPhone,
+      altPhone,
+      contactEmail,
+      hqAddress,
+      cityOfficeAddress,
+      heroBannerUrl,
+      heroTitle,
+      heroSubtitle,
+    } = req.body;
 
     let settings = await prisma.siteSettings.findFirst();
+
+    const updateData = {
+      ...(primaryPhone !== undefined && { primaryPhone }),
+      ...(altPhone !== undefined && { altPhone }),
+      ...(contactEmail !== undefined && { contactEmail }),
+      ...(hqAddress !== undefined && { hqAddress }),
+      ...(cityOfficeAddress !== undefined && { cityOfficeAddress }),
+      ...(heroBannerUrl !== undefined && { heroBannerUrl }),
+      ...(heroTitle !== undefined && { heroTitle }),
+      ...(heroSubtitle !== undefined && { heroSubtitle }),
+    };
 
     if (settings) {
       settings = await prisma.siteSettings.update({
         where: { id: settings.id },
-        data: {
-          ...(primaryPhone && { primaryPhone }),
-          ...(altPhone && { altPhone }),
-          ...(contactEmail && { contactEmail }),
-          ...(hqAddress && { hqAddress }),
-          ...(cityOfficeAddress && { cityOfficeAddress }),
-        },
+        data: updateData,
       });
     } else {
       settings = await prisma.siteSettings.create({
@@ -48,13 +65,17 @@ const updateSettings = async (req, res) => {
           contactEmail: contactEmail || 'novainnovations2020@gmail.com',
           hqAddress: hqAddress || 'T.C 26/929(2), C.K. Tower, Panavila Jn., Thiruvananthapuram - 695001',
           cityOfficeAddress: cityOfficeAddress || 'T.C. 29/314, S J Tower, MP Appan Road, Vazhuthacaud, Trivandrum - 695014',
+          heroBannerUrl: heroBannerUrl || '/mainhero1.png',
+          heroTitle: heroTitle || 'INNOVATIONS THAT\nHALLMARKS YOUR BRAND',
+          heroSubtitle: heroSubtitle || 'Outdoors • Design Studio • Events — Prime hoardings, branding & overnight campaign execution across Kerala.',
+          ...updateData,
         },
       });
     }
 
     return res.status(200).json({
       success: true,
-      message: 'Site contact settings updated successfully!',
+      message: 'Site settings updated successfully!',
       data: settings,
     });
   } catch (error) {
@@ -63,7 +84,43 @@ const updateSettings = async (req, res) => {
   }
 };
 
+const uploadHeroBanner = async (req, res) => {
+  try {
+    if (!req.processedImageUrl) {
+      return res.status(400).json({ success: false, message: 'No image file uploaded.' });
+    }
+
+    let settings = await prisma.siteSettings.findFirst();
+
+    if (settings) {
+      settings = await prisma.siteSettings.update({
+        where: { id: settings.id },
+        data: {
+          heroBannerUrl: req.processedImageUrl,
+        },
+      });
+    } else {
+      settings = await prisma.siteSettings.create({
+        data: {
+          heroBannerUrl: req.processedImageUrl,
+        },
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: 'Hero background banner uploaded and updated successfully!',
+      bannerUrl: req.processedImageUrl,
+      data: settings,
+    });
+  } catch (error) {
+    console.error('Upload hero banner error:', error);
+    return res.status(500).json({ success: false, message: 'Server error uploading hero banner.' });
+  }
+};
+
 module.exports = {
   getSettings,
   updateSettings,
+  uploadHeroBanner,
 };

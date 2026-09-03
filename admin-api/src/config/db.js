@@ -348,40 +348,49 @@ const safeDb = {
   siteSettings: {
     findFirst: async () => {
       try {
-        return await prisma.siteSettings.findFirst();
-      } catch (err) {
-        if (isReplicaSetError(err)) {
-          const db = await getNativeDb();
-          const doc = await db.collection('SiteSettings').findOne({});
-          return formatDoc(doc);
+        let doc = await prisma.siteSettings.findFirst();
+        if (doc) {
+          doc.heroBannerUrl = doc.heroBannerUrl || '/mainhero1.png';
+          doc.heroTitle = doc.heroTitle || 'INNOVATIONS THAT\nHALLMARKS YOUR BRAND';
+          doc.heroSubtitle = doc.heroSubtitle || 'Outdoors • Design Studio • Events — Prime hoardings, branding & overnight campaign execution across Kerala.';
         }
-        throw err;
+        return doc;
+      } catch (err) {
+        const db = await getNativeDb();
+        const doc = await db.collection('SiteSettings').findOne({});
+        const formatted = formatDoc(doc);
+        if (formatted) {
+          formatted.heroBannerUrl = formatted.heroBannerUrl || '/mainhero1.png';
+          formatted.heroTitle = formatted.heroTitle || 'INNOVATIONS THAT\nHALLMARKS YOUR BRAND';
+          formatted.heroSubtitle = formatted.heroSubtitle || 'Outdoors • Design Studio • Events — Prime hoardings, branding & overnight campaign execution across Kerala.';
+        }
+        return formatted;
       }
     },
     create: async ({ data }) => {
       try {
         return await prisma.siteSettings.create({ data });
       } catch (err) {
-        if (isReplicaSetError(err)) {
-          const db = await getNativeDb();
-          const docData = { ...data, updatedAt: new Date() };
-          const res = await db.collection('SiteSettings').insertOne(docData);
-          return { id: res.insertedId.toString(), ...docData };
-        }
-        throw err;
+        const db = await getNativeDb();
+        const docData = {
+          heroBannerUrl: '/mainhero1.png',
+          heroTitle: 'INNOVATIONS THAT\nHALLMARKS YOUR BRAND',
+          heroSubtitle: 'Outdoors • Design Studio • Events — Prime hoardings, branding & overnight campaign execution across Kerala.',
+          ...data,
+          updatedAt: new Date()
+        };
+        const res = await db.collection('SiteSettings').insertOne(docData);
+        return { id: res.insertedId.toString(), ...docData };
       }
     },
     update: async ({ where, data }) => {
       try {
         return await prisma.siteSettings.update({ where, data });
       } catch (err) {
-        if (isReplicaSetError(err)) {
-          const db = await getNativeDb();
-          await db.collection('SiteSettings').updateOne({ _id: new ObjectId(where.id) }, { $set: { ...data, updatedAt: new Date() } });
-          const updated = await db.collection('SiteSettings').findOne({ _id: new ObjectId(where.id) });
-          return formatDoc(updated);
-        }
-        throw err;
+        const db = await getNativeDb();
+        await db.collection('SiteSettings').updateOne({ _id: new ObjectId(where.id) }, { $set: { ...data, updatedAt: new Date() } });
+        const updated = await db.collection('SiteSettings').findOne({ _id: new ObjectId(where.id) });
+        return formatDoc(updated);
       }
     },
   },

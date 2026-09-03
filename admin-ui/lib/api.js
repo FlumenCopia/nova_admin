@@ -58,3 +58,13 @@ export async function uploadMultipleImages(files) {
     body: formData,
   });
 }
+
+export async function uploadBanner(file) {
+  const formData = new FormData();
+  formData.append('image', file);
+
+  return apiRequest('/admin/settings/banner', {
+    method: 'POST',
+    body: formData,
+  });
+}

@@ -79,5 +79,8 @@ model SiteSettings {
   contactEmail      String   @default("novainnovations2020@gmail.com")
   hqAddress         String   @default("T.C 26/929(2), C.K. Tower, Panavila Jn., Thiruvananthapuram - 695001")
   cityOfficeAddress String   @default("T.C. 29/314, S J Tower, MP Appan Road, Vazhuthacaud, Trivandrum - 695014")
+  heroBannerUrl     String?  @default("/mainhero1.png")
+  heroTitle         String?  @default("INNOVATIONS THAT\nHALLMARKS YOUR BRAND")
+  heroSubtitle      String?  @default("Outdoors • Design Studio • Events — Prime hoardings, branding & overnight campaign execution across Kerala.")
   updatedAt         DateTime @updatedAt
 }
