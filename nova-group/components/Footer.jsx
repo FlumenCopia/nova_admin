@@ -1,11 +1,28 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { fetchApi } from '../lib/api';
 
 export default function Footer({ onShowToast }) {
   const [newsletterInput, setNewsletterInput] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [settings, setSettings] = useState({
+    primaryPhone: '+91 95390 00640',
+    altPhone: '+91 95263 64446',
+    contactEmail: 'novainnovations2020@gmail.com',
+    hqAddress: 'T.C 26/929(2), C.K. Tower, Panavila Jn., Thiruvananthapuram - 695001',
+  });
+
+  useEffect(() => {
+    async function loadSettings() {
+      const res = await fetchApi('/public/settings');
+      if (res && res.success && res.data) {
+        setSettings((prev) => ({ ...prev, ...res.data }));
+      }
+    }
+    loadSettings();
+  }, []);
 
   const handleNewsletterSubmit = async (e) => {
     e.preventDefault();
@@ -13,8 +30,7 @@ export default function Footer({ onShowToast }) {
     setIsSubmitting(true);
 
     try {
-      const apiBase = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
-      await fetch(`${apiBase}/public/enquiries`, {
+      await fetchApi('/public/enquiries', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -75,9 +91,9 @@ export default function Footer({ onShowToast }) {
           <div>
             <h4 className="footer-col-title">Contact Nova</h4>
             <p className="footer-newsletter-text" style={{ lineHeight: '1.6', marginBottom: '12px' }}>
-              <strong>Head Office:</strong> T.C 26/929(2), C.K. Tower, Panavila Jn., Thiruvananthapuram - 695001<br />
-              <strong>Phone:</strong> +91 95390 00640, 95263 64446<br />
-              <strong>Email:</strong> novainnovations2020@gmail.com
+              <strong>Head Office:</strong> {settings.hqAddress}<br />
+              <strong>Phone:</strong> {settings.primaryPhone}{settings.altPhone ? `, ${settings.altPhone}` : ''}<br />
+              <strong>Email:</strong> {settings.contactEmail}
             </p>
             <form className="newsletter-form" id="newsletter-form" onSubmit={handleNewsletterSubmit}>
               <input
@@ -98,8 +114,8 @@ export default function Footer({ onShowToast }) {
         <div className="footer-bottom-row">
           <p>&copy; 2026 NOVA Innovations (Outdoors • Design Studio • Events). All Rights Reserved. www.novainnovations.in</p>
           <div className="footer-bottom-links">
-            <a href="tel:+919539000640" className="footer-link">+91 9539000640</a>
-            <a href="mailto:novainnovations2020@gmail.com" className="footer-link">novainnovations2020@gmail.com</a>
+            <a href={`tel:${settings.primaryPhone.replace(/\s+/g, '')}`} className="footer-link">{settings.primaryPhone}</a>
+            <a href={`mailto:${settings.contactEmail}`} className="footer-link">{settings.contactEmail}</a>
           </div>
         </div>
       </div>

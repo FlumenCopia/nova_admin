@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import FaqAccordion from '../../components/FaqAccordion';
+import { fetchApi } from '../../lib/api';
 
 export default function ContactPage() {
   const [name, setName] = useState('');
@@ -20,25 +21,36 @@ export default function ContactPage() {
   ]);
   const [message, setMessage] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [settings, setSettings] = useState({
+    primaryPhone: '+91 95390 00640',
+    altPhone: '+91 95263 64446',
+    contactEmail: 'novainnovations2020@gmail.com',
+    hqAddress: 'T.C 26/929(2), C.K. Tower, Panavila Junction, Thiruvananthapuram, Kerala - 695001',
+    cityOfficeAddress: 'T.C. 29/314, S J Tower, MP Appan Road, (Opp. Kerala Hindi Pracharsabha), Vazhuthacaud, Trivandrum - 695014',
+  });
 
   useEffect(() => {
-    async function loadDynamicServices() {
+    async function loadData() {
       try {
-        const apiBase = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
-        const res = await fetch(`${apiBase}/public/services`);
-        if (res.ok) {
-          const json = await res.json();
-          if (json.success && Array.isArray(json.data) && json.data.length > 0) {
-            const list = json.data.map((s) => s.title);
-            setAvailableServices(list);
-            if (list.length > 0) setService(list[0]);
-          }
+        const [servicesRes, settingsRes] = await Promise.all([
+          fetchApi('/public/services'),
+          fetchApi('/public/settings'),
+        ]);
+
+        if (servicesRes && servicesRes.success && Array.isArray(servicesRes.data) && servicesRes.data.length > 0) {
+          const list = servicesRes.data.map((s) => s.title);
+          setAvailableServices(list);
+          if (list.length > 0) setService(list[0]);
+        }
+
+        if (settingsRes && settingsRes.success && settingsRes.data) {
+          setSettings((prev) => ({ ...prev, ...settingsRes.data }));
         }
       } catch (err) {
-        console.error('Fetch contact services error:', err);
+        console.error('Fetch contact data error:', err);
       }
     }
-    loadDynamicServices();
+    loadData();
   }, []);
 
   const handleSubmit = async (e) => {
@@ -46,8 +58,7 @@ export default function ContactPage() {
     setIsSubmitting(true);
 
     try {
-      const apiBase = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
-      await fetch(`${apiBase}/public/enquiries`, {
+      await fetchApi('/public/enquiries', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -137,8 +148,7 @@ export default function ContactPage() {
               <div>
                 <h3 className="contact-card-title">Registered Head Office</h3>
                 <p className="contact-card-text">
-                  T.C 26/929(2), C.K. Tower, Panavila Junction,<br />
-                  Thiruvananthapuram, Kerala - 695001
+                  {settings.hqAddress}
                 </p>
               </div>
             </div>
@@ -152,8 +162,7 @@ export default function ContactPage() {
               <div>
                 <h3 className="contact-card-title">City Office</h3>
                 <p className="contact-card-text">
-                  T.C. 29/314, S J Tower, MP Appan Road,<br />
-                  (Opp. Kerala Hindi Pracharsabha), Vazhuthacaud, Trivandrum - 695014
+                  {settings.cityOfficeAddress}
                 </p>
               </div>
             </div>
@@ -167,8 +176,7 @@ export default function ContactPage() {
               <div>
                 <h3 className="contact-card-title">Direct Contact Numbers</h3>
                 <p className="contact-card-text">
-                  <strong>Director (Gireesh):</strong> +91 95390 00640, 95263 64446<br />
-                  <strong>Office Desk:</strong> +91 95676 90518, 93878 15404
+                  <strong>Primary:</strong> <a href={`tel:${settings.primaryPhone.replace(/\s+/g, '')}`}>{settings.primaryPhone}</a>{settings.altPhone ? <><br /><strong>Alternative:</strong> <a href={`tel:${settings.altPhone.replace(/\s+/g, '')}`}>{settings.altPhone}</a></> : null}
                 </p>
               </div>
             </div>
@@ -183,7 +191,7 @@ export default function ContactPage() {
               <div>
                 <h3 className="contact-card-title">Email & Official Portal</h3>
                 <p className="contact-card-text">
-                  Email: novainnovations2020@gmail.com<br />
+                  Email: <a href={`mailto:${settings.contactEmail}`}>{settings.contactEmail}</a><br />
                   Website: www.novainnovations.in
                 </p>
               </div>

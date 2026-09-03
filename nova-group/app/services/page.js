@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import BudgetCalculator from '../../components/BudgetCalculator';
 import { servicesData as defaultServices } from '../../data/servicesData';
+import { fetchApi } from '../../lib/api';
 
 export default function ServicesPage() {
   const [servicesList, setServicesList] = useState(defaultServices);
@@ -11,21 +12,17 @@ export default function ServicesPage() {
   useEffect(() => {
     async function fetchDynamicServices() {
       try {
-        const apiBase = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
-        const res = await fetch(`${apiBase}/public/services`);
-        if (res.ok) {
-          const json = await res.json();
-          if (json.success && json.data && json.data.length > 0) {
-            const mapped = json.data.map((s, idx) => ({
-              id: s.id || `api-srv-${idx}`,
-              title: s.title,
-              subtitle: s.subtitle,
-              desc: s.description,
-              detailDesc: s.description,
-              features: Array.isArray(s.features) ? s.features : [],
-            }));
-            setServicesList(mapped);
-          }
+        const json = await fetchApi('/public/services');
+        if (json && json.success && json.data && json.data.length > 0) {
+          const mapped = json.data.map((s, idx) => ({
+            id: s.id || `api-srv-${idx}`,
+            title: s.title,
+            subtitle: s.subtitle,
+            desc: s.description,
+            detailDesc: s.description,
+            features: Array.isArray(s.features) ? s.features : [],
+          }));
+          setServicesList(mapped);
         }
       } catch (err) {
         // Fall back to default local data

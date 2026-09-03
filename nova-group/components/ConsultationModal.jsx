@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { fetchApi } from '../lib/api';
 
 export default function ConsultationModal({ isOpen, onClose, initialService, onShowToast }) {
   const [name, setName] = useState('');
@@ -20,14 +21,10 @@ export default function ConsultationModal({ isOpen, onClose, initialService, onS
   useEffect(() => {
     async function loadDynamicServices() {
       try {
-        const apiBase = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
-        const res = await fetch(`${apiBase}/public/services`);
-        if (res.ok) {
-          const json = await res.json();
-          if (json.success && Array.isArray(json.data) && json.data.length > 0) {
-            const list = json.data.map((s) => s.title);
-            setAvailableServices(list);
-          }
+        const json = await fetchApi('/public/services');
+        if (json && json.success && Array.isArray(json.data) && json.data.length > 0) {
+          const list = json.data.map((s) => s.title);
+          setAvailableServices(list);
         }
       } catch (err) {
         console.error('Fetch modal services error:', err);
@@ -59,8 +56,7 @@ export default function ConsultationModal({ isOpen, onClose, initialService, onS
     setIsSubmitting(true);
 
     try {
-      const apiBase = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
-      await fetch(`${apiBase}/public/enquiries`, {
+      await fetchApi('/public/enquiries', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

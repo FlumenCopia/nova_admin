@@ -1,12 +1,31 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import MarqueeLogos from '../components/MarqueeLogos';
 import PortfolioSlider from '../components/PortfolioSlider';
 import LeadershipSection from '../components/LeadershipSection';
-import { servicesData } from '../data/servicesData';
+import { servicesData as defaultServices } from '../data/servicesData';
+import { fetchApi } from '../lib/api';
 
 export default function HomePage() {
+  const [services, setServices] = useState(defaultServices);
+
+  useEffect(() => {
+    async function loadServices() {
+      const res = await fetchApi('/public/services');
+      if (res && res.success && Array.isArray(res.data) && res.data.length > 0) {
+        const mapped = res.data.map((s, idx) => ({
+          id: s.id || `srv-${idx}`,
+          title: s.title,
+          desc: s.description,
+          features: Array.isArray(s.features) ? s.features : [],
+        }));
+        setServices(mapped);
+      }
+    }
+    loadServices();
+  }, []);
   return (
     <>
       {/* HERO SECTION */}
@@ -94,7 +113,7 @@ export default function HomePage() {
           </div>
 
           <div className="services-cards-grid" style={{ marginBottom: 0 }}>
-            {servicesData.map((s) => (
+            {services.map((s) => (
               <div key={s.id} className="service-card">
                 <div className="service-card-icon">
                   <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
