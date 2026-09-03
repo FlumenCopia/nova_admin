@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Campaign Gallery & Prime Hoardings | NOVA INNOVATIONS</title>
+  <meta name="description" content="Explore Nova Innovations' portfolio: myG state campaigns, highway hoardings across Trivandrum, Cochin, Kollam, Palakkad, transit bus branding, and vacant hoardings available across Kerala.">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ================= HEADER & NAVIGATION ================= -->
+  <header class="site-header" id="site-header">
+    <div class="container header-container">
+      <a href="index.html" class="logo-brand" id="brand-logo">
+        <img src="logo.png" alt="Innovations" class="site-brand-logo">
+      </a>
+
+      <nav class="nav-links" id="main-nav">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="about.html" class="nav-link">About Us</a>
+        <a href="https://portfolio-founder-of-nova.vercel.app/" target="_blank" rel="noopener noreferrer" class="nav-link">Founder</a>
+        <a href="services.html" class="nav-link">Services</a>
+        <a href="gallery.html" class="nav-link active">Campaign Gallery</a>
+        <a href="contact.html" class="nav-link">Contact</a>
+      </nav>
+
+      <div class="header-actions">
+        <a href="tel:+919539000640" class="btn-header-contact open-modal-btn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+          Book Hoarding
+        </a>
+        <button class="mobile-menu-btn" id="mobile-toggle" aria-label="Toggle navigation menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Drawer -->
+  <div class="mobile-drawer-overlay"></div>
+  <div class="mobile-nav-drawer">
+    <div class="mobile-drawer-header">
+      <a href="index.html" class="logo-brand">
+        <img src="logo.png" alt="Innovations" class="site-brand-logo">
+      </a>
+      <button class="mobile-drawer-close" aria-label="Close Menu">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+      </button>
+    </div>
+    <a href="index.html" class="nav-link">Home</a>
+    <a href="about.html" class="nav-link">About Us</a>
+    <a href="https://portfolio-founder-of-nova.vercel.app/" target="_blank" rel="noopener noreferrer" class="nav-link">Founder</a>
+    <a href="services.html" class="nav-link">Services</a>
+    <a href="gallery.html" class="nav-link active">Campaign Gallery</a>
+    <a href="contact.html" class="nav-link">Contact</a>
+    <a href="#consultation-modal" class="btn-pill-dark open-modal-btn" style="margin-top: 20px;">Book a Hoarding</a>
+  </div>
+
+  <main>
+    <!-- ================= PAGE HERO ================= -->
+    <section class="page-hero">
+      <div class="container page-hero-container">
+        <nav class="breadcrumbs">
+          <a href="index.html">Home</a>
+          <span>/</span>
+          <span class="current">Campaign Gallery</span>
+        </nav>
+        <span class="page-hero-tag">
+          Executed Campaigns & Vacant Hoardings
+        </span>
+        <h1 class="heading-lg">Campaign Gallery & <span>Prime Hoardings</span></h1>
+        <p class="subheading">Explore real-world outdoor media executions across Kerala — featuring myG highway billboards, pan-Kerala transit bus fleets, town center gantries, and available vacant sites.</p>
+        <div class="page-hero-badges">
+          <span class="hero-pill-badge">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            myG Statewide Portfolio
+          </span>
+          <span class="hero-pill-badge">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            NH 66 & Highway Corridors
+          </span>
+          <span class="hero-pill-badge">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            Vacant Hoardings Ready to Book
+          </span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= CATALOG FILTER & LISTINGS ================= -->
+    <section class="container" style="margin-bottom: 70px;">
+      <!-- Filter Bar -->
+      <div class="gallery-filter-bar">
+        <div class="filter-pills">
+          <button class="filter-btn active" data-filter="all">All Works (500+)</button>
+          <button class="filter-btn" data-filter="hoardings">Prime Hoardings</button>
+          <button class="filter-btn" data-filter="myg">myG Campaigns</button>
+          <button class="filter-btn" data-filter="transit">Bus & Vehicle Transit</button>
+          <button class="filter-btn" data-filter="vacant">Vacant Hoardings Available</button>
+        </div>
+
+        <div style="font-size: 0.92rem; color: var(--text-muted); font-weight: 500;">
+          Showing high-impact outdoor media executions
+        </div>
+      </div>
+
+      <!-- Properties / Campaigns Grid -->
+      <div class="gallery-grid" id="properties-container">
+        <!-- Item 1: Adoor myG -->
+        <div class="property-listing-card" data-category="myg hoardings">
+          <div class="listing-media">
+            <img src="image/adoor myg.webp" alt="myG Adoor Hoarding 35x25" class="listing-img">
+            <span class="listing-badge-type">35x25 Prime</span>
+            <span class="listing-badge-status">Adoor NH</span>
+          </div>
+          <div class="listing-content">
+            <div class="listing-price-row">
+              <span class="listing-price">Adoor Junction</span>
+              <span style="font-size: 0.85rem; color: var(--brand-red); font-weight: 700;">myG Campaign</span>
+            </div>
+            <h3 class="listing-title">Adoor Highway Commercial Billboard</h3>
+            <p class="listing-location">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+              Central Travancore Arterial Highway Junction, Adoor
+            </p>
+            <div class="listing-specs-row">
+              <span class="spec-item">35 x 25 Feet</span>
+              <span class="spec-item">High Retention</span>
+              <span class="spec-item">Heavy Footfall</span>
+            </div>
+            <button class="btn-pill-dark open-modal-btn" data-service="Hoarding - Adoor myG" style="margin-top: 16px; width: 100%; padding: 10px;">Book Similar Hoarding</button>
+          </div>
+        </div>
+
+        <!-- Item 2: myG KSRTC Bus Transit -->
+        <div class="property-listing-card" data-category="myg transit">
+          <div class="listing-media">
+            <img src="image/myG Bus Campaign.webp" alt="myG KSRTC Bus Campaign" class="listing-img">
+            <span class="listing-badge-type">KSRTC Fleet</span>
+            <span class="listing-badge-status">Pan-Kerala</span>
+          </div>
+          <div class="listing-content">
+            <div class="listing-price-row">
+              <span class="listing-price">KSRTC Transit Fleet</span>
+              <span style="font-size: 0.85rem; color: var(--brand-red); font-weight: 700;">Statewide</span>
+            </div>
+            <h3 class="listing-title">myG KSRTC Bus Advertising Campaign</h3>
+            <p class="listing-location">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+              All Major Highway KSRTC Transit Routes Across Kerala
+            </p>
+            <div class="listing-specs-row">
+              <span class="spec-item">Full Body Wrap</span>
+              <span class="spec-item">Continuous Mobility</span>
+              <span class="spec-item">High Reach</span>
+            </div>
+            <button class="btn-pill-dark open-modal-btn" data-service="Transit - myG KSRTC Bus Campaign" style="margin-top: 16px; width: 100%; padding: 10px;">Inquire KSRTC Media</button>
+          </div>
+        </div>
+
+        <!-- Item 3: Ali's Gold Palace -->
+        <div class="property-listing-card" data-category="hoardings">
+          <div class="listing-media">
+            <img src="image/Ali's Gold Palace.webp" alt="Ali's Gold Palace Hoarding" class="listing-img">
+            <span class="listing-badge-type">Prime Billboard</span>
+            <span class="listing-badge-status">Retail Belt</span>
+          </div>
+          <div class="listing-content">
+            <div class="listing-price-row">
+              <span class="listing-price">Ali's Gold Palace</span>
+              <span style="font-size: 0.85rem; color: var(--brand-red); font-weight: 700;">Luxury Brand</span>
+            </div>
+            <h3 class="listing-title">Ali's Gold Palace Prime Billboard</h3>
+            <p class="listing-location">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+              Highway Retail Corridor & Shopping District
+            </p>
+            <div class="listing-specs-row">
+              <span class="spec-item">30 x 20 Feet</span>
+              <span class="spec-item">Front-Lit LED</span>
+              <span class="spec-item">High Impact</span>
+            </div>
+            <button class="btn-pill-dark open-modal-btn" data-service="Hoarding - Ali's Gold Palace" style="margin-top: 16px; width: 100%; padding: 10px;">Book Similar Hoarding</button>
+          </div>
+        </div>
+
+        <!-- Item 4: Palakkad myG -->
+        <div class="property-listing-card" data-category="hoardings myg">
+          <div class="listing-media">
+            <img src="image/palakkad myg.webp" alt="myG Palakkad Hoarding" class="listing-img">
+            <span class="listing-badge-type">30x20 Unipole</span>
+            <span class="listing-badge-status">Palakkad NH</span>
+          </div>
+          <div class="listing-content">
+            <div class="listing-price-row">
+              <span class="listing-price">Palakkad City</span>
+              <span style="font-size: 0.85rem; color: var(--brand-red); font-weight: 700;">myG 2024</span>
+            </div>
+            <h3 class="listing-title">myG Palakkad Highway Hoarding</h3>
+            <p class="listing-location">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+              National Highway Bypass Junction, Palakkad
+            </p>
+            <div class="listing-specs-row">
+              <span class="spec-item">30 x 20 Feet</span>
+              <span class="spec-item">Night Floodlights</span>
+              <span class="spec-item">Unobstructed</span>
+            </div>
+            <button class="btn-pill-dark open-modal-btn" data-service="Hoarding - myG Palakkad" style="margin-top: 16px; width: 100%; padding: 10px;">Book Similar Hoarding</button>
+          </div>
+        </div>
+
+        <!-- Item 5: KSRTC Transit Fleet -->
+        <div class="property-listing-card" data-category="transit">
+          <div class="listing-media">
+            <img src="image/branding bus.webp" alt="KSRTC Bus Branding" class="listing-img">
+            <span class="listing-badge-type">KSRTC Network</span>
+            <span class="listing-badge-status">Fast Transit</span>
+          </div>
+          <div class="listing-content">
+            <div class="listing-price-row">
+              <span class="listing-price">KSRTC Fleet</span>
+              <span style="font-size: 0.85rem; color: var(--brand-red); font-weight: 700;">Transit Wrap</span>
+            </div>
+            <h3 class="listing-title">KSRTC Super Fast Bus Advertising</h3>
+            <p class="listing-location">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+              District Headquarter Transit Express Routes
+            </p>
+            <div class="listing-specs-row">
+              <span class="spec-item">Side & Back Wrap</span>
+              <span class="spec-item">14 Districts</span>
+              <span class="spec-item">Daily 1000s Impressions</span>
+            </div>
+            <button class="btn-pill-dark open-modal-btn" data-service="Transit - KSRTC Fleet" style="margin-top: 16px; width: 100%; padding: 10px;">Inquire KSRTC Media</button>
+          </div>
+        </div>
+
+        <!-- Item 6: Punalur myG -->
+        <div class="property-listing-card" data-category="hoardings myg">
+          <div class="listing-media">
+            <img src="image/punalur myg.webp" alt="myG Punalur Hoarding" class="listing-img">
+            <span class="listing-badge-type">Mega Display</span>
+            <span class="listing-badge-status">Punalur Hub</span>
+          </div>
+          <div class="listing-content">
+            <div class="listing-price-row">
+              <span class="listing-price">Punalur Town</span>
+              <span style="font-size: 0.85rem; color: var(--brand-red); font-weight: 700;">Commercial Belt</span>
+            </div>
+            <h3 class="listing-title">myG Punalur Town Center Display</h3>
+            <p class="listing-location">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+              TB Junction, Punalur Commercial Hub
+            </p>
+            <div class="listing-specs-row">
+              <span class="spec-item">30 x 20 Feet</span>
+              <span class="spec-item">Town Center</span>
+              <span class="spec-item">High Retention</span>
+            </div>
+            <button class="btn-pill-dark open-modal-btn" data-service="Hoarding - myG Punalur" style="margin-top: 16px; width: 100%; padding: 10px;">Book Similar Hoarding</button>
+          </div>
+        </div>
+
+        <!-- Item 7: Pathanamthitta myG -->
+        <div class="property-listing-card" data-category="hoardings myg">
+          <div class="listing-media">
+            <img src="image/pathanamthitta myg.webp" alt="myG Pathanamthitta Hoarding" class="listing-img">
+            <span class="listing-badge-type">Prime Billboard</span>
+            <span class="listing-badge-status">Pathanamthitta</span>
+          </div>
+          <div class="listing-content">
+            <div class="listing-price-row">
+              <span class="listing-price">Central Junction</span>
+              <span style="font-size: 0.85rem; color: var(--brand-red); font-weight: 700;">myG Campaign</span>
+            </div>
+            <h3 class="listing-title">myG Pathanamthitta Prime Billboard</h3>
+            <p class="listing-location">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+              Pathanamthitta Ring Road & Main Town Junction
+            </p>
+            <div class="listing-specs-row">
+              <span class="spec-item">30 x 20 Feet</span>
+              <span class="spec-item">Weatherproof Flex</span>
+              <span class="spec-item">Illuminated</span>
+            </div>
+            <button class="btn-pill-dark open-modal-btn" data-service="Hoarding - Pathanamthitta" style="margin-top: 16px; width: 100%; padding: 10px;">Book Similar Hoarding</button>
+          </div>
+        </div>
+
+        <!-- Item 8: Ali's Gold Palace 2 -->
+        <div class="property-listing-card" data-category="hoardings">
+          <div class="listing-media">
+            <img src="image/Ali's Gold Palace1.webp" alt="Ali's Gold Palace Facade" class="listing-img">
+            <span class="listing-badge-type">Retail Facade</span>
+            <span class="listing-badge-status">Showcase</span>
+          </div>
+          <div class="listing-content">
+            <div class="listing-price-row">
+              <span class="listing-price">Ali's Gold Palace II</span>
+              <span style="font-size: 0.85rem; color: var(--brand-red); font-weight: 700;">Outdoor Media</span>
+            </div>
+            <h3 class="listing-title">Ali's Gold Palace Retail Facade</h3>
+            <p class="listing-location">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+              High Street Jewellery Showcase & Outdoor Media
+            </p>
+            <div class="listing-specs-row">
+              <span class="spec-item">Custom Signage</span>
+              <span class="spec-item">LED Glow</span>
+              <span class="spec-item">Premium Finish</span>
+            </div>
+            <button class="btn-pill-dark open-modal-btn" data-service="Retail - Ali's Gold Palace" style="margin-top: 16px; width: 100%; padding: 10px;">Inquire Retail Branding</button>
+          </div>
+        </div>
+
+        <!-- Item 9: KSRTC Intercity Bus -->
+        <div class="property-listing-card" data-category="transit">
+          <div class="listing-media">
+            <img src="image/branding bus1.webp" alt="KSRTC Intercity Bus Branding" class="listing-img">
+            <span class="listing-badge-type">KSRTC Intercity</span>
+            <span class="listing-badge-status">Fast Passenger / Swift</span>
+          </div>
+          <div class="listing-content">
+            <div class="listing-price-row">
+              <span class="listing-price">KSRTC Intercity Bus</span>
+              <span style="font-size: 0.85rem; color: var(--brand-red); font-weight: 700;">Transit Media</span>
+            </div>
+            <h3 class="listing-title">KSRTC Intercity Route Bus Branding</h3>
+            <p class="listing-location">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+              Major KSRTC Inter-District Highway Routes (NH 66 & NH 544)
+            </p>
+            <div class="listing-specs-row">
+              <span class="spec-item">Double Side Panels</span>
+              <span class="spec-item">High Frequency</span>
+              <span class="spec-item">14 Districts</span>
+            </div>
+            <button class="btn-pill-dark open-modal-btn" data-service="Transit - KSRTC Intercity Bus" style="margin-top: 16px; width: 100%; padding: 10px;">Inquire KSRTC Bus Media</button>
+          </div>
+        </div>
+
+        <!-- Item 10: KSRTC City Route Bus -->
+        <div class="property-listing-card" data-category="transit">
+          <div class="listing-media">
+            <img src="image/branding bus2.webp" alt="KSRTC Route Bus Branding" class="listing-img">
+            <span class="listing-badge-type">KSRTC Ordinary</span>
+            <span class="listing-badge-status">City Route Fleet</span>
+          </div>
+          <div class="listing-content">
+            <div class="listing-price-row">
+              <span class="listing-price">KSRTC City Transit</span>
+              <span style="font-size: 0.85rem; color: var(--brand-red); font-weight: 700;">Mobile Media</span>
+            </div>
+            <h3 class="listing-title">KSRTC Route Bus Advertising Campaign</h3>
+            <p class="listing-location">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+              High-Density KSRTC City & Suburban Commuter Routes
+            </p>
+            <div class="listing-specs-row">
+              <span class="spec-item">Side Panel Wrap</span>
+              <span class="spec-item">All-Weather Vinyl</span>
+              <span class="spec-item">Rapid Deployment</span>
+            </div>
+            <button class="btn-pill-dark open-modal-btn" data-service="Transit - KSRTC Route Bus" style="margin-top: 16px; width: 100%; padding: 10px;">Inquire KSRTC Bus Media</button>
+          </div>
+        </div>
+
+        <!-- Item 11: Other Media - Prime Unipole -->
+        <div class="property-listing-card" data-category="hoardings vacant">
+          <div class="listing-media">
+            <img src="image/other media.webp" alt="Prime Highway Unipole" class="listing-img">
+            <span class="listing-badge-type">Unipole Hoarding</span>
+            <!-- <span class="listing-badge-status" style="background: #22c55e; color: #ffffff;">VACANT NOW</span>+ -->
+          </div>
+          <div class="listing-content">
+            <div class="listing-price-row">
+              <span class="listing-price">Prime Unipole </span>
+              <!-- <span style="font-size: 0.85rem; color: #16a34a; font-weight: 800;">AVAILABLE</span> -->
+            </div>
+            <h3 class="listing-title">Highway Unipole Structure</h3>
+            <p class="listing-location">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+              NH Corridor Prime Junction Entry
+            </p>
+            <div class="listing-specs-row">
+              <span class="spec-item">40 x 20 Feet</span>
+              <span class="spec-item">Illuminated</span>
+              <span class="spec-item">Immediate Mounting</span>
+            </div>
+            <button class="btn-pill-dark open-modal-btn" data-service="Vacant Hoarding - Unipole" style="margin-top: 16px; width: 100%; padding: 10px;">Reserve This Space</button>
+          </div>
+        </div>
+
+        <!-- Item 12: Other Media 1 - Junction Billboard -->
+        <div class="property-listing-card" data-category="hoardings vacant">
+          <div class="listing-media">
+            <img src="image/other media1.webp" alt="Arterial Junction Billboard" class="listing-img">
+            <span class="listing-badge-type">Junction Display</span>
+            <!-- <span class="listing-badge-status" style="background: #22c55e; color: #ffffff;">VACANT NOW</span> -->
+          </div>
+          <div class="listing-content">
+            <div class="listing-price-row">
+              <span class="listing-price">Arterial Junction</span>
+              <!-- <span style="font-size: 0.85rem; color: #16a34a; font-weight: 800;">AVAILABLE</span> -->
+            </div>
+            <h3 class="listing-title">Arterial Junction Prime Billboard</h3>
+            <p class="listing-location">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+              Multi-Directional Traffic Intersection
+            </p>
+            <div class="listing-specs-row">
+              <span class="spec-item">30 x 15 Feet</span>
+              <span class="spec-item">Front-Lit</span>
+              <span class="spec-item">Heavy Commute</span>
+            </div>
+            <button class="btn-pill-dark open-modal-btn" data-service="Vacant Hoarding - Junction" style="margin-top: 16px; width: 100%; padding: 10px;">Reserve This Space</button>
+          </div>
+        </div>
+
+        <!-- Item 13: Other Media 2 - City Gantry -->
+        <div class="property-listing-card" data-category="hoardings vacant">
+          <div class="listing-media">
+            <img src="image/other media2.webp" alt="City Gantry Structure" class="listing-img">
+            <span class="listing-badge-type">Gantry Structure</span>
+            <!-- <span class="listing-badge-status" style="background: #22c55e; color: #ffffff;">VACANT NOW</span> -->
+          </div>
+          <div class="listing-content">
+            <div class="listing-price-row">
+              <span class="listing-price">City Gantry</span>
+              <!-- <span style="font-size: 0.85rem; color: #16a34a; font-weight: 800;">AVAILABLE</span> -->
+            </div>
+            <h3 class="listing-title">City Centre Highway Gantry</h3>
+            <p class="listing-location">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+              Overhead Highway Span with 100% Eye-Level Visibility
+            </p>
+            <div class="listing-specs-row">
+              <span class="spec-item">45 x 20 Feet</span>
+              <span class="spec-item">LED Floodlights</span>
+              <span class="spec-item">Overhead Gantry</span>
+            </div>
+            <button class="btn-pill-dark open-modal-btn" data-service="Vacant Hoarding - Gantry" style="margin-top: 16px; width: 100%; padding: 10px;">Reserve This Space</button>
+          </div>
+        </div>
+
+        <!-- Item 14: Other Media 3 - Mega Gantry -->
+        <div class="property-listing-card" data-category="hoardings vacant">
+          <div class="listing-media">
+            <img src="image/other media3.webp" alt="National Highway Mega Gantry" class="listing-img">
+            <span class="listing-badge-type">Mega Gantry</span>
+            <!-- <span class="listing-badge-status" style="background: #22c55e; color: #ffffff;">VACANT NOW</span> -->
+          </div>
+          <div class="listing-content">
+            <div class="listing-price-row">
+              <span class="listing-price">Mega Gantry </span>
+              <!-- <span style="font-size: 0.85rem; color: #16a34a; font-weight: 800;">AVAILABLE</span> -->
+            </div>
+            <h3 class="listing-title">National Highway Outer Ring Gantry</h3>
+            <p class="listing-location">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+              Four-lane Highway Corridor & Bypass Span
+            </p>
+            <div class="listing-specs-row">
+              <span class="spec-item">50 x 25 Feet</span>
+              <span class="spec-item">High Visual Impact</span>
+              <span class="spec-item">Immediate Mounting</span>
+            </div>
+            <button class="btn-pill-dark open-modal-btn" data-service="Vacant Hoarding - Mega Gantry" style="margin-top: 16px; width: 100%; padding: 10px;">Reserve This Space</button>
+          </div>
+        </div>
+
+        <!-- Item 15: Other Media 4 - Commercial Display -->
+        <div class="property-listing-card" data-category="hoardings vacant">
+          <div class="listing-media">
+            <img src="image/other media4.webp" alt="Commercial Corridor Display" class="listing-img">
+            <span class="listing-badge-type">Cantilever</span>
+            <!-- <span class="listing-badge-status" style="background: #22c55e; color: #ffffff;">VACANT NOW</span> -->
+          </div>
+          <div class="listing-content">
+            <div class="listing-price-row">
+              <span class="listing-price">Commercial Corridor </span>
+              <!-- <span style="font-size: 0.85rem; color: #16a34a; font-weight: 800;">AVAILABLE</span> -->
+            </div>
+            <h3 class="listing-title">Commercial Corridor Display Billboard</h3>
+            <p class="listing-location">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+              Prime Business Sector & Shopping Hub
+            </p>
+            <div class="listing-specs-row">
+              <span class="spec-item">35 x 15 Feet</span>
+              <span class="spec-item">Day & Night Lit</span>
+              <span class="spec-item">Prime Placement</span>
+            </div>
+            <button class="btn-pill-dark open-modal-btn" data-service="Vacant Hoarding - Commercial Corridor" style="margin-top: 16px; width: 100%; padding: 10px;">Reserve This Space</button>
+          </div>
+        </div>
+
+        <!-- Item 16: Other Media 5 - Brand Network -->
+        <div class="property-listing-card" data-category="hoardings vacant">
+          <div class="listing-media">
+            <img src="image/other media5.webp" alt="Statewide Brand Hoarding Network" class="listing-img">
+            <span class="listing-badge-type">Statewide Network</span>
+            <!-- <span class="listing-badge-status" style="background: #22c55e; color: #ffffff;">VACANT NOW</span> -->
+          </div>
+          <div class="listing-content">
+            <div class="listing-price-row">
+              <span class="listing-price">Highway Network </span>
+              <!-- <span style="font-size: 0.85rem; color: #16a34a; font-weight: 800;">AVAILABLE</span> -->
+            </div>
+            <h3 class="listing-title">Statewide Strategic Overhead Hoarding</h3>
+            <p class="listing-location">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+              Strategic Highway Junction & Toll Approach
+            </p>
+            <div class="listing-specs-row">
+              <span class="spec-item">40 x 25 Feet</span>
+              <span class="spec-item">High Retention</span>
+              <span class="spec-item">Overnight Mounting</span>
+            </div>
+            <button class="btn-pill-dark open-modal-btn" data-service="Vacant Hoarding - Strategic Overhead" style="margin-top: 16px; width: 100%; padding: 10px;">Reserve This Space</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= CTA BANNER ================= -->
+    <section class="cta-banner-section">
+      <div class="container">
+        <div class="cta-banner-card">
+          <div class="cta-banner-content">
+            <h3 class="cta-banner-title">Need a specific district or vacant hoarding list?</h3>
+            <p class="cta-banner-subtitle">We have over 500+ prime outdoor locations across Trivandrum, Cochin, Kollam, Palakkad, Kozhikode, and Pathanamthitta.</p>
+          </div>
+          <div class="cta-actions">
+            <a href="tel:+919539000640" class="btn-pill-white">Call: +91 9539000640</a>
+            <a href="contact.html" class="btn-pill-dark" style="border: 1px solid rgba(255,255,255,0.2);">Contact Offices</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-top-grid">
+        <div class="footer-brand-col">
+          <a href="index.html" class="logo-brand">
+            <img src="logo.png" alt="Innovations" class="footer-brand-logo">
+          </a>
+          <p class="footer-about-text">
+            <strong>NOVA INNOVATIONS</strong> — Outdoors • Design Studio • Events. Kerala's premier advertising agency with 27+ years of experience in outdoor hoardings, transit vehicle branding, retail signage, and corporate events.
+          </p>
+        </div>
+
+        <div>
+          <h4 class="footer-col-title">Navigation</h4>
+          <ul class="footer-links-list">
+            <li><a href="index.html" class="footer-link">Home</a></li>
+            <li><a href="about.html" class="footer-link">About Us</a></li>
+            <li><a href="services.html" class="footer-link">Our Services</a></li>
+            <li><a href="gallery.html" class="footer-link">Campaign Gallery</a></li>
+            <li><a href="contact.html" class="footer-link">Contact & Locations</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="footer-col-title">Our Services</h4>
+          <ul class="footer-links-list">
+            <li><a href="services.html" class="footer-link">Outdoor Hoardings (Billboards & Unipoles)</a></li>
+            <li><a href="services.html" class="footer-link">Vehicle & KSRTC Bus Advertising</a></li>
+            <li><a href="services.html" class="footer-link">Shop & Showroom Branding</a></li>
+            <li><a href="services.html" class="footer-link">Event Branding & Exhibition Stalls</a></li>
+            <li><a href="services.html" class="footer-link">Commercial Wall Paintings</a></li>
+            <li><a href="services.html" class="footer-link">Design Studio & Flex Printing</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="footer-col-title">Contact Nova</h4>
+          <p class="footer-newsletter-text" style="line-height: 1.6; margin-bottom: 12px;">
+            <strong>Head Office:</strong> T.C 26/929(2), C.K. Tower, Panavila Jn., Thiruvananthapuram - 695001<br>
+            <strong>Phone:</strong> +91 95390 00640, 95263 64446<br>
+            <strong>Email:</strong> novainnovations2020@gmail.com
+          </p>
+          <form class="newsletter-form">
+            <input type="text" class="newsletter-input" placeholder="Your Phone or Email..." required>
+            <button type="submit" class="newsletter-btn">Request Call</button>
+          </form>
+        </div>
+      </div>
+
+      <div class="footer-bottom-row">
+        <p>&copy; 2026 NOVA Innovations (Outdoors • Design Studio • Events). All Rights Reserved. www.novainnovations.in</p>
+        <div class="footer-bottom-links">
+          <a href="tel:+919539000640" class="footer-link">+91 9539000640</a>
+          <a href="mailto:novainnovations2020@gmail.com" class="footer-link">novainnovations2020@gmail.com</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Lightbox Modal -->
+  <div class="lightbox-modal" id="lightbox-modal">
+    <div class="lightbox-img-wrap">
+      <span class="lightbox-close">&times;</span>
+      <img src="" alt="Campaign Preview" id="lightbox-img" class="lightbox-img">
+    </div>
+  </div>
+
+  <!-- Modal & Toast -->
+  <div class="modal-overlay" id="consultation-modal">
+    <div class="modal-card">
+      <button class="modal-close-btn">&times;</button>
+      <div class="modal-header">
+        <h3 class="modal-title">Book Hoardings / Inquiry</h3>
+        <p class="modal-subtitle">Our team will provide detailed site specifications, traffic data, and campaign rates.</p>
+      </div>
+      <form id="lead-consultation-form">
+        <div class="form-group">
+          <label class="form-label" for="modal-name">Full Name / Company</label>
+          <input type="text" id="modal-name" class="form-input" placeholder="e.g. Rahul Sharma (myG)" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="modal-phone">Phone Number</label>
+          <input type="tel" id="modal-phone" class="form-input" placeholder="+91 95390 00000" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="modal-property-type">Campaign / Location of Interest</label>
+          <input type="text" id="modal-property-type" class="form-input" value="General Hoarding Inquiry">
+        </div>
+        <button type="submit" class="btn-form-submit">Confirm Inquiry</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="toast-box" id="toast-notification">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+    <span id="toast-message">Your campaign inquiry has been received!</span>
+  </div>
+
+  <script src="main.js"></script>
+</body>
+</html>

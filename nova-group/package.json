@@ -1,11 +1,11 @@
 {
-  "name": "nova-admin-frontend",
+  "name": "nova-web",
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "next dev -p 3001 --turbo",
+    "dev": "next dev",
     "build": "next build",
-    "start": "next start -p 3001",
+    "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
