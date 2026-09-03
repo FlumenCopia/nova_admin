@@ -109,11 +109,22 @@ export default function Sidebar({ isOpen, onClose }) {
   return (
     <>
       <aside className={`admin-sidebar ${isOpen ? 'open' : ''}`}>
-        <div className="sidebar-header" style={{ gap: '10px' }}>
-          <img src="/logo.png" alt="Nova Innovations" style={{ height: '34px', width: 'auto', objectFit: 'contain' }} />
-          <span style={{ fontWeight: 800, fontSize: '0.8rem', color: 'var(--color-primary)', background: 'var(--color-primary-soft)', padding: '3px 8px', borderRadius: '4px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-            Admin
-          </span>
+        <div className="sidebar-header" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+            <img src="/logo.png" alt="Nova Innovations" style={{ height: '32px', width: 'auto', objectFit: 'contain' }} />
+            <span style={{ fontWeight: 800, fontSize: '0.75rem', color: 'var(--color-primary)', background: 'var(--color-primary-soft)', padding: '2px 8px', borderRadius: '4px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+              Admin
+            </span>
+          </div>
+
+          <button
+            type="button"
+            className="sidebar-close-btn"
+            onClick={onClose}
+            aria-label="Close sidebar menu"
+          >
+            ✕
+          </button>
         </div>
 
         <nav className="sidebar-nav">
