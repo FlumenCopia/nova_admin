@@ -78,6 +78,17 @@ export default function MobileDrawer({ isOpen, onClose, onOpenModal }) {
         >
           Book a Hoarding
         </button>
+
+        <a
+          href="http://localhost:3001"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="nav-link"
+          style={{ marginTop: '12px', textAlign: 'center', opacity: 0.75, fontSize: '0.85rem' }}
+          onClick={onClose}
+        >
+          Admin Portal ↗
+        </a>
       </div>
     </>
   );

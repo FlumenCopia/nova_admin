@@ -56,11 +56,11 @@ export default function LeadershipSection() {
             </div>
 
             <div className="leadership-actions">
-              <a href="tel:+919539000640" className="btn-leadership-phone" style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+              <a href="tel:+919539000640" className="btn-leadership-phone">
                 <Phone size={15} strokeWidth={2.2} />
                 Call Founder: +91 9539000640
               </a>
-              <Link href="/contact" className="btn-leadership-contact" style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+              <Link href="/contact" className="btn-leadership-contact">
                 Connect with Director <ArrowRight size={15} />
               </Link>
             </div>
