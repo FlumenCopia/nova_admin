@@ -159,15 +159,32 @@ export default function GalleryGrid({ onOpenModal }) {
                 </span>
               </div>
 
-              <h3 className="listing-title">{item.title}</h3>
+              <h3 className="listing-title" title={item.title}>{item.title}</h3>
 
               <ul className="listing-specs">
-                {item.specs.map((spec, sIdx) => (
-                  <li key={sIdx} className="spec-item">
-                    <Check size={14} strokeWidth={2.5} style={{ flexShrink: 0 }} />
-                    {spec}
-                  </li>
-                ))}
+                {item.specs && item.specs.length > 0 ? (
+                  item.specs.slice(0, 3).map((spec, sIdx) => (
+                    <li key={sIdx} className="spec-item">
+                      <Check size={14} strokeWidth={2.5} style={{ flexShrink: 0, color: 'var(--brand-green, #529621)' }} />
+                      <span>{spec}</span>
+                    </li>
+                  ))
+                ) : (
+                  <>
+                    <li className="spec-item">
+                      <Check size={14} strokeWidth={2.5} style={{ flexShrink: 0, color: 'var(--brand-green, #529621)' }} />
+                      <span>Prime Visibility Corridor</span>
+                    </li>
+                    <li className="spec-item">
+                      <Check size={14} strokeWidth={2.5} style={{ flexShrink: 0, color: 'var(--brand-green, #529621)' }} />
+                      <span>High Traffic Arterial Site</span>
+                    </li>
+                    <li className="spec-item">
+                      <Check size={14} strokeWidth={2.5} style={{ flexShrink: 0, color: 'var(--brand-green, #529621)' }} />
+                      <span>24/7 Illumination Available</span>
+                    </li>
+                  </>
+                )}
               </ul>
 
               <div className="listing-actions">

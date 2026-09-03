@@ -1813,17 +1813,18 @@ ul {
 }
 
 .listing-content {
-  padding: 20px;
+  padding: 22px;
   display: flex;
   flex-direction: column;
   flex: 1;
 }
 
 .listing-price-row {
+  height: 38px;
   display: flex;
-  align-items: baseline;
-  justify-content: space-between;
+  align-items: flex-start;
   margin-bottom: 6px;
+  overflow: hidden;
 }
 
 .listing-price {
@@ -1831,40 +1832,78 @@ ul {
   font-weight: 700;
   color: var(--brand-red);
   line-height: 1.35;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .listing-title {
   font-size: 1.15rem;
-  font-weight: 700;
-  margin-bottom: 6px;
+  font-weight: 800;
   color: #11141a;
+  line-height: 1.35;
+  height: 48px;
+  margin-bottom: 14px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
-.listing-location {
-  font-size: 0.88rem;
-  color: var(--text-muted);
+.listing-specs {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 16px 0;
   display: flex;
-  align-items: center;
-  gap: 6px;
-  margin-bottom: 16px;
-}
-
-.listing-specs-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding-top: 14px;
-  border-top: 1px solid var(--border-color);
-  font-size: 0.85rem;
-  color: #4b5563;
-  margin-top: auto;
+  flex-direction: column;
+  gap: 8px;
+  height: 84px;
+  overflow: hidden;
 }
 
 .spec-item {
   display: flex;
   align-items: center;
-  gap: 6px;
-  font-weight: 600;
+  gap: 8px;
+  font-size: 0.84rem;
+  color: #4b5563;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.listing-actions {
+  margin-top: auto;
+  padding-top: 14px;
+  border-top: 1px solid var(--border-color, #f1f5f9);
+  width: 100%;
+}
+
+.btn-card-action {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 10px 16px;
+  background: var(--brand-red-light, rgba(216, 35, 42, 0.08));
+  color: var(--brand-red, #d8232a);
+  border: 1px solid var(--brand-red-border, rgba(216, 35, 42, 0.25));
+  border-radius: 50px;
+  font-size: 0.88rem;
+  font-weight: 700;
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.25s ease;
+}
+
+.btn-card-action:hover {
+  background: var(--brand-red, #d8232a);
+  color: #ffffff;
+  border-color: var(--brand-red, #d8232a);
+  box-shadow: 0 4px 14px rgba(216, 35, 42, 0.3);
+  transform: translateY(-1px);
 }
 
 /* Lightbox Modal */
