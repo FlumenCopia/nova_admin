@@ -74,7 +74,6 @@ export default function AboutPage() {
           </div>
         </div>
       </section>
-
       {/* THREE PILLARS */}
       <section className="timeline-section" style={{ background: 'var(--bg-secondary)', padding: '70px 0' }}>
         <div className="container">
