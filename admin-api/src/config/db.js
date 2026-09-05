@@ -30,6 +30,52 @@ const isReplicaSetError = (err) => {
   return err.code === 'P2031' || (err.message && (err.message.includes('replica set') || err.message.includes('transactions')));
 };
 
+const escapeRegex = (str) => {
+  if (typeof str !== 'string') return '';
+  return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+};
+
+const translatePortfolioWhere = (where = {}) => {
+  if (!where || typeof where !== 'object') return {};
+  const mongoWhere = {};
+
+  if (typeof where.isActive === 'boolean') {
+    mongoWhere.isActive = where.isActive;
+  }
+  if (typeof where.isVacant === 'boolean') {
+    mongoWhere.isVacant = where.isVacant;
+  }
+  if (where.category) {
+    if (typeof where.category === 'string') {
+      mongoWhere.category = where.category;
+    } else if (where.category.contains) {
+      const escaped = escapeRegex(String(where.category.contains).slice(0, 100));
+      mongoWhere.category = { $regex: escaped, $options: 'i' };
+    }
+  }
+  if (where.title) {
+    if (typeof where.title === 'string') {
+      mongoWhere.title = where.title;
+    } else if (where.title.contains) {
+      const escaped = escapeRegex(String(where.title.contains).slice(0, 100));
+      mongoWhere.title = { $regex: escaped, $options: 'i' };
+    }
+  }
+  if (where.location) {
+    if (typeof where.location === 'string') {
+      mongoWhere.location = where.location;
+    } else if (where.location.contains) {
+      const escaped = escapeRegex(String(where.location.contains).slice(0, 100));
+      mongoWhere.location = { $regex: escaped, $options: 'i' };
+    }
+  }
+  if (Array.isArray(where.OR)) {
+    mongoWhere.$or = where.OR.map((item) => translatePortfolioWhere(item)).filter(Boolean);
+  }
+
+  return mongoWhere;
+};
+
 // Safe DB Abstraction supporting both Prisma and Standalone MongoDB
 const safeDb = {
   admin: {
@@ -109,7 +155,13 @@ const safeDb = {
       } catch (err) {
         if (isReplicaSetError(err)) {
           const db = await getNativeDb();
-          const docData = { ...data, createdAt: new Date(), updatedAt: new Date() };
+          const docData = {
+            ...data,
+            source: data.source || 'Website Form',
+            status: data.status || 'NEW',
+            createdAt: new Date(),
+            updatedAt: new Date()
+          };
           const res = await db.collection('Enquiry').insertOne(docData);
           return { id: res.insertedId.toString(), ...docData };
         }
@@ -161,11 +213,43 @@ const safeDb = {
       } catch (err) {
         if (isReplicaSetError(err)) {
           const db = await getNativeDb();
-          let cursor = db.collection('PortfolioItem').find(args.where || {}).sort({ createdAt: -1 });
-          if (args.skip) cursor = cursor.skip(args.skip);
-          if (args.take) cursor = cursor.limit(args.take);
+          const where = translatePortfolioWhere(args.where);
+          let cursor = db.collection('PortfolioItem').find(where);
+
+          if (args.orderBy) {
+            const allowedSortFields = ['createdAt', 'updatedAt', 'title', 'category', 'location', 'order'];
+            const sortObj = {};
+            for (const [k, v] of Object.entries(args.orderBy)) {
+              if (allowedSortFields.includes(k)) {
+                sortObj[k] = v === 'asc' ? 1 : -1;
+              }
+            }
+            cursor = cursor.sort(Object.keys(sortObj).length > 0 ? sortObj : { createdAt: -1 });
+          } else {
+            cursor = cursor.sort({ createdAt: -1 });
+          }
+
+          if (typeof args.skip === 'number' && args.skip > 0) {
+            cursor = cursor.skip(args.skip);
+          }
+          if (typeof args.take === 'number' && args.take > 0) {
+            cursor = cursor.limit(args.take);
+          }
+
           const docs = await cursor.toArray();
           return docs.map(formatDoc);
+        }
+        throw err;
+      }
+    },
+    count: async (args = {}) => {
+      try {
+        return await prisma.portfolioItem.count(args);
+      } catch (err) {
+        if (isReplicaSetError(err)) {
+          const db = await getNativeDb();
+          const where = translatePortfolioWhere(args.where);
+          return await db.collection('PortfolioItem').countDocuments(where);
         }
         throw err;
       }
@@ -348,14 +432,6 @@ const safeDb = {
   siteSettings: {
     findFirst: async () => {
       try {
-        let doc = await prisma.siteSettings.findFirst();
-        if (doc) {
-          doc.heroBannerUrl = doc.heroBannerUrl || '/mainhero1.png';
-          doc.heroTitle = doc.heroTitle || 'INNOVATIONS THAT\nHALLMARKS YOUR BRAND';
-          doc.heroSubtitle = doc.heroSubtitle || 'Outdoors • Design Studio • Events — Prime hoardings, branding & overnight campaign execution across Kerala.';
-        }
-        return doc;
-      } catch (err) {
         const db = await getNativeDb();
         const doc = await db.collection('SiteSettings').findOne({});
         const formatted = formatDoc(doc);
@@ -365,33 +441,29 @@ const safeDb = {
           formatted.heroSubtitle = formatted.heroSubtitle || 'Outdoors • Design Studio • Events — Prime hoardings, branding & overnight campaign execution across Kerala.';
         }
         return formatted;
+      } catch (err) {
+        return await prisma.siteSettings.findFirst();
       }
     },
     create: async ({ data }) => {
-      try {
-        return await prisma.siteSettings.create({ data });
-      } catch (err) {
-        const db = await getNativeDb();
-        const docData = {
-          heroBannerUrl: '/mainhero1.png',
-          heroTitle: 'INNOVATIONS THAT\nHALLMARKS YOUR BRAND',
-          heroSubtitle: 'Outdoors • Design Studio • Events — Prime hoardings, branding & overnight campaign execution across Kerala.',
-          ...data,
-          updatedAt: new Date()
-        };
-        const res = await db.collection('SiteSettings').insertOne(docData);
-        return { id: res.insertedId.toString(), ...docData };
-      }
+      const db = await getNativeDb();
+      const docData = {
+        heroBannerUrl: '/mainhero1.png',
+        heroTitle: 'INNOVATIONS THAT\nHALLMARKS YOUR BRAND',
+        heroSubtitle: 'Outdoors • Design Studio • Events — Prime hoardings, branding & overnight campaign execution across Kerala.',
+        ...data,
+        updatedAt: new Date()
+      };
+      const res = await db.collection('SiteSettings').insertOne(docData);
+      return { id: res.insertedId.toString(), ...docData };
     },
     update: async ({ where, data }) => {
-      try {
-        return await prisma.siteSettings.update({ where, data });
-      } catch (err) {
-        const db = await getNativeDb();
-        await db.collection('SiteSettings').updateOne({ _id: new ObjectId(where.id) }, { $set: { ...data, updatedAt: new Date() } });
-        const updated = await db.collection('SiteSettings').findOne({ _id: new ObjectId(where.id) });
-        return formatDoc(updated);
-      }
+      const db = await getNativeDb();
+      const targetId = where.id ? new ObjectId(where.id) : (where._id ? new ObjectId(where._id) : null);
+      const filter = targetId ? { _id: targetId } : {};
+      await db.collection('SiteSettings').updateOne(filter, { $set: { ...data, updatedAt: new Date() } });
+      const updated = await db.collection('SiteSettings').findOne(filter);
+      return formatDoc(updated);
     },
   },
 };

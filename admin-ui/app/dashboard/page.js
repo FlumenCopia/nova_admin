@@ -70,8 +70,8 @@ export default function DashboardOverviewPage() {
         </div>
 
         <div className="page-header-actions">
-          <Link href="/dashboard/portfolio?action=create" className="btn-primary">
-            + Add Hoarding
+          <Link href="/dashboard/gallery" className="btn-primary">
+            + Add Campaign Media
           </Link>
           <Link href="/dashboard/clients" className="btn-secondary">
             + Add Client Logo
@@ -107,7 +107,7 @@ export default function DashboardOverviewPage() {
         />
 
         <StatsCard
-          title="Total Portfolio Hoardings"
+          title="Total Gallery Campaigns"
           value={portfolioStats.total}
           subtitle="Billboards & Transit wraps"
           highlightColor="var(--brand-red)"

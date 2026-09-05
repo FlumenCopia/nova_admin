@@ -10,8 +10,12 @@ export default function RootPage() {
   useEffect(() => {
     async function checkAuth() {
       try {
-        await apiRequest('/admin/auth/me');
-        router.push('/dashboard');
+        const res = await apiRequest('/admin/auth/me');
+        if (res && res.success) {
+          router.push('/dashboard');
+        } else {
+          router.push('/login');
+        }
       } catch (err) {
         router.push('/login');
       }

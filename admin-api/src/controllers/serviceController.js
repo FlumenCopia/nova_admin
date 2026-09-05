@@ -1,4 +1,5 @@
 const db = require('../config/db');
+const { isValidObjectId } = require('../middleware/validateObjectId');
 
 const getPublicServices = async (req, res) => {
   try {
@@ -63,6 +64,10 @@ const createService = async (req, res) => {
 const updateService = async (req, res) => {
   try {
     const { id } = req.params;
+    if (!isValidObjectId(id)) {
+      return res.status(400).json({ success: false, message: 'Invalid identifier format. Must be a 24-character hexadecimal ObjectId.' });
+    }
+
     const { title, subtitle, icon, description, features, order, isActive } = req.body;
 
     const existing = await db.service.findUnique({ where: { id } });
@@ -96,7 +101,7 @@ const updateService = async (req, res) => {
       data: updated,
     });
   } catch (error) {
-    console.error('Update service error:', error);
+    console.error('Update service error:', error.message || error);
     return res.status(500).json({ success: false, message: 'Failed to update service.' });
   }
 };
@@ -104,6 +109,10 @@ const updateService = async (req, res) => {
 const deleteService = async (req, res) => {
   try {
     const { id } = req.params;
+    if (!isValidObjectId(id)) {
+      return res.status(400).json({ success: false, message: 'Invalid identifier format. Must be a 24-character hexadecimal ObjectId.' });
+    }
+
     const existing = await db.service.findUnique({ where: { id } });
     if (!existing) {
       return res.status(404).json({ success: false, message: 'Service not found.' });
@@ -112,7 +121,7 @@ const deleteService = async (req, res) => {
     await db.service.delete({ where: { id } });
     return res.status(200).json({ success: true, message: 'Service deleted successfully.' });
   } catch (error) {
-    console.error('Delete service error:', error);
+    console.error('Delete service error:', error.message || error);
     return res.status(500).json({ success: false, message: 'Failed to delete service.' });
   }
 };

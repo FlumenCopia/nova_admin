@@ -1,11 +1,11 @@
 'use client';
 
-import { useState, Suspense } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { apiRequest } from '../../lib/api';
 
 function LoginForm() {
-  const [email, setEmail] = useState('admin@novainnovations.in');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -13,19 +13,38 @@ function LoginForm() {
   const searchParams = useSearchParams();
   const isLoggedOut = searchParams.get('logout') === 'success';
 
+  useEffect(() => {
+    async function checkExistingAuth() {
+      try {
+        const res = await apiRequest('/admin/auth/me');
+        if (res && res.success) {
+          router.push('/dashboard');
+        }
+      } catch (err) {
+        // Not authenticated, stay on login page
+      }
+    }
+    checkExistingAuth();
+  }, [router]);
+
   const handleLogin = async (e) => {
     e.preventDefault();
+    if (loading) return;
     setLoading(true);
     setError('');
 
     try {
-      await apiRequest('/admin/auth/login', {
+      const res = await apiRequest('/admin/auth/login', {
         method: 'POST',
         body: JSON.stringify({ email, password }),
       });
-      router.push('/dashboard');
+      if (res && res.success) {
+        router.push('/dashboard');
+      } else {
+        setError(res?.message || 'Invalid email or password.');
+      }
     } catch (err) {
-      setError(err.message || 'Login failed. Please check your credentials.');
+      setError(err.message || 'Invalid email or password.');
     } finally {
       setLoading(false);
     }
@@ -90,9 +109,10 @@ function LoginForm() {
             id="email"
             className="form-input"
             required
+            disabled={loading}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            placeholder="admin@novainnovations.in"
+            placeholder="admin@example.com"
           />
         </div>
 
@@ -105,6 +125,7 @@ function LoginForm() {
             id="password"
             className="form-input"
             required
+            disabled={loading}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             placeholder="••••••••"
@@ -120,10 +141,6 @@ function LoginForm() {
           {loading ? 'Authenticating...' : 'Sign In to Dashboard'}
         </button>
       </form>
-
-      <div style={{ marginTop: '24px', textAlign: 'center', fontSize: '0.78rem', color: 'var(--color-text-muted)' }}>
-        Default Demo: <code>admin@novainnovations.in</code> / <code>admin123</code>
-      </div>
     </div>
   );
 }

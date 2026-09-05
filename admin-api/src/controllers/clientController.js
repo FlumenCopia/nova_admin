@@ -1,6 +1,7 @@
 const prisma = require('../config/db');
 const path = require('path');
 const fs = require('fs');
+const { isValidObjectId } = require('../middleware/validateObjectId');
 
 const getPublicClients = async (req, res) => {
   try {
@@ -59,6 +60,9 @@ const createClientLogo = async (req, res) => {
 const deleteClientLogo = async (req, res) => {
   try {
     const { id } = req.params;
+    if (!isValidObjectId(id)) {
+      return res.status(400).json({ success: false, message: 'Invalid identifier format. Must be a 24-character hexadecimal ObjectId.' });
+    }
 
     const existing = await prisma.clientLogo.findUnique({ where: { id } });
     if (!existing) {
@@ -76,7 +80,7 @@ const deleteClientLogo = async (req, res) => {
 
     return res.status(200).json({ success: true, message: 'Client logo deleted successfully.' });
   } catch (error) {
-    console.error('Delete client logo error:', error);
+    console.error('Delete client logo error:', error.message || error);
     return res.status(500).json({ success: false, message: 'Failed to delete client logo.' });
   }
 };

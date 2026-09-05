@@ -7,12 +7,13 @@ const {
   deleteService,
 } = require('../controllers/serviceController');
 const { requireAuth } = require('../middleware/authMiddleware');
+const { validateObjectId } = require('../middleware/validateObjectId');
 
 router.use(requireAuth);
 
 router.get('/', getAllServicesAdmin);
 router.post('/', createService);
-router.put('/:id', updateService);
-router.delete('/:id', deleteService);
+router.put('/:id', validateObjectId('id'), updateService);
+router.delete('/:id', validateObjectId('id'), deleteService);
 
 module.exports = router;

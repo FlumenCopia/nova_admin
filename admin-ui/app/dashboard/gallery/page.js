@@ -8,15 +8,11 @@ import { apiFetch, uploadImage, uploadMultipleImages, getMediaUrl } from '../../
 const DEFAULT_CATEGORIES = [
   { key: 'hoardings', label: 'Prime Hoardings' },
   { key: 'myg', label: 'myG Campaigns' },
-  { key: 'transit', label: 'Bus & Transit Media' },
-  { key: 'retail', label: 'Retail Facade & Signboards' },
+  { key: 'transit', label: 'Bus & Vehicle Transit' },
+  { key: 'retail', label: 'Retail Facade' },
   { key: 'event', label: 'Events & Exhibitions' },
-  { key: 'wall', label: 'Commercial Wall Painting' },
-  { key: 'printing', label: 'Design Studio & Digital Printing' },
-  { key: 'dooh', label: 'LED & Digital OOH' },
-  { key: 'unipole', label: 'Highway Gantries & Unipoles' },
-  { key: 'ksrtc', label: 'KSRTC Fleet Branding' },
-  { key: 'airport', label: 'Airport & Metro Media' },
+  { key: 'wall', label: 'Wall Painting' },
+  { key: 'printing', label: 'Digital Printing' },
 ];
 
 export default function CampaignGalleryPage() {
@@ -54,7 +50,7 @@ export default function CampaignGalleryPage() {
   const fetchItems = async () => {
     setLoading(true);
     try {
-      const res = await apiFetch('/admin/portfolio');
+      const res = await apiFetch('/admin/portfolio?limit=all');
       if (res.success) {
         setItems(res.data || []);
       }
@@ -71,9 +67,12 @@ export default function CampaignGalleryPage() {
       const res = await apiFetch('/admin/portfolio/media-library');
       if (res.success) {
         setMediaLibrary(res.data || []);
+      } else {
+        setToastMsg(res.message || 'Failed to load media library.');
       }
     } catch (err) {
       console.error('Fetch media library error:', err);
+      setToastMsg('Failed to load media library.');
     } finally {
       setLoadingLibrary(false);
     }
@@ -83,23 +82,32 @@ export default function CampaignGalleryPage() {
     fetchItems();
   }, []);
 
-  // Dynamically sync any unique categories present in items
+  // Dynamically sync unique categories present in items and mediaLibrary
   useEffect(() => {
-    if (items.length > 0) {
-      setCategoriesList((prev) => {
-        const existingKeys = new Set(prev.map((c) => c.key.toLowerCase()));
-        const newCats = [...prev];
-        items.forEach((item) => {
-          if (item.category && !existingKeys.has(item.category.toLowerCase())) {
-            existingKeys.add(item.category.toLowerCase());
-            const label = item.category.charAt(0).toUpperCase() + item.category.slice(1).replace(/-/g, ' ');
-            newCats.push({ key: item.category, label });
-          }
-        });
-        return newCats;
-      });
-    }
-  }, [items]);
+    const existingKeys = new Set(DEFAULT_CATEGORIES.map((c) => c.key.toLowerCase()));
+    const dynamicCats = [];
+
+    const processCategory = (rawCat) => {
+      if (!rawCat || typeof rawCat !== 'string') return;
+      const trimmed = rawCat.trim();
+      if (!trimmed) return;
+      const lower = trimmed.toLowerCase();
+      if (!existingKeys.has(lower)) {
+        existingKeys.add(lower);
+        const label = trimmed.charAt(0).toUpperCase() + trimmed.slice(1).replace(/[-_]+/g, ' ');
+        dynamicCats.push({ key: trimmed, label });
+      }
+    };
+
+    items.forEach((item) => processCategory(item.category));
+    mediaLibrary.forEach((media) => {
+      if (typeof media === 'object' && media?.category) {
+        processCategory(media.category);
+      }
+    });
+
+    setCategoriesList([...DEFAULT_CATEGORIES, ...dynamicCats]);
+  }, [items, mediaLibrary]);
 
   const handleCategoryChange = (e) => {
     const val = e.target.value;
@@ -116,7 +124,7 @@ export default function CampaignGalleryPage() {
     const trimmed = customCategoryName.trim();
     if (!trimmed) return;
     const key = trimmed.toLowerCase().replace(/[^a-z0-9]+/g, '-');
-    const existing = categoriesList.find((c) => c.key === key);
+    const existing = categoriesList.find((c) => c.key.toLowerCase() === key.toLowerCase());
     if (!existing) {
       const newCat = { key, label: trimmed };
       setCategoriesList((prev) => [...prev, newCat]);
@@ -179,6 +187,7 @@ export default function CampaignGalleryPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (uploading) return;
     setUploading(true);
 
     try {
@@ -186,6 +195,18 @@ export default function CampaignGalleryPage() {
         .split('\n')
         .map((s) => s.trim())
         .filter(Boolean);
+
+      // Resolve category: if custom category input was left open with text, resolve it
+      let finalCategory = formData.category;
+      if (showCustomCategoryInput && customCategoryName.trim()) {
+        const trimmed = customCategoryName.trim();
+        const key = trimmed.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+        const existing = categoriesList.find((c) => c.key.toLowerCase() === key.toLowerCase());
+        if (!existing) {
+          setCategoriesList((prev) => [...prev, { key, label: trimmed }]);
+        }
+        finalCategory = key;
+      }
 
       // CASE 1: EDITING AN EXISTING ITEM
       if (editingId) {
@@ -204,7 +225,7 @@ export default function CampaignGalleryPage() {
 
         const payload = {
           title: formData.title,
-          category: formData.category,
+          category: finalCategory,
           badgeType: formData.badgeType,
           location: formData.location,
           dimensions: formData.dimensions,
@@ -222,6 +243,7 @@ export default function CampaignGalleryPage() {
           setToastMsg('Campaign item updated!');
           setIsModalOpen(false);
           fetchItems();
+          fetchMediaLibrary();
         } else {
           setToastMsg(res.message || 'Update failed.');
         }
@@ -253,7 +275,7 @@ export default function CampaignGalleryPage() {
             setUploading(false);
             return;
           }
-          targetImageUrls = (uploadRes.data || []).map((img) => img.url);
+          targetImageUrls = (uploadRes.data || []).map((img) => (typeof img === 'string' ? img : img?.url)).filter(Boolean);
         }
       } else {
         // Media Library Selection
@@ -265,8 +287,11 @@ export default function CampaignGalleryPage() {
         targetImageUrls = selectedLibraryUrls;
       }
 
-      // Batch create items
-      let successCount = 0;
+      // Batch create items with creation rollback if any subsequent creation fails
+      const createdItemIds = [];
+      let failureOccurred = false;
+      let failureMessage = '';
+
       for (let i = 0; i < targetImageUrls.length; i++) {
         const itemTitle =
           targetImageUrls.length > 1
@@ -275,7 +300,7 @@ export default function CampaignGalleryPage() {
 
         const payload = {
           title: itemTitle,
-          category: formData.category,
+          category: finalCategory,
           badgeType: formData.badgeType,
           location: formData.location,
           dimensions: formData.dimensions,
@@ -289,15 +314,47 @@ export default function CampaignGalleryPage() {
           body: JSON.stringify(payload),
         });
 
-        if (res.success) {
-          successCount++;
+        if (res && res.success && res.data && res.data.id) {
+          createdItemIds.push(res.data.id);
+        } else {
+          failureOccurred = true;
+          failureMessage = res?.message || `Failed to create item for image ${i + 1}.`;
+          break;
         }
       }
 
-      if (successCount > 0) {
-        setToastMsg(`Successfully added ${successCount} campaign photo(s) to gallery!`);
+      if (failureOccurred) {
+        // Roll back only items created during this failed submission using existing DELETE endpoint
+        const rollbackFailedIds = [];
+        for (const createdId of createdItemIds) {
+          try {
+            const delRes = await apiFetch(`/admin/portfolio/${createdId}`, { method: 'DELETE' });
+            if (!delRes || !delRes.success) {
+              rollbackFailedIds.push(createdId);
+            }
+          } catch (delErr) {
+            console.error('Failed to roll back created item:', createdId, delErr);
+            rollbackFailedIds.push(createdId);
+          }
+        }
+
+        if (rollbackFailedIds.length > 0) {
+          console.warn('Artifacts that could not be safely removed during rollback:', rollbackFailedIds);
+          setToastMsg(`${failureMessage} (Rollback incomplete for item(s): ${rollbackFailedIds.join(', ')})`);
+        } else {
+          setToastMsg(`${failureMessage} Rolled back partial submissions.`);
+        }
+        setUploading(false);
+        fetchItems();
+        fetchMediaLibrary();
+        return;
+      }
+
+      if (createdItemIds.length > 0) {
+        setToastMsg(`Successfully added ${createdItemIds.length} campaign photo(s) to gallery!`);
         setIsModalOpen(false);
         fetchItems();
+        fetchMediaLibrary();
       } else {
         setToastMsg('Failed to create gallery items.');
       }
@@ -419,7 +476,7 @@ export default function CampaignGalleryPage() {
         </div>
       ) : filteredItems.length === 0 ? (
         <div className="card" style={{ padding: '32px', textAlign: 'center', color: 'var(--color-text-muted)' }}>
-          No campaign gallery items found under this filter. Click "+ Add Gallery Item" to upload photos.
+          No campaign gallery items found under this filter. Click &quot;+ Add Gallery Item&quot; to upload photos.
         </div>
       ) : (
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '20px' }}>
@@ -556,6 +613,9 @@ export default function CampaignGalleryPage() {
                 className="btn-secondary"
                 onClick={() => setPhotoSourceTab('upload')}
                 style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '8px',
                   fontSize: '0.85rem',
                   fontWeight: 700,
                   borderColor: photoSourceTab === 'upload' ? 'var(--color-primary)' : 'var(--color-border)',
@@ -563,7 +623,12 @@ export default function CampaignGalleryPage() {
                   background: photoSourceTab === 'upload' ? 'var(--color-primary-soft)' : 'var(--color-card-background)',
                 }}
               >
-                📁 Upload New Photos {selectedFiles.length > 0 && `(${selectedFiles.length})`}
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                  <polyline points="17 8 12 3 7 8"></polyline>
+                  <line x1="12" y1="3" x2="12" y2="15"></line>
+                </svg>
+                <span>Upload New Photos {selectedFiles.length > 0 && `(${selectedFiles.length})`}</span>
               </button>
               <button
                 type="button"
@@ -573,6 +638,9 @@ export default function CampaignGalleryPage() {
                   fetchMediaLibrary();
                 }}
                 style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '8px',
                   fontSize: '0.85rem',
                   fontWeight: 700,
                   borderColor: photoSourceTab === 'library' ? 'var(--color-primary)' : 'var(--color-border)',
@@ -580,7 +648,12 @@ export default function CampaignGalleryPage() {
                   background: photoSourceTab === 'library' ? 'var(--color-primary-soft)' : 'var(--color-card-background)',
                 }}
               >
-                🖼️ Choose from Media Library {selectedLibraryUrls.length > 0 && `(${selectedLibraryUrls.length})`}
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                  <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                  <polyline points="21 15 16 10 5 21"></polyline>
+                </svg>
+                <span>Choose from Media Library {selectedLibraryUrls.length > 0 && `(${selectedLibraryUrls.length})`}</span>
               </button>
             </div>
           )}
@@ -628,11 +701,13 @@ export default function CampaignGalleryPage() {
                 </div>
               ) : mediaLibrary.length === 0 ? (
                 <div style={{ padding: '16px', textAlign: 'center', color: 'var(--color-text-muted)', fontSize: '0.85rem' }}>
-                  No previous media files found in library. Use the "Upload New Photos" tab above.
+                  No previous media files found in library. Use the &quot;Upload New Photos&quot; tab above.
                 </div>
               ) : (
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(90px, 1fr))', gap: '8px', maxHeight: '200px', overflowY: 'auto', padding: '4px', border: '1px solid var(--color-border)', borderRadius: '6px' }}>
-                  {mediaLibrary.map((url, mIdx) => {
+                  {mediaLibrary.map((item, mIdx) => {
+                    const url = typeof item === 'string' ? item : item?.url;
+                    if (!url) return null;
                     const isSelected = selectedLibraryUrls.includes(url);
                     const imgSrc = getMediaUrl(url);
                     return (
