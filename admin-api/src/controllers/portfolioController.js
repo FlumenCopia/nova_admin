@@ -1,4 +1,4 @@
-const prisma = require('../config/db');
+const { PortfolioItem } = require('../models');
 const path = require('path');
 const fs = require('fs');
 const { isValidObjectId } = require('../middleware/validateObjectId');
@@ -52,28 +52,26 @@ const getPublicPortfolio = async (req, res) => {
       return res.status(400).json({ success: false, message: pagination.error });
     }
 
-    const whereClause = { isActive: true };
+    const filter = { isActive: true };
 
     if (category && category !== 'all' && category !== 'ALL') {
-      const cleanCat = String(category).trim().slice(0, 100);
-      whereClause.category = { contains: cleanCat, mode: 'insensitive' };
+      const cleanCat = String(category).trim().slice(0, 100).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      filter.category = new RegExp(cleanCat, 'i');
     }
 
     if (isVacant === 'true') {
-      whereClause.isVacant = true;
+      filter.isVacant = true;
     } else if (isVacant === 'false') {
-      whereClause.isVacant = false;
+      filter.isVacant = false;
     }
 
     // Concurrent DB count and paginated query
     const [total, items] = await Promise.all([
-      prisma.portfolioItem.count({ where: whereClause }),
-      prisma.portfolioItem.findMany({
-        where: whereClause,
-        orderBy: { order: 'asc' },
-        skip: pagination.skip,
-        take: pagination.take,
-      }),
+      PortfolioItem.countDocuments(filter),
+      PortfolioItem.find(filter)
+        .sort({ order: 1 })
+        .skip(pagination.skip)
+        .limit(pagination.take),
     ]);
 
     const totalPages = Math.ceil(total / pagination.limit) || 1;
@@ -105,32 +103,33 @@ const getAllPortfolioAdmin = async (req, res) => {
       return res.status(400).json({ success: false, message: pagination.error });
     }
 
-    const whereClause = {};
+    const filter = {};
 
     // Filter validation & whitelisting
     if (category && category !== 'all' && category !== 'ALL') {
-      const cleanCat = String(category).trim().slice(0, 100);
-      whereClause.category = { contains: cleanCat, mode: 'insensitive' };
+      const cleanCat = String(category).trim().slice(0, 100).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      filter.category = new RegExp(cleanCat, 'i');
     }
 
     if (isVacant === 'true') {
-      whereClause.isVacant = true;
+      filter.isVacant = true;
     } else if (isVacant === 'false') {
-      whereClause.isVacant = false;
+      filter.isVacant = false;
     }
 
     if (isActive === 'true') {
-      whereClause.isActive = true;
+      filter.isActive = true;
     } else if (isActive === 'false') {
-      whereClause.isActive = false;
+      filter.isActive = false;
     }
 
     if (search && typeof search === 'string') {
-      const cleanSearch = search.trim().slice(0, 100);
+      const cleanSearch = search.trim().slice(0, 100).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
       if (cleanSearch) {
-        whereClause.OR = [
-          { title: { contains: cleanSearch, mode: 'insensitive' } },
-          { location: { contains: cleanSearch, mode: 'insensitive' } },
+        const regex = new RegExp(cleanSearch, 'i');
+        filter.$or = [
+          { title: regex },
+          { location: regex },
         ];
       }
     }
@@ -140,16 +139,14 @@ const getAllPortfolioAdmin = async (req, res) => {
     // 2. global collection totals for stats
     // 3. paginated items
     const [filteredTotal, overallTotal, vacantCount, activeCount, items] = await Promise.all([
-      prisma.portfolioItem.count({ where: whereClause }),
-      prisma.portfolioItem.count(),
-      prisma.portfolioItem.count({ where: { isVacant: true } }),
-      prisma.portfolioItem.count({ where: { isActive: true } }),
-      prisma.portfolioItem.findMany({
-        where: whereClause,
-        orderBy: { createdAt: 'desc' },
-        skip: pagination.skip,
-        take: pagination.take,
-      }),
+      PortfolioItem.countDocuments(filter),
+      PortfolioItem.countDocuments(),
+      PortfolioItem.countDocuments({ isVacant: true }),
+      PortfolioItem.countDocuments({ isActive: true }),
+      PortfolioItem.find(filter)
+        .sort({ createdAt: -1 })
+        .skip(pagination.skip)
+        .limit(pagination.take),
     ]);
 
     const stats = {
@@ -221,21 +218,19 @@ const createPortfolioItem = async (req, res) => {
       ? specs
       : (specs ? specs.split(',').map((s) => s.trim()) : []);
 
-    const newItem = await prisma.portfolioItem.create({
-      data: {
-        title,
-        category: category || 'hoardings',
-        badgeType: badgeType || 'Billboard',
-        badgeStatus: badgeStatus || (isVacant === 'true' || isVacant === true ? 'VACANT NOW' : 'Prime Location'),
-        location: location || 'Highway Junction, Kerala',
-        dimensions: dimensions || '30 x 20 Feet',
-        specs: parsedSpecs,
-        imageUrl,
-        serviceName: serviceName || `Hoarding - ${title}`,
-        isVacant: isVacant === 'true' || isVacant === true,
-        isActive: isActive !== 'false' && isActive !== false,
-        order: parseInt(order, 10) || 0,
-      },
+    const newItem = await PortfolioItem.create({
+      title,
+      category: category || 'hoardings',
+      badgeType: badgeType || 'Billboard',
+      badgeStatus: badgeStatus || (isVacant === 'true' || isVacant === true ? 'VACANT NOW' : 'Prime Location'),
+      location: location || 'Highway Junction, Kerala',
+      dimensions: dimensions || '30 x 20 Feet',
+      specs: parsedSpecs,
+      imageUrl,
+      serviceName: serviceName || `Hoarding - ${title}`,
+      isVacant: isVacant === 'true' || isVacant === true,
+      isActive: isActive !== 'false' && isActive !== false,
+      order: parseInt(order, 10) || 0,
     });
 
     return res.status(201).json({
@@ -256,7 +251,7 @@ const updatePortfolioItem = async (req, res) => {
       return res.status(400).json({ success: false, message: 'Invalid identifier format. Must be a 24-character hexadecimal ObjectId.' });
     }
 
-    const existing = await prisma.portfolioItem.findUnique({ where: { id } });
+    const existing = await PortfolioItem.findById(id);
     if (!existing) {
       return res.status(404).json({ success: false, message: 'Portfolio item not found.' });
     }
@@ -289,23 +284,22 @@ const updatePortfolioItem = async (req, res) => {
         : specs.split(',').map((s) => s.trim());
     }
 
-    const updatedItem = await prisma.portfolioItem.update({
-      where: { id },
-      data: {
-        ...(title && { title }),
-        ...(category && { category }),
-        ...(badgeType !== undefined && { badgeType }),
-        ...(badgeStatus !== undefined && { badgeStatus }),
-        ...(location && { location }),
-        ...(dimensions !== undefined && { dimensions }),
-        ...(specs !== undefined && { specs: parsedSpecs }),
-        ...(imageUrl && { imageUrl }),
-        ...(serviceName !== undefined && { serviceName }),
-        ...(isVacant !== undefined && { isVacant: isVacant === 'true' || isVacant === true }),
-        ...(isActive !== undefined && { isActive: isActive === 'true' || isActive === true }),
-        ...(order !== undefined && { order: parseInt(order, 10) }),
-      },
-    });
+    const updateData = {
+      ...(title && { title }),
+      ...(category && { category }),
+      ...(badgeType !== undefined && { badgeType }),
+      ...(badgeStatus !== undefined && { badgeStatus }),
+      ...(location && { location }),
+      ...(dimensions !== undefined && { dimensions }),
+      ...(specs !== undefined && { specs: parsedSpecs }),
+      ...(imageUrl && { imageUrl }),
+      ...(serviceName !== undefined && { serviceName }),
+      ...(isVacant !== undefined && { isVacant: isVacant === 'true' || isVacant === true }),
+      ...(isActive !== undefined && { isActive: isActive === 'true' || isActive === true }),
+      ...(order !== undefined && { order: parseInt(order, 10) }),
+    };
+
+    const updatedItem = await PortfolioItem.findByIdAndUpdate(id, updateData, { new: true });
 
     return res.status(200).json({
       success: true,
@@ -325,7 +319,7 @@ const deletePortfolioItem = async (req, res) => {
       return res.status(400).json({ success: false, message: 'Invalid identifier format. Must be a 24-character hexadecimal ObjectId.' });
     }
 
-    const existing = await prisma.portfolioItem.findUnique({ where: { id } });
+    const existing = await PortfolioItem.findById(id);
     if (!existing) {
       return res.status(404).json({ success: false, message: 'Portfolio item not found.' });
     }
@@ -337,7 +331,7 @@ const deletePortfolioItem = async (req, res) => {
       }
     }
 
-    await prisma.portfolioItem.delete({ where: { id } });
+    await PortfolioItem.findByIdAndDelete(id);
 
     return res.status(200).json({ success: true, message: 'Portfolio item deleted successfully.' });
   } catch (error) {
@@ -362,15 +356,7 @@ const getMediaLibrary = async (req, res) => {
     }
 
     // Fetch existing portfolio items for category & title metadata derivation
-    const dbItems = await prisma.portfolioItem.findMany({
-      select: {
-        id: true,
-        title: true,
-        category: true,
-        imageUrl: true,
-        createdAt: true,
-      },
-    });
+    const dbItems = await PortfolioItem.find().select('title category imageUrl createdAt');
 
     // Normalize URLs to filename for resilient matching
     const normalizeFilename = (urlStr) => {

@@ -1,14 +1,11 @@
-const prisma = require('../config/db');
+const { ClientLogo } = require('../models');
 const path = require('path');
 const fs = require('fs');
 const { isValidObjectId } = require('../middleware/validateObjectId');
 
 const getPublicClients = async (req, res) => {
   try {
-    const clients = await prisma.clientLogo.findMany({
-      where: { isActive: true },
-      orderBy: { order: 'asc' },
-    });
+    const clients = await ClientLogo.find({ isActive: true }).sort({ order: 1 });
     return res.status(200).json({ success: true, data: clients });
   } catch (error) {
     console.error('Get public clients error:', error);
@@ -18,9 +15,7 @@ const getPublicClients = async (req, res) => {
 
 const getAllClientsAdmin = async (req, res) => {
   try {
-    const clients = await prisma.clientLogo.findMany({
-      orderBy: { createdAt: 'desc' },
-    });
+    const clients = await ClientLogo.find().sort({ createdAt: -1 });
     return res.status(200).json({ success: true, data: clients });
   } catch (error) {
     console.error('Get admin clients error:', error);
@@ -37,13 +32,11 @@ const createClientLogo = async (req, res) => {
       return res.status(400).json({ success: false, message: 'Logo image is required.' });
     }
 
-    const newLogo = await prisma.clientLogo.create({
-      data: {
-        name: name || 'Brand Partner',
-        logoUrl,
-        order: parseInt(order, 10) || 0,
-        isActive: isActive !== 'false' && isActive !== false,
-      },
+    const newLogo = await ClientLogo.create({
+      name: name || 'Brand Partner',
+      logoUrl,
+      order: parseInt(order, 10) || 0,
+      isActive: isActive !== 'false' && isActive !== false,
     });
 
     return res.status(201).json({
@@ -64,7 +57,7 @@ const deleteClientLogo = async (req, res) => {
       return res.status(400).json({ success: false, message: 'Invalid identifier format. Must be a 24-character hexadecimal ObjectId.' });
     }
 
-    const existing = await prisma.clientLogo.findUnique({ where: { id } });
+    const existing = await ClientLogo.findById(id);
     if (!existing) {
       return res.status(404).json({ success: false, message: 'Client logo not found.' });
     }
@@ -76,7 +69,7 @@ const deleteClientLogo = async (req, res) => {
       }
     }
 
-    await prisma.clientLogo.delete({ where: { id } });
+    await ClientLogo.findByIdAndDelete(id);
 
     return res.status(200).json({ success: true, message: 'Client logo deleted successfully.' });
   } catch (error) {

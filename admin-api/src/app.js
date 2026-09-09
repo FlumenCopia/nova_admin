@@ -114,9 +114,17 @@ app.use((err, req, res, next) => {
   });
 });
 
+
+const { connectDB } = require('./config/db');
+
 if (require.main === module) {
-  app.listen(PORT, () => {
-    console.log(`🚀 Nova Admin API running on http://localhost:${PORT}`);
+  connectDB().then(() => {
+    app.listen(PORT, () => {
+      console.log(`🚀 Nova Admin API running on http://localhost:${PORT}`);
+    });
+  }).catch((err) => {
+    console.error('Failed to connect to MongoDB on startup:', err.message);
+    process.exit(1);
   });
 }
 

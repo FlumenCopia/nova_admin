@@ -1,5 +1,5 @@
 const { verifyToken } = require('../utils/jwt');
-const prisma = require('../config/db');
+const { Admin } = require('../models');
 
 const requireAuth = async (req, res, next) => {
   try {
@@ -18,10 +18,7 @@ const requireAuth = async (req, res, next) => {
       return res.status(401).json({ success: false, message: 'Invalid or expired session. Please log in again.' });
     }
 
-    const admin = await prisma.admin.findUnique({
-      where: { id: decoded.id },
-      select: { id: true, email: true, name: true }
-    });
+    const admin = await Admin.findById(decoded.id).select('email name');
 
     if (!admin) {
       return res.status(401).json({ success: false, message: 'Admin account not found.' });
