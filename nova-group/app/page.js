@@ -6,6 +6,7 @@ import { Zap, Check, Phone, MessageSquare, Palette, Printer, ShieldCheck, Monito
 import MarqueeLogos from '../components/MarqueeLogos';
 import PortfolioSlider from '../components/PortfolioSlider';
 import LeadershipSection from '../components/LeadershipSection';
+import AnimatedStatNumber from '../components/AnimatedStatNumber';
 import { servicesData as defaultServices } from '../data/servicesData';
 import { fetchApi, getMediaUrl } from '../lib/api';
 
@@ -105,19 +106,19 @@ export default function HomePage() {
 
             <div className="stats-grid" id="stats-counter">
               <div className="stat-item">
-                <span className="stat-number">27+</span>
+                <AnimatedStatNumber value="27+" />
                 <span className="stat-label">Years of Industry Excellence</span>
               </div>
               <div className="stat-item">
-                <span className="stat-number">500+</span>
+                <AnimatedStatNumber value="500+" />
                 <span className="stat-label">Prime Hoarding Locations in Kerala</span>
               </div>
               <div className="stat-item">
-                <span className="stat-number">1000+</span>
+                <AnimatedStatNumber value="1000+" />
                 <span className="stat-label">Successful Brand Campaigns</span>
               </div>
               <div className="stat-item">
-                <span className="stat-number">14</span>
+                <AnimatedStatNumber value="14" />
                 <span className="stat-label">Districts Covered Overnight</span>
               </div>
             </div>

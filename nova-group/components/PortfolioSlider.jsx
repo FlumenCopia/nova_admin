@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import Link from 'next/link';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { campaigns as defaultCampaigns } from '../data/campaigns';
@@ -10,9 +10,16 @@ export default function PortfolioSlider() {
   const [campaignsList, setCampaignsList] = useState(defaultCampaigns);
   const featuredCampaigns = campaignsList.slice(0, 8);
   const sliderRef = useRef(null);
+  const timerRef = useRef(null);
   const [activeIndex, setActiveIndex] = useState(0);
   const [canPrev, setCanPrev] = useState(false);
   const [canNext, setCanNext] = useState(true);
+
+  // Mouse drag-to-scroll refs matching original HTML/main.js
+  const isDownRef = useRef(false);
+  const startXRef = useRef(0);
+  const scrollLeftPosRef = useRef(0);
+  const isDraggingRef = useRef(false);
 
   useEffect(() => {
     async function loadDynamicPortfolio() {
@@ -32,30 +39,36 @@ export default function PortfolioSlider() {
     loadDynamicPortfolio();
   }, []);
 
-  const getScrollStep = () => {
+  const getScrollStep = useCallback(() => {
     if (!sliderRef.current) return 380;
     const firstCard = sliderRef.current.querySelector('.property-cat-card');
-    return firstCard ? firstCard.offsetWidth + 28 : 380;
-  };
+    const track = sliderRef.current.querySelector('.portfolio-swiper-track');
+    const gap = track ? parseFloat(window.getComputedStyle(track).gap) || 28 : 28;
+    return (firstCard ? firstCard.offsetWidth : 380) + gap;
+  }, []);
 
-  const updateScrollState = () => {
+  const updateScrollState = useCallback(() => {
     if (!sliderRef.current) return;
     const { scrollLeft, scrollWidth, clientWidth } = sliderRef.current;
     const step = getScrollStep();
     const index = Math.min(Math.round(scrollLeft / step), featuredCampaigns.length - 1);
-    setActiveIndex(index);
+    setActiveIndex(Math.max(0, index));
     setCanPrev(scrollLeft > 5);
     setCanNext(scrollLeft < scrollWidth - clientWidth - 5);
-  };
+  }, [getScrollStep, featuredCampaigns.length]);
 
-  useEffect(() => {
-    const slider = sliderRef.current;
-    if (!slider) return;
+  const stopAutoplay = useCallback(() => {
+    if (timerRef.current) {
+      clearInterval(timerRef.current);
+      timerRef.current = null;
+    }
+  }, []);
 
-    slider.addEventListener('scroll', updateScrollState, { passive: true });
-    updateScrollState();
-
-    let timer = setInterval(() => {
+  const startAutoplay = useCallback(() => {
+    stopAutoplay();
+    timerRef.current = setInterval(() => {
+      const slider = sliderRef.current;
+      if (!slider) return;
       const step = getScrollStep();
       const maxScroll = slider.scrollWidth - slider.clientWidth;
       if (slider.scrollLeft >= maxScroll - 10) {
@@ -64,37 +77,78 @@ export default function PortfolioSlider() {
         slider.scrollBy({ left: step, behavior: 'smooth' });
       }
     }, 4500);
+  }, [getScrollStep, stopAutoplay]);
 
-    const handleMouseEnter = () => clearInterval(timer);
-    const handleMouseLeave = () => {
-      clearInterval(timer);
-      timer = setInterval(() => {
-        const step = getScrollStep();
-        const maxScroll = slider.scrollWidth - slider.clientWidth;
-        if (slider.scrollLeft >= maxScroll - 10) {
-          slider.scrollTo({ left: 0, behavior: 'smooth' });
-        } else {
-          slider.scrollBy({ left: step, behavior: 'smooth' });
-        }
-      }, 4500);
+  useEffect(() => {
+    const slider = sliderRef.current;
+    if (!slider) return;
+
+    slider.addEventListener('scroll', updateScrollState, { passive: true });
+    updateScrollState();
+    startAutoplay();
+
+    // Mouse Drag events
+    const handleMouseDown = (e) => {
+      isDownRef.current = true;
+      isDraggingRef.current = false;
+      startXRef.current = e.pageX - slider.offsetLeft;
+      scrollLeftPosRef.current = slider.scrollLeft;
+      slider.style.cursor = 'grabbing';
+      stopAutoplay();
     };
 
-    slider.addEventListener('mouseenter', handleMouseEnter);
+    const handleMouseLeave = () => {
+      if (isDownRef.current) {
+        isDownRef.current = false;
+        slider.style.cursor = 'grab';
+        startAutoplay();
+      }
+    };
+
+    const handleMouseUp = () => {
+      if (isDownRef.current) {
+        isDownRef.current = false;
+        slider.style.cursor = 'grab';
+        startAutoplay();
+      }
+    };
+
+    const handleMouseMove = (e) => {
+      if (!isDownRef.current) return;
+      e.preventDefault();
+      const x = e.pageX - slider.offsetLeft;
+      const walk = (x - startXRef.current) * 1.5;
+      if (Math.abs(walk) > 6) {
+        isDraggingRef.current = true;
+      }
+      slider.scrollLeft = scrollLeftPosRef.current - walk;
+    };
+
+    const handleMouseEnter = () => stopAutoplay();
+
+    slider.addEventListener('mousedown', handleMouseDown);
     slider.addEventListener('mouseleave', handleMouseLeave);
+    slider.addEventListener('mouseup', handleMouseUp);
+    slider.addEventListener('mousemove', handleMouseMove);
+    slider.addEventListener('mouseenter', handleMouseEnter);
 
     return () => {
       slider.removeEventListener('scroll', updateScrollState);
-      slider.removeEventListener('mouseenter', handleMouseEnter);
+      slider.removeEventListener('mousedown', handleMouseDown);
       slider.removeEventListener('mouseleave', handleMouseLeave);
-      clearInterval(timer);
+      slider.removeEventListener('mouseup', handleMouseUp);
+      slider.removeEventListener('mousemove', handleMouseMove);
+      slider.removeEventListener('mouseenter', handleMouseEnter);
+      stopAutoplay();
     };
-  }, []);
+  }, [updateScrollState, startAutoplay, stopAutoplay]);
 
   const handlePrev = (e) => {
     e.preventDefault();
     if (!sliderRef.current) return;
     const step = getScrollStep();
     sliderRef.current.scrollBy({ left: -step, behavior: 'smooth' });
+    startAutoplay();
   };
 
   const handleNext = (e) => {
@@ -107,12 +161,20 @@ export default function PortfolioSlider() {
     } else {
       sliderRef.current.scrollBy({ left: step, behavior: 'smooth' });
     }
+    startAutoplay();
   };
 
   const handleDotClick = (index) => {
     if (!sliderRef.current) return;
     const step = getScrollStep();
     sliderRef.current.scrollTo({ left: index * step, behavior: 'smooth' });
+    startAutoplay();
+  };
+
+  const handleCardClick = (e) => {
+    if (isDraggingRef.current) {
+      e.preventDefault();
+    }
   };
 
   return (
@@ -154,9 +216,14 @@ export default function PortfolioSlider() {
         <div className="portfolio-swiper-wrap" ref={sliderRef} id="portfolio-swiper-wrap">
           <div className="portfolio-swiper-track" id="portfolio-swiper-track">
             {featuredCampaigns.map((item) => (
-              <Link key={item.id} href="/gallery" className="property-cat-card">
+              <Link
+                key={item.id}
+                href="/gallery"
+                className="property-cat-card"
+                onClick={handleCardClick}
+              >
                 <div className="cat-card-img-wrap">
-                  <img src={item.image} alt={item.title} className="cat-card-img" loading="lazy" />
+                  <img src={item.image} alt={item.title} className="cat-card-img" loading="lazy" draggable={false} />
                   <span className="cat-card-badge" style={item.isVacant ? { background: '#22c55e' } : {}}>
                     {item.badgeType}
                   </span>

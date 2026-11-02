@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { Check, Phone } from 'lucide-react';
 import LeadershipSection from '../../components/LeadershipSection';
+import AnimatedStatNumber from '../../components/AnimatedStatNumber';
 
 export default function AboutPage() {
   return (
@@ -51,19 +52,19 @@ export default function AboutPage() {
             </p>
             <div className="stats-grid">
               <div className="stat-item">
-                <span className="stat-number">27+</span>
+                <AnimatedStatNumber value="27+" />
                 <span className="stat-label">Years of Industry Leadership</span>
               </div>
               <div className="stat-item">
-                <span className="stat-number">500+</span>
+                <AnimatedStatNumber value="500+" />
                 <span className="stat-label">Prime Hoardings Network</span>
               </div>
               <div className="stat-item">
-                <span className="stat-number">1000+</span>
+                <AnimatedStatNumber value="1000+" />
                 <span className="stat-label">Successful Brand Campaigns</span>
               </div>
               <div className="stat-item">
-                <span className="stat-number">Overnight</span>
+                <AnimatedStatNumber value="Overnight" />
                 <span className="stat-label">Statewide Deployment</span>
               </div>
             </div>
