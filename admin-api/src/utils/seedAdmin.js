@@ -86,7 +86,7 @@ const seedAdmin = async () => {
         primaryPhone: '+91 95390 00640',
         altPhone: '+91 95263 64446',
         contactEmail: 'novainnovations2020@gmail.com',
-        hqAddress: 'T.C 26/929(2), C.K. Tower, Panavila Jn., Thiruvananthapuram - 695001',
+        hqAddress: 'T.C. 29/314, S J Tower, M P Appan Road, Vazhuthacaud - Poojappura Rd, P.O, Thycaud, Thiruvananthapuram, Kerala - 695014',
         cityOfficeAddress: 'T.C. 29/314, S J Tower, MP Appan Road, Vazhuthacaud, Trivandrum - 695014',
       });
       console.log('✓ Default site settings created.');

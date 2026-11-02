@@ -26,7 +26,7 @@ export default function ContactPage() {
     primaryPhone: '+91 95390 00640',
     altPhone: '+91 95263 64446',
     contactEmail: 'novainnovations2020@gmail.com',
-    hqAddress: 'T.C 26/929(2), C.K. Tower, Panavila Junction, Thiruvananthapuram, Kerala - 695001',
+    hqAddress: 'T.C. 29/314, S J Tower, M P Appan Road, Vazhuthacaud - Poojappura Rd, P.O, Thycaud, Thiruvananthapuram, Kerala - 695014',
     cityOfficeAddress: 'T.C. 29/314, S J Tower, MP Appan Road, (Opp. Kerala Hindi Pracharsabha), Vazhuthacaud, Trivandrum - 695014',
   });
 
@@ -121,7 +121,7 @@ export default function ContactPage() {
           <div className="page-hero-badges">
             <span className="hero-pill-badge">
               <Check size={14} strokeWidth={2.5} />
-              Trivandrum Panavila HQ & Vazhuthacaud
+              Trivandrum Vazhuthacaud HQ
             </span>
             <span className="hero-pill-badge">
               <Check size={14} strokeWidth={2.5} />
@@ -300,7 +300,7 @@ export default function ContactPage() {
               </h4>
               <p>{settings.hqAddress}</p>
               <div className="map-overlay-actions">
-                <a href="https://maps.google.com/?q=Panavila+Junction+Thiruvananthapuram+Kerala" target="_blank" rel="noopener noreferrer" className="map-action-btn primary" style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+                <a href="https://maps.app.goo.gl/wBjEnDp5imoXeJXz5?g_st=aw" target="_blank" rel="noopener noreferrer" className="map-action-btn primary" style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
                   <Navigation size={14} strokeWidth={2.5} />
                   Get Directions
                 </a>
@@ -313,10 +313,13 @@ export default function ContactPage() {
             <iframe
               className="map-iframe"
               title="Nova Innovations Location Map"
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3946.0125638210344!2d76.95016557588825!3d8.498144791543322!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3b05bba68903c737%3A0xe96c4b9b7d8d21c4!2sPanavila%20Junction%2C%20Thiruvananthapuram%2C%20Kerala!5e0!3m2!1sen!2sin!4v1709100000000!5m2!1sen!2sin"
-              allowFullScreen=""
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3750.7443489948714!2d76.9591002!3d8.500489199999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3b05bb78a5a378ef%3A0xe7ec34318b4a9451!2snova%20innovations!5e1!3m2!1sen!2sin!4v1793614771450!5m2!1sen!2sin"
+              width="600"
+              height="450"
+              style={{ border: 0 }}
+              allowFullScreen
               loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
+              referrerPolicy="strict-origin-when-cross-origin"
             ></iframe>
           </div>
         </div>

@@ -19,7 +19,7 @@ const siteSettingsSchema = new mongoose.Schema(
     },
     hqAddress: {
       type: String,
-      default: 'T.C 26/929(2), C.K. Tower, Panavila Jn., Thiruvananthapuram - 695001',
+      default: 'T.C. 29/314, S J Tower, M P Appan Road, Vazhuthacaud - Poojappura Rd, P.O, Thycaud, Thiruvananthapuram, Kerala - 695014',
       trim: true,
     },
     cityOfficeAddress: {
