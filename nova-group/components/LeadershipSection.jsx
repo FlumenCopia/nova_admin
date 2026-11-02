@@ -10,7 +10,7 @@ export default function LeadershipSection() {
         <div className="leadership-spotlight-card">
           {/* Left Column Image & Badge */}
           <div className="leadership-img-col">
-            <img src="/mainhero1.png" alt="Gireesh Kumar S - Founder, Director & CEO" className="leadership-portrait-img" />
+            <img src="/heroman.jpeg" alt="Gireesh Kumar S - Founder, Director & CEO" className="leadership-portrait-img" />
             <div className="leadership-badge-overlay">
               <span className="leadership-badge-number">27+</span>
               <span className="leadership-badge-label">Years Leadership</span>
