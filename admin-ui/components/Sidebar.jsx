@@ -38,6 +38,17 @@ export default function Sidebar({ isOpen, onClose }) {
       ),
     },
     {
+      name: 'Hero Banner',
+      path: '/dashboard/banner',
+      icon: (
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <rect x="2" y="4" width="20" height="12" rx="2"></rect>
+          <path d="M12 16v5"></path>
+          <path d="M8 21h8"></path>
+        </svg>
+      ),
+    },
+    {
       name: 'Services Management',
       path: '/dashboard/services',
       icon: (
@@ -56,19 +67,6 @@ export default function Sidebar({ isOpen, onClose }) {
           <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
           <circle cx="8.5" cy="8.5" r="1.5"></circle>
           <polyline points="21 15 16 10 5 21"></polyline>
-        </svg>
-      ),
-    },
-    {
-      name: 'Portfolio & Hoardings',
-      path: '/dashboard/portfolio',
-      icon: (
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-          <path d="M19 21V5a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v16"></path>
-          <path d="M1 21h22"></path>
-          <path d="M9 7h6"></path>
-          <path d="M9 11h6"></path>
-          <path d="M9 15h6"></path>
         </svg>
       ),
     },
@@ -112,7 +110,7 @@ export default function Sidebar({ isOpen, onClose }) {
         <div className="sidebar-header" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
             <img src="/logo.png" alt="Nova Innovations" style={{ height: '32px', width: 'auto', objectFit: 'contain' }} />
-            <span style={{ fontWeight: 800, fontSize: '0.75rem', color: 'var(--color-primary)', background: 'var(--color-primary-soft)', padding: '2px 8px', borderRadius: '4px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+            <span style={{ fontWeight: 800, fontSize: '0.75rem', color: '#111827', background: '#F1F5F9', border: '1px solid #E2E8F0', padding: '2px 8px', borderRadius: '4px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
               Admin
             </span>
           </div>
@@ -151,8 +149,9 @@ export default function Sidebar({ isOpen, onClose }) {
             style={{
               width: '100%',
               justify: 'center',
-              color: 'var(--color-danger)',
-              borderColor: 'rgba(217, 45, 32, 0.25)',
+              color: '#111827',
+              borderColor: '#E2E8F0',
+              background: '#FFFFFF',
               gap: '8px',
               padding: '10px',
               fontSize: '0.88rem',

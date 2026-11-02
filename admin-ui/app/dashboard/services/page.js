@@ -184,7 +184,7 @@ export default function ServicesPage() {
         </div>
       ) : services.length === 0 ? (
         <div className="card" style={{ padding: '32px', textAlign: 'center', color: 'var(--color-text-muted)' }}>
-          No services created yet. Click "+ Add New Service" to create your first advertising package.
+          No services created yet. Click &quot;+ Add New Service&quot; to create your first advertising package.
         </div>
       ) : (
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: '20px' }}>

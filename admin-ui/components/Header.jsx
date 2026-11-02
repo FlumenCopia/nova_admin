@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { apiRequest } from '../lib/api';
+import { apiRequest, PUBLIC_SITE_URL } from '../lib/api';
 import Modal from './Modal';
 
 export default function Header({ user, onToggleSidebar }) {
@@ -42,7 +42,7 @@ export default function Header({ user, onToggleSidebar }) {
 
         <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
           <a
-            href="http://localhost:3002"
+            href={PUBLIC_SITE_URL}
             target="_blank"
             rel="noopener noreferrer"
             className="btn-secondary"
@@ -57,10 +57,6 @@ export default function Header({ user, onToggleSidebar }) {
             View Live Site
           </a>
 
-          <div className="user-info-wrap">
-            <div style={{ fontWeight: 700, fontSize: '0.9rem', color: 'var(--color-text-primary)' }}>{user?.name || 'Administrator'}</div>
-            <div style={{ fontSize: '0.78rem', color: 'var(--color-text-muted)' }}>{user?.email || 'admin@novainnovations.in'}</div>
-          </div>
 
           <button
             onClick={() => setShowLogoutModal(true)}

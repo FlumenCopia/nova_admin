@@ -6,11 +6,15 @@
     "dev": "next dev -p 3001 --turbo",
     "build": "next build",
     "start": "next start -p 3001",
-    "lint": "next lint"
+    "lint": "eslint \"app/**/*.{js,jsx}\" \"components/**/*.{js,jsx}\" \"lib/**/*.{js,jsx}\""
   },
   "dependencies": {
     "next": "^15.1.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.57.1",
+    "eslint-config-next": "^15.5.24"
   }
 }

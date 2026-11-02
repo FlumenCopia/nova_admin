@@ -1,4 +1,4 @@
-const prisma = require('../config/db');
+const { Admin } = require('../models');
 const { comparePassword, hashPassword } = require('../utils/hash');
 const { generateToken } = require('../utils/jwt');
 const { z } = require('zod');
@@ -25,7 +25,7 @@ const login = async (req, res) => {
 
     const { email, password } = parseResult.data;
 
-    const admin = await prisma.admin.findUnique({ where: { email } });
+    const admin = await Admin.findOne({ email });
     if (!admin) {
       return res.status(401).json({ success: false, message: 'Invalid email or password.' });
     }
@@ -41,6 +41,7 @@ const login = async (req, res) => {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'lax',
+      path: '/',
       maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
     });
 
@@ -63,7 +64,9 @@ const logout = async (req, res) => {
   try {
     res.clearCookie('token', {
       httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
       sameSite: 'lax',
+      path: '/',
     });
     return res.status(200).json({ success: true, message: 'Logged out successfully.' });
   } catch (error) {
@@ -90,7 +93,7 @@ const changePassword = async (req, res) => {
 
     const { currentPassword, newPassword } = parseResult.data;
 
-    const admin = await prisma.admin.findUnique({ where: { id: req.user.id } });
+    const admin = await Admin.findById(req.user.id);
     if (!admin) {
       return res.status(404).json({ success: false, message: 'Admin account not found.' });
     }
@@ -101,10 +104,7 @@ const changePassword = async (req, res) => {
     }
 
     const newHash = await hashPassword(newPassword);
-    await prisma.admin.update({
-      where: { id: req.user.id },
-      data: { passwordHash: newHash },
-    });
+    await Admin.findByIdAndUpdate(req.user.id, { passwordHash: newHash });
 
     return res.status(200).json({ success: true, message: 'Password updated successfully.' });
   } catch (error) {

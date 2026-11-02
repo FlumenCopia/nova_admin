@@ -1,16 +1,17 @@
-const prisma = require('../config/db');
+const { Enquiry } = require('../models');
 const { z } = require('zod');
+const { isValidObjectId } = require('../middleware/validateObjectId');
 
 const publicEnquirySchema = z.object({
-  name: z.string().min(1, 'Name is required').max(150, 'Name cannot exceed 150 characters'),
-  phone: z.string().min(5, 'Valid phone number is required').max(30, 'Phone number cannot exceed 30 characters'),
-  company: z.string().max(200, 'Company name cannot exceed 200 characters').optional(),
-  email: z.string().max(150, 'Email cannot exceed 150 characters').optional(),
-  serviceType: z.string().max(150, 'Service type cannot exceed 150 characters').optional(),
-  notes: z.string().max(2000, 'Message cannot exceed 2000 characters').optional(),
-  message: z.string().max(2000, 'Message cannot exceed 2000 characters').optional(),
-  service: z.string().max(150, 'Service cannot exceed 150 characters').optional(),
-  source: z.string().max(100, 'Source cannot exceed 100 characters').optional(),
+  name: z.string({ required_error: 'Name is required' }).trim().min(1, 'Name is required').max(150, 'Name cannot exceed 150 characters'),
+  phone: z.string({ required_error: 'Valid phone number is required' }).trim().min(5, 'Valid phone number is required').max(30, 'Phone number cannot exceed 30 characters'),
+  company: z.string().trim().max(200, 'Company name cannot exceed 200 characters').optional().nullable(),
+  email: z.string().trim().max(150, 'Email cannot exceed 150 characters').optional().nullable(),
+  serviceType: z.string().trim().max(150, 'Service type cannot exceed 150 characters').optional().nullable(),
+  notes: z.string().trim().max(2000, 'Message cannot exceed 2000 characters').optional().nullable(),
+  message: z.string().trim().max(2000, 'Message cannot exceed 2000 characters').optional().nullable(),
+  service: z.string().trim().max(150, 'Service cannot exceed 150 characters').optional().nullable(),
+  source: z.string().trim().max(100, 'Source cannot exceed 100 characters').optional().nullable(),
 });
 
 const createEnquiry = async (req, res) => {
@@ -23,12 +24,50 @@ const createEnquiry = async (req, res) => {
       });
     }
 
-    const newEnquiry = await prisma.enquiry.create({
-      data: {
-        ...parseResult.data,
-        status: 'NEW',
-      },
-    });
+    const {
+      name,
+      phone,
+      company,
+      email,
+      serviceType,
+      notes,
+      message,
+      service,
+      source,
+    } = parseResult.data;
+
+    // Normalization & Precedence:
+    // 1. Prefer canonical field (notes / serviceType) over alias (message / service)
+    // 2. Map alias 'message' to 'notes' if 'notes' is not provided
+    // 3. Map alias 'service' to 'serviceType' if 'serviceType' is not provided
+    const resolvedNotes = (notes && notes.trim().length > 0)
+      ? notes.trim()
+      : (message && message.trim().length > 0)
+      ? message.trim()
+      : null;
+
+    const resolvedServiceType = (serviceType && serviceType.trim().length > 0)
+      ? serviceType.trim()
+      : (service && service.trim().length > 0)
+      ? service.trim()
+      : null;
+
+    const resolvedCompany = (company && company.trim().length > 0) ? company.trim() : null;
+    const resolvedEmail = (email && email.trim().length > 0) ? email.trim() : null;
+    const resolvedSource = (source && source.trim().length > 0) ? source.trim() : 'Website Form';
+
+    const enquiryData = {
+      name: name.trim(),
+      phone: phone.trim(),
+      ...(resolvedCompany && { company: resolvedCompany }),
+      ...(resolvedEmail && { email: resolvedEmail }),
+      ...(resolvedServiceType && { serviceType: resolvedServiceType }),
+      ...(resolvedNotes && { notes: resolvedNotes }),
+      source: resolvedSource,
+      status: 'NEW',
+    };
+
+    const newEnquiry = await Enquiry.create(enquiryData);
 
     return res.status(201).json({
       success: true,
@@ -36,7 +75,7 @@ const createEnquiry = async (req, res) => {
       data: newEnquiry,
     });
   } catch (error) {
-    console.error('Create enquiry error:', error);
+    console.error('Create enquiry error:', error.message || error);
     return res.status(500).json({ success: false, message: 'Failed to submit enquiry.' });
   }
 };
@@ -45,41 +84,47 @@ const getAllEnquiries = async (req, res) => {
   try {
     const { status, query, page, limit } = req.query;
 
-    const whereClause = {};
+    const filter = {};
 
     if (status && status !== 'ALL') {
-      whereClause.status = status;
+      filter.status = status;
     }
 
     if (query) {
-      whereClause.OR = [
-        { name: { contains: query, mode: 'insensitive' } },
-        { phone: { contains: query, mode: 'insensitive' } },
-        { company: { contains: query, mode: 'insensitive' } },
+      const clean = String(query).trim().replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      const regex = new RegExp(clean, 'i');
+      filter.$or = [
+        { name: regex },
+        { phone: regex },
+        { company: regex },
       ];
     }
 
-    const filteredTotal = await prisma.enquiry.count({ where: whereClause });
+    const filteredTotal = await Enquiry.countDocuments(filter);
 
     const pageNum = Math.max(1, parseInt(page, 10) || 1);
     const limitNum = limit === 'all' ? null : Math.max(1, parseInt(limit, 10) || 10);
-    const queryOptions = {
-      where: whereClause,
-      orderBy: { createdAt: 'desc' },
-    };
+
+    let queryBuilder = Enquiry.find(filter).sort({ createdAt: -1 });
 
     if (limitNum) {
-      queryOptions.skip = (pageNum - 1) * limitNum;
-      queryOptions.take = limitNum;
+      queryBuilder = queryBuilder.skip((pageNum - 1) * limitNum).limit(limitNum);
     }
 
-    const enquiries = await prisma.enquiry.findMany(queryOptions);
+    const enquiries = await queryBuilder;
+
+    const [total, newCount, contactedCount, closedCount] = await Promise.all([
+      Enquiry.countDocuments(),
+      Enquiry.countDocuments({ status: 'NEW' }),
+      Enquiry.countDocuments({ status: 'CONTACTED' }),
+      Enquiry.countDocuments({ status: 'CLOSED' }),
+    ]);
 
     const counts = {
-      total: await prisma.enquiry.count(),
-      newCount: await prisma.enquiry.count({ where: { status: 'NEW' } }),
-      contactedCount: await prisma.enquiry.count({ where: { status: 'CONTACTED' } }),
-      closedCount: await prisma.enquiry.count({ where: { status: 'CLOSED' } }),
+      total,
+      newCount,
+      contactedCount,
+      closedCount,
     };
 
     const totalPages = limitNum ? Math.ceil(filteredTotal / limitNum) : 1;
@@ -106,20 +151,22 @@ const getAllEnquiries = async (req, res) => {
 const updateEnquiryStatus = async (req, res) => {
   try {
     const { id } = req.params;
+    if (!isValidObjectId(id)) {
+      return res.status(400).json({ success: false, message: 'Invalid identifier format. Must be a 24-character hexadecimal ObjectId.' });
+    }
+
     const { status, adminNotes } = req.body;
 
-    const existing = await prisma.enquiry.findUnique({ where: { id } });
+    const existing = await Enquiry.findById(id);
     if (!existing) {
       return res.status(404).json({ success: false, message: 'Enquiry not found.' });
     }
 
-    const updated = await prisma.enquiry.update({
-      where: { id },
-      data: {
-        ...(status && { status }),
-        ...(adminNotes !== undefined && { adminNotes }),
-      },
-    });
+    const updateData = {};
+    if (status) updateData.status = status;
+    if (adminNotes !== undefined) updateData.adminNotes = adminNotes;
+
+    const updated = await Enquiry.findByIdAndUpdate(id, updateData, { new: true });
 
     return res.status(200).json({
       success: true,
@@ -127,7 +174,7 @@ const updateEnquiryStatus = async (req, res) => {
       data: updated,
     });
   } catch (error) {
-    console.error('Update enquiry error:', error);
+    console.error('Update enquiry error:', error.message || error);
     return res.status(500).json({ success: false, message: 'Server error updating enquiry.' });
   }
 };
@@ -135,17 +182,20 @@ const updateEnquiryStatus = async (req, res) => {
 const deleteEnquiry = async (req, res) => {
   try {
     const { id } = req.params;
+    if (!isValidObjectId(id)) {
+      return res.status(400).json({ success: false, message: 'Invalid identifier format. Must be a 24-character hexadecimal ObjectId.' });
+    }
 
-    const existing = await prisma.enquiry.findUnique({ where: { id } });
+    const existing = await Enquiry.findById(id);
     if (!existing) {
       return res.status(404).json({ success: false, message: 'Enquiry not found.' });
     }
 
-    await prisma.enquiry.delete({ where: { id } });
+    await Enquiry.findByIdAndDelete(id);
 
     return res.status(200).json({ success: true, message: 'Enquiry deleted successfully.' });
   } catch (error) {
-    console.error('Delete enquiry error:', error);
+    console.error('Delete enquiry error:', error.message || error);
     return res.status(500).json({ success: false, message: 'Server error deleting enquiry.' });
   }
 };

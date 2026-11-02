@@ -1,11 +1,9 @@
-const db = require('../config/db');
+const { Service } = require('../models');
+const { isValidObjectId } = require('../middleware/validateObjectId');
 
 const getPublicServices = async (req, res) => {
   try {
-    const services = await db.service.findMany({
-      where: { isActive: true },
-      orderBy: { order: 'asc' },
-    });
+    const services = await Service.find({ isActive: true }).sort({ order: 1 });
     return res.status(200).json({ success: true, data: services });
   } catch (error) {
     console.error('Get public services error:', error);
@@ -15,9 +13,7 @@ const getPublicServices = async (req, res) => {
 
 const getAllServicesAdmin = async (req, res) => {
   try {
-    const services = await db.service.findMany({
-      orderBy: { order: 'asc' },
-    });
+    const services = await Service.find().sort({ order: 1 });
     return res.status(200).json({ success: true, data: services });
   } catch (error) {
     console.error('Get admin services error:', error);
@@ -37,16 +33,14 @@ const createService = async (req, res) => {
       ? features
       : (features ? features.split('\n').map((f) => f.trim()).filter(Boolean) : []);
 
-    const newService = await db.service.create({
-      data: {
-        title,
-        subtitle: subtitle || '',
-        icon: icon || 'billboard',
-        description,
-        features: parsedFeatures,
-        order: parseInt(order, 10) || 0,
-        isActive: isActive !== 'false' && isActive !== false,
-      },
+    const newService = await Service.create({
+      title,
+      subtitle: subtitle || '',
+      icon: icon || 'billboard',
+      description,
+      features: parsedFeatures,
+      order: parseInt(order, 10) || 0,
+      isActive: isActive !== 'false' && isActive !== false,
     });
 
     return res.status(201).json({
@@ -63,9 +57,13 @@ const createService = async (req, res) => {
 const updateService = async (req, res) => {
   try {
     const { id } = req.params;
+    if (!isValidObjectId(id)) {
+      return res.status(400).json({ success: false, message: 'Invalid identifier format. Must be a 24-character hexadecimal ObjectId.' });
+    }
+
     const { title, subtitle, icon, description, features, order, isActive } = req.body;
 
-    const existing = await db.service.findUnique({ where: { id } });
+    const existing = await Service.findById(id);
     if (!existing) {
       return res.status(404).json({ success: false, message: 'Service not found.' });
     }
@@ -77,18 +75,17 @@ const updateService = async (req, res) => {
         : features.split('\n').map((f) => f.trim()).filter(Boolean);
     }
 
-    const updated = await db.service.update({
-      where: { id },
-      data: {
-        ...(title && { title }),
-        ...(subtitle !== undefined && { subtitle }),
-        ...(icon !== undefined && { icon }),
-        ...(description && { description }),
-        ...(features !== undefined && { features: parsedFeatures }),
-        ...(order !== undefined && { order: parseInt(order, 10) }),
-        ...(isActive !== undefined && { isActive: isActive === 'true' || isActive === true }),
-      },
-    });
+    const updateData = {
+      ...(title && { title }),
+      ...(subtitle !== undefined && { subtitle }),
+      ...(icon !== undefined && { icon }),
+      ...(description && { description }),
+      ...(features !== undefined && { features: parsedFeatures }),
+      ...(order !== undefined && { order: parseInt(order, 10) }),
+      ...(isActive !== undefined && { isActive: isActive === 'true' || isActive === true }),
+    };
+
+    const updated = await Service.findByIdAndUpdate(id, updateData, { new: true });
 
     return res.status(200).json({
       success: true,
@@ -96,7 +93,7 @@ const updateService = async (req, res) => {
       data: updated,
     });
   } catch (error) {
-    console.error('Update service error:', error);
+    console.error('Update service error:', error.message || error);
     return res.status(500).json({ success: false, message: 'Failed to update service.' });
   }
 };
@@ -104,15 +101,19 @@ const updateService = async (req, res) => {
 const deleteService = async (req, res) => {
   try {
     const { id } = req.params;
-    const existing = await db.service.findUnique({ where: { id } });
+    if (!isValidObjectId(id)) {
+      return res.status(400).json({ success: false, message: 'Invalid identifier format. Must be a 24-character hexadecimal ObjectId.' });
+    }
+
+    const existing = await Service.findById(id);
     if (!existing) {
       return res.status(404).json({ success: false, message: 'Service not found.' });
     }
 
-    await db.service.delete({ where: { id } });
+    await Service.findByIdAndDelete(id);
     return res.status(200).json({ success: true, message: 'Service deleted successfully.' });
   } catch (error) {
-    console.error('Delete service error:', error);
+    console.error('Delete service error:', error.message || error);
     return res.status(500).json({ success: false, message: 'Failed to delete service.' });
   }
 };

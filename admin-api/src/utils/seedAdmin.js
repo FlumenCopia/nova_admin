@@ -1,4 +1,4 @@
-const db = require('../config/db');
+const { connectDB, Admin, SiteSettings, Service } = require('../config/db');
 const { hashPassword } = require('./hash');
 require('dotenv').config();
 
@@ -60,44 +60,42 @@ const defaultServices = [
 ];
 
 const seedAdmin = async () => {
+  await connectDB();
+
   const adminEmail = process.env.ADMIN_EMAIL || 'admin@novainnovations.in';
   const adminPassword = process.env.ADMIN_PASSWORD || 'admin123';
   const passwordHash = await hashPassword(adminPassword);
 
   try {
-    const existingAdmin = await db.admin.findUnique({ where: { email: adminEmail } });
+    const existingAdmin = await Admin.findOne({ email: adminEmail });
 
     if (!existingAdmin) {
-      await db.admin.create({
-        data: {
-          email: adminEmail,
-          passwordHash,
-          name: 'Nova Admin',
-        },
+      await Admin.create({
+        email: adminEmail,
+        passwordHash,
+        name: 'Nova Admin',
       });
       console.log(`✓ Admin user created successfully: ${adminEmail}`);
     } else {
       console.log(`✓ Admin user already exists: ${adminEmail}`);
     }
 
-    let settings = await db.siteSettings.findFirst();
+    let settings = await SiteSettings.findOne();
     if (!settings) {
-      await db.siteSettings.create({
-        data: {
-          primaryPhone: '+91 95390 00640',
-          altPhone: '+91 95263 64446',
-          contactEmail: 'novainnovations2020@gmail.com',
-          hqAddress: 'T.C 26/929(2), C.K. Tower, Panavila Jn., Thiruvananthapuram - 695001',
-          cityOfficeAddress: 'T.C. 29/314, S J Tower, MP Appan Road, Vazhuthacaud, Trivandrum - 695014',
-        },
+      await SiteSettings.create({
+        primaryPhone: '+91 95390 00640',
+        altPhone: '+91 95263 64446',
+        contactEmail: 'novainnovations2020@gmail.com',
+        hqAddress: 'T.C 26/929(2), C.K. Tower, Panavila Jn., Thiruvananthapuram - 695001',
+        cityOfficeAddress: 'T.C. 29/314, S J Tower, MP Appan Road, Vazhuthacaud, Trivandrum - 695014',
       });
       console.log('✓ Default site settings created.');
     }
 
-    const existingServices = await db.service.findMany();
-    if (existingServices.length === 0) {
+    const servicesCount = await Service.countDocuments();
+    if (servicesCount === 0) {
       for (const s of defaultServices) {
-        await db.service.create({ data: s });
+        await Service.create(s);
       }
       console.log('✓ Default 6 core services created.');
     }
@@ -109,7 +107,7 @@ const seedAdmin = async () => {
 };
 
 if (require.main === module) {
-  seedAdmin();
+  seedAdmin().then(() => process.exit(0)).catch(() => process.exit(1));
 }
 
 module.exports = seedAdmin;
