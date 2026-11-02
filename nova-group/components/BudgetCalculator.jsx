@@ -49,7 +49,6 @@ export default function BudgetCalculator({ onOpenModal }) {
             />
           </div>
         </div>
-
         <div className="calc-result-box">
           <span style={{ fontSize: '0.9rem', textTransform: 'uppercase', letterSpacing: '0.08em', color: '#94a3b8' }}>
             Estimated Campaign Package
