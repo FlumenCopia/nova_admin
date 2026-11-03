@@ -1,0 +1,167 @@
+{
+  "Admin": [
+    {
+      "id": "67cb50000000000000000001",
+      "_id": "67cb50000000000000000001",
+      "email": "admin@novainnovations.in",
+      "passwordHash": "$2a$10$jb5c/OegsT0QHN7Br8RTyu7fHwQgwX/FJqo8pTEhtMSv.481ZDvtC",
+      "name": "Nova Admin",
+      "createdAt": "2026-11-02T10:43:53.717Z",
+      "updatedAt": "2026-11-02T10:43:53.726Z"
+    }
+  ],
+  "SiteSettings": [
+    {
+      "id": "67cb50000000000000000002",
+      "_id": "67cb50000000000000000002",
+      "primaryPhone": "+91 95390 00640",
+      "altPhone": "+91 95263 64446",
+      "contactEmail": "novainnovations2020@gmail.com",
+      "hqAddress": "T.C. 29/314, S J Tower, M P Appan Road, Vazhuthacaud - Poojappura Rd, P.O, Thycaud, Thiruvananthapuram, Kerala - 695014",
+      "cityOfficeAddress": "T.C. 29/314, S J Tower, MP Appan Road, Vazhuthacaud, Trivandrum - 695014",
+      "heroBannerUrl": "/mainhero1.png",
+      "heroTitle": "INNOVATIONS THAT\nHALLMARKS YOUR BRAND",
+      "heroSubtitle": "Outdoors • Design Studio • Events — Prime hoardings, branding & overnight campaign execution across Kerala.",
+      "createdAt": "2026-11-02T10:43:53.727Z",
+      "updatedAt": "2026-11-02T10:43:53.727Z"
+    }
+  ],
+  "Service": [
+    {
+      "id": "67cb50000000000000000010",
+      "_id": "67cb50000000000000000010",
+      "title": "Outdoor Hoardings",
+      "subtitle": "Prime Highway & City Billboards",
+      "icon": "billboard",
+      "description": "Prime highway formats, lit junction gantries, and maximum visibility unipoles across Kerala.",
+      "features": [
+        "Illuminated & Non-Lit Billboards",
+        "Unipoles & Gantries at High-Traffic Junctions",
+        "Pan-Kerala Coverage (Trivandrum, Cochin, Calicut, Kollam)"
+      ],
+      "order": 1,
+      "isActive": true,
+      "createdAt": "2026-11-02T10:43:53.727Z",
+      "updatedAt": "2026-11-02T10:43:53.727Z"
+    },
+    {
+      "id": "67cb50000000000000000011",
+      "_id": "67cb50000000000000000011",
+      "title": "Vehicle & Transit Advertising",
+      "subtitle": "KSRTC Bus Wraps & Mobile Media",
+      "icon": "transit",
+      "description": "KSRTC bus wraps, auto autorickshaw hood branding, and mobile LED publicity vans.",
+      "features": [
+        "Full & Side KSRTC Bus Wraps",
+        "Auto Hood Branding",
+        "Mobile Publicity Vans with Sound System"
+      ],
+      "order": 2,
+      "isActive": true,
+      "createdAt": "2026-11-02T10:43:53.727Z",
+      "updatedAt": "2026-11-02T10:43:53.727Z"
+    },
+    {
+      "id": "67cb50000000000000000012",
+      "_id": "67cb50000000000000000012",
+      "title": "Shop & Retail Facade Branding",
+      "subtitle": "Storefront Signboards & In-shop Media",
+      "icon": "retail",
+      "description": "3D LED acrylic channel letters, ACP facade cladding, flex signboards, and glow boxes.",
+      "features": [
+        "3D LED Acrylic Letters & ACP Cladding",
+        "Flex Signboards & Glow Box Systems",
+        "Dealer & Franchise Chain Branding"
+      ],
+      "order": 3,
+      "isActive": true,
+      "createdAt": "2026-11-02T10:43:53.727Z",
+      "updatedAt": "2026-11-02T10:43:53.727Z"
+    },
+    {
+      "id": "67cb50000000000000000013",
+      "_id": "67cb50000000000000000013",
+      "title": "Event Branding & Exhibitions",
+      "subtitle": "Corporate Stalls & Stage Setup",
+      "icon": "event",
+      "description": "Complete exhibition stall design, backdrop fabrication, launch event branding, and kiosks.",
+      "features": [
+        "Exhibition Stalls & Custom Fabricated Kiosks",
+        "Stage Backdrops & Sound/Lighting Setup",
+        "Product Launch Event Branding & Entry Arches"
+      ],
+      "order": 4,
+      "isActive": true,
+      "createdAt": "2026-11-02T10:43:53.727Z",
+      "updatedAt": "2026-11-02T10:43:53.727Z"
+    },
+    {
+      "id": "67cb50000000000000000014",
+      "_id": "67cb50000000000000000014",
+      "title": "Commercial Wall Painting",
+      "subtitle": "Highway Murals & Boundary Walls",
+      "icon": "wall",
+      "description": "Hand-painted advertising murals on high-visibility national & state highways across rural and semi-urban Kerala.",
+      "features": [
+        "Large Format High-Contrast Wall Murals",
+        "Weatherproof Exterior Emulsion Painting",
+        "Long-term High-Traffic Rural Coverage"
+      ],
+      "order": 5,
+      "isActive": true,
+      "createdAt": "2026-11-02T10:43:53.727Z",
+      "updatedAt": "2026-11-02T10:43:53.727Z"
+    },
+    {
+      "id": "67cb50000000000000000015",
+      "_id": "67cb50000000000000000015",
+      "title": "Design Studio & Digital Printing",
+      "subtitle": "Creative Graphics & Solvent Printing",
+      "icon": "design",
+      "description": "In-house high-resolution solvent flex printing, star flex, vinyl stickers, and artwork design.",
+      "features": [
+        "Large Format Solvent & Eco-Solvent Printing",
+        "Star Flex & Vinyl Graphic Printing",
+        "Creative Campaign Conceptualization & Art Direction"
+      ],
+      "order": 6,
+      "isActive": true,
+      "createdAt": "2026-11-02T10:43:53.727Z",
+      "updatedAt": "2026-11-02T10:43:53.727Z"
+    }
+  ],
+  "ClientLogo": [
+    {
+      "id": "67cb50000000000000000020",
+      "_id": "67cb50000000000000000020",
+      "name": "myG",
+      "logoUrl": "/client-logos/myg.png",
+      "order": 1,
+      "isActive": true,
+      "createdAt": "2026-11-02T10:43:53.727Z",
+      "updatedAt": "2026-11-02T10:43:53.727Z"
+    },
+    {
+      "id": "67cb50000000000000000021",
+      "_id": "67cb50000000000000000021",
+      "name": "Pothys",
+      "logoUrl": "/client-logos/pothys.png",
+      "order": 2,
+      "isActive": true,
+      "createdAt": "2026-11-02T10:43:53.727Z",
+      "updatedAt": "2026-11-02T10:43:53.727Z"
+    },
+    {
+      "id": "67cb50000000000000000022",
+      "_id": "67cb50000000000000000022",
+      "name": "Bhima",
+      "logoUrl": "/client-logos/bhima.png",
+      "order": 3,
+      "isActive": true,
+      "createdAt": "2026-11-02T10:43:53.727Z",
+      "updatedAt": "2026-11-02T10:43:53.727Z"
+    }
+  ],
+  "PortfolioItem": [],
+  "Enquiry": []
+}
