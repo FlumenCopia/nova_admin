@@ -140,6 +140,11 @@ export default function GalleryGrid({ onOpenModal }) {
               style={{ cursor: 'pointer' }}
               onClick={() => setLightboxImg(item.image)}
             >
+              <div
+                className="listing-img-blur"
+                style={{ backgroundImage: `url("${item.image}")` }}
+                aria-hidden="true"
+              />
               <img
                 src={item.image}
                 alt={item.title}

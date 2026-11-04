@@ -223,6 +223,11 @@ export default function PortfolioSlider() {
                 onClick={handleCardClick}
               >
                 <div className="cat-card-img-wrap">
+                  <div
+                    className="cat-card-img-blur"
+                    style={{ backgroundImage: `url("${item.image}")` }}
+                    aria-hidden="true"
+                  />
                   <img src={item.image} alt={item.title} className="cat-card-img" loading="lazy" draggable={false} />
                   <span className="cat-card-badge" style={item.isVacant ? { background: '#22c55e' } : {}}>
                     {item.badgeType}
