@@ -99,7 +99,7 @@ export default function ServicesPage() {
         </div>
       </section>
 
-      {/* BUDGET ESTIMATOR CALCULATOR */}
+      {/* BUDGET ESTIMATOR CALCULATOR (Commented Out)
       <section className="calculator-section" id="budget-estimator">
         <div className="container">
           <div style={{ textAlign: 'center', marginBottom: '32px' }}>
@@ -114,6 +114,7 @@ export default function ServicesPage() {
           <BudgetCalculator />
         </div>
       </section>
+      */}
     </>
   );
 }

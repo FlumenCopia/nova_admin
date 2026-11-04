@@ -130,38 +130,34 @@
       "updatedAt": "2026-11-02T10:43:53.727Z"
     }
   ],
-  "ClientLogo": [
-    {
-      "id": "67cb50000000000000000020",
-      "_id": "67cb50000000000000000020",
-      "name": "myG",
-      "logoUrl": "/client-logos/myg.png",
-      "order": 1,
-      "isActive": true,
-      "createdAt": "2026-11-02T10:43:53.727Z",
-      "updatedAt": "2026-11-02T10:43:53.727Z"
-    },
-    {
-      "id": "67cb50000000000000000021",
-      "_id": "67cb50000000000000000021",
-      "name": "Pothys",
-      "logoUrl": "/client-logos/pothys.png",
-      "order": 2,
-      "isActive": true,
-      "createdAt": "2026-11-02T10:43:53.727Z",
-      "updatedAt": "2026-11-02T10:43:53.727Z"
-    },
-    {
-      "id": "67cb50000000000000000022",
-      "_id": "67cb50000000000000000022",
-      "name": "Bhima",
-      "logoUrl": "/client-logos/bhima.png",
-      "order": 3,
-      "isActive": true,
-      "createdAt": "2026-11-02T10:43:53.727Z",
-      "updatedAt": "2026-11-02T10:43:53.727Z"
-    }
-  ],
+  "ClientLogo": [],
   "PortfolioItem": [],
-  "Enquiry": []
+  "Enquiry": [
+    {
+      "name": "jgmkjhm",
+      "phone": "x    rrrr",
+      "serviceType": "Vehicle & Transit Advertising",
+      "notes": "v c",
+      "source": "Website Consultation Modal",
+      "status": "NEW",
+      "id": "6aeb205317dcff8deed7de7b",
+      "_id": "6aeb205317dcff8deed7de7b",
+      "createdAt": "2026-11-04T12:08:51.601Z",
+      "updatedAt": "2026-11-04T12:08:51.601Z"
+    },
+    {
+      "name": "akhil s",
+      "phone": "+918139037814",
+      "company": "no",
+      "email": "akhilss235@gmail.com",
+      "serviceType": "Vehicle & Transit Advertising",
+      "notes": "cxvxc",
+      "source": "Contact Page Campaign Brief",
+      "status": "NEW",
+      "id": "6aeb2081982e3ee8324c7d05",
+      "_id": "6aeb2081982e3ee8324c7d05",
+      "createdAt": "2026-11-04T12:09:37.542Z",
+      "updatedAt": "2026-11-04T12:09:37.542Z"
+    }
+  ]
 }
