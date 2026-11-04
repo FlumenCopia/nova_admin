@@ -18,7 +18,10 @@ function LoginForm() {
       try {
         const res = await apiRequest('/admin/auth/me');
         if (res && res.success) {
-          router.push('/dashboard');
+          if (typeof window !== 'undefined' && res.token) {
+          localStorage.setItem('admin_token', res.token);
+        }
+        router.push('/dashboard');
         }
       } catch (err) {
         // Not authenticated, stay on login page
@@ -39,6 +42,9 @@ function LoginForm() {
         body: JSON.stringify({ email, password }),
       });
       if (res && res.success) {
+        if (typeof window !== 'undefined' && res.token) {
+          localStorage.setItem('admin_token', res.token);
+        }
         router.push('/dashboard');
       } else {
         setError(res?.message || 'Invalid email or password.');

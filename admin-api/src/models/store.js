@@ -300,20 +300,71 @@ class QueryPromise {
   }
 }
 
+// Single document query supporting .select(), .populate(), etc.
+class SingleDocQueryPromise {
+  constructor(finder) {
+    this.finder = finder;
+    this._select = null;
+  }
+
+  select(fields) {
+    this._select = fields;
+    return this;
+  }
+
+  populate() {
+    return this;
+  }
+
+  async exec() {
+    const doc = await this.finder();
+    if (!doc) return null;
+    let result = { ...doc };
+    if (this._select) {
+      const fieldList = (typeof this._select === 'string' ? this._select.split(/\s+/) : Object.keys(this._select)).filter(Boolean);
+      const isExclusion = fieldList.some((f) => f.startsWith('-'));
+      if (isExclusion) {
+        for (const f of fieldList) {
+          delete result[f.replace(/^-/, '')];
+        }
+      } else if (fieldList.length > 0) {
+        const filtered = { id: result.id, _id: result._id };
+        for (const f of fieldList) {
+          if (f in result) filtered[f] = result[f];
+        }
+        result = filtered;
+      }
+    }
+    return result;
+  }
+
+  then(resolve, reject) {
+    return this.exec().then(resolve, reject);
+  }
+
+  catch(reject) {
+    return this.exec().catch(reject);
+  }
+}
+
 // Generic Model factory
 function createModel(collectionName) {
   return {
-    async findOne(query = {}) {
-      const items = dbMemory[collectionName] || [];
-      const found = items.find((d) => matchesQuery(d, query));
-      return found ? { ...found } : null;
+    findOne(query = {}) {
+      return new SingleDocQueryPromise(async () => {
+        const items = dbMemory[collectionName] || [];
+        const found = items.find((d) => matchesQuery(d, query));
+        return found ? { ...found } : null;
+      });
     },
 
-    async findById(id) {
-      const strId = String(id && id._bsontype ? id.toString() : id);
-      const items = dbMemory[collectionName] || [];
-      const found = items.find((d) => String(d.id || d._id) === strId);
-      return found ? { ...found } : null;
+    findById(id) {
+      return new SingleDocQueryPromise(async () => {
+        const strId = String(id && id._bsontype ? id.toString() : id);
+        const items = dbMemory[collectionName] || [];
+        const found = items.find((d) => String(d.id || d._id) === strId);
+        return found ? { ...found } : null;
+      });
     },
 
     find(filter = {}) {
@@ -342,23 +393,25 @@ function createModel(collectionName) {
       return { ...doc };
     },
 
-    async findByIdAndUpdate(id, update = {}, options = {}) {
-      const strId = String(id && id._bsontype ? id.toString() : id);
-      const items = dbMemory[collectionName] || [];
-      const index = items.findIndex((d) => String(d.id || d._id) === strId);
-      if (index === -1) return null;
+    findByIdAndUpdate(id, update = {}, options = {}) {
+      return new SingleDocQueryPromise(async () => {
+        const strId = String(id && id._bsontype ? id.toString() : id);
+        const items = dbMemory[collectionName] || [];
+        const index = items.findIndex((d) => String(d.id || d._id) === strId);
+        if (index === -1) return null;
 
-      const updated = {
-        ...items[index],
-        ...update,
-        id: strId,
-        _id: strId,
-        updatedAt: new Date().toISOString(),
-      };
+        const updated = {
+          ...items[index],
+          ...update,
+          id: strId,
+          _id: strId,
+          updatedAt: new Date().toISOString(),
+        };
 
-      items[index] = updated;
-      saveData(dbMemory);
-      return { ...updated };
+        items[index] = updated;
+        saveData(dbMemory);
+        return { ...updated };
+      });
     },
 
     async findByIdAndDelete(id) {

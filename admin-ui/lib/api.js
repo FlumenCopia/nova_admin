@@ -5,6 +5,12 @@ export async function apiRequest(endpoint, options = {}) {
   const url = `${API_BASE}${endpoint}`;
 
   const headers = { ...options.headers };
+  if (typeof window !== 'undefined') {
+    const token = localStorage.getItem('admin_token');
+    if (token && !headers['Authorization']) {
+      headers['Authorization'] = `Bearer ${token}`;
+    }
+  }
   if (!(options.body instanceof FormData) && !headers['Content-Type']) {
     headers['Content-Type'] = 'application/json';
   }

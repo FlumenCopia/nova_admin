@@ -20,6 +20,9 @@ export default function Sidebar({ isOpen, onClose }) {
       console.error(err);
     } finally {
       setShowLogoutModal(false);
+      if (typeof window !== 'undefined') {
+        localStorage.removeItem('admin_token');
+      }
       router.push('/login?logout=success');
     }
   };
