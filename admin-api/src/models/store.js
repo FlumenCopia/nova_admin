@@ -11,7 +11,7 @@ if (!fs.existsSync(DATA_DIR)) {
   fs.mkdirSync(DATA_DIR, { recursive: true });
 }
 
-const DEFAULT_ADMIN_HASH = bcrypt.hashSync('admin123', 10);
+const DEFAULT_ADMIN_HASH = bcrypt.hashSync('NovaAdmin@2026!', 10);
 
 const defaultInitialData = {
   Admin: [

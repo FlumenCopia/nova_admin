@@ -63,7 +63,7 @@ const seedAdmin = async () => {
   await connectDB();
 
   const adminEmail = process.env.ADMIN_EMAIL || 'admin@novainnovations.in';
-  const adminPassword = process.env.ADMIN_PASSWORD || 'admin123';
+  const adminPassword = process.env.ADMIN_PASSWORD || 'NovaAdmin@2026!';
   const passwordHash = await hashPassword(adminPassword);
 
   try {
