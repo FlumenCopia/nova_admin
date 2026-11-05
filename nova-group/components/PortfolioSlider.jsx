@@ -3,11 +3,11 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import Link from 'next/link';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { campaigns as defaultCampaigns } from '../data/campaigns';
 import { fetchApi, getMediaUrl } from '../lib/api';
 
 export default function PortfolioSlider() {
-  const [campaignsList, setCampaignsList] = useState(defaultCampaigns);
+  const [campaignsList, setCampaignsList] = useState([]);
+  const [loading, setLoading] = useState(true);
   const featuredCampaigns = campaignsList.slice(0, 8);
   const sliderRef = useRef(null);
   const timerRef = useRef(null);
@@ -23,17 +23,26 @@ export default function PortfolioSlider() {
 
   useEffect(() => {
     async function loadDynamicPortfolio() {
-      const json = await fetchApi('/public/portfolio');
-      if (json && json.success && json.data && json.data.length > 0) {
-        const mapped = json.data.map((item, idx) => ({
-          id: item.id || `api-slide-${idx}`,
-          title: item.title,
-          subtitle: item.location || 'Prime Location, Kerala',
-          badgeType: item.badgeType || 'Billboard',
-          image: getMediaUrl(item.imageUrl, '/mainhero1.png'),
-          isVacant: item.isVacant,
-        }));
-        setCampaignsList(mapped);
+      try {
+        const json = await fetchApi('/public/portfolio');
+        if (json && json.success && Array.isArray(json.data) && json.data.length > 0) {
+          const mapped = json.data.map((item, idx) => ({
+            id: item.id || `api-slide-${idx}`,
+            title: item.title,
+            subtitle: item.location || 'Prime Location, Kerala',
+            badgeType: item.badgeType || 'Billboard',
+            image: getMediaUrl(item.imageUrl, '/mainhero1.png'),
+            isVacant: item.isVacant,
+          }));
+          setCampaignsList(mapped);
+        } else {
+          setCampaignsList([]);
+        }
+      } catch (err) {
+        console.error('Failed to load dynamic portfolio:', err);
+        setCampaignsList([]);
+      } finally {
+        setLoading(false);
       }
     }
     loadDynamicPortfolio();
@@ -81,7 +90,7 @@ export default function PortfolioSlider() {
 
   useEffect(() => {
     const slider = sliderRef.current;
-    if (!slider) return;
+    if (!slider || featuredCampaigns.length === 0) return;
 
     slider.addEventListener('scroll', updateScrollState, { passive: true });
     updateScrollState();
@@ -141,7 +150,7 @@ export default function PortfolioSlider() {
       slider.removeEventListener('mouseenter', handleMouseEnter);
       stopAutoplay();
     };
-  }, [updateScrollState, startAutoplay, stopAutoplay]);
+  }, [updateScrollState, startAutoplay, stopAutoplay, featuredCampaigns.length]);
 
   const handlePrev = (e) => {
     e.preventDefault();
@@ -176,6 +185,10 @@ export default function PortfolioSlider() {
       e.preventDefault();
     }
   };
+
+  if (loading || featuredCampaigns.length === 0) {
+    return null;
+  }
 
   return (
     <section className="catalog-section" id="property-catalog">

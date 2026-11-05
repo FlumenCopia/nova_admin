@@ -3,18 +3,17 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Check, Monitor } from 'lucide-react';
-import BudgetCalculator from '../../components/BudgetCalculator';
-import { servicesData as defaultServices } from '../../data/servicesData';
 import { fetchApi } from '../../lib/api';
 
 export default function ServicesPage() {
-  const [servicesList, setServicesList] = useState(defaultServices);
+  const [servicesList, setServicesList] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function fetchDynamicServices() {
       try {
         const json = await fetchApi('/public/services');
-        if (json && json.success && json.data && json.data.length > 0) {
+        if (json && json.success && Array.isArray(json.data)) {
           const mapped = json.data.map((s, idx) => ({
             id: s.id || `api-srv-${idx}`,
             title: s.title,
@@ -24,9 +23,14 @@ export default function ServicesPage() {
             features: Array.isArray(s.features) ? s.features : [],
           }));
           setServicesList(mapped);
+        } else {
+          setServicesList([]);
         }
       } catch (err) {
-        // Fall back to default local data
+        console.error('Failed to load services:', err);
+        setServicesList([]);
+      } finally {
+        setLoading(false);
       }
     }
     fetchDynamicServices();
@@ -67,54 +71,47 @@ export default function ServicesPage() {
       {/* SERVICES CARDS GRID */}
       <section className="services-grid-section">
         <div className="container">
-          <div className="services-cards-grid">
-            {servicesList.map((s) => (
-              <div key={s.id} className="service-card">
-                <div className="service-card-icon">
-                  <Monitor size={28} strokeWidth={2} />
-                </div>
-                <h3 className="service-card-title">{s.title}</h3>
-                {s.subtitle && (
-                  <div style={{ fontSize: '0.84rem', color: 'var(--brand-red)', fontWeight: 600, marginBottom: '8px' }}>
-                    {s.subtitle}
+          {loading ? (
+            <div style={{ textAlign: 'center', padding: '60px 20px', color: 'var(--text-muted)' }}>
+              Loading services...
+            </div>
+          ) : servicesList.length === 0 ? (
+            <div style={{ textAlign: 'center', padding: '60px 20px', color: 'var(--text-muted)' }}>
+              No services currently available.
+            </div>
+          ) : (
+            <div className="services-cards-grid">
+              {servicesList.map((s) => (
+                <div key={s.id} className="service-card">
+                  <div className="service-card-icon">
+                    <Monitor size={28} strokeWidth={2} />
                   </div>
-                )}
-                <p className="service-card-desc">{s.detailDesc || s.desc}</p>
-                <div className="service-features-list">
-                  {s.features.map((feat, idx) => (
-                    <div key={idx} className="service-feature-item">
-                      <Check size={14} strokeWidth={2.5} style={{ flexShrink: 0 }} />
-                      <span>{feat}</span>
+                  <h3 className="service-card-title">{s.title}</h3>
+                  {s.subtitle && (
+                    <div style={{ fontSize: '0.84rem', color: 'var(--brand-red)', fontWeight: 600, marginBottom: '8px' }}>
+                      {s.subtitle}
                     </div>
-                  ))}
+                  )}
+                  <p className="service-card-desc">{s.detailDesc || s.desc}</p>
+                  <div className="service-features-list">
+                    {s.features.map((feat, idx) => (
+                      <div key={idx} className="service-feature-item">
+                        <Check size={14} strokeWidth={2.5} style={{ flexShrink: 0 }} />
+                        <span>{feat}</span>
+                      </div>
+                    ))}
+                  </div>
+                  <div style={{ marginTop: 'auto', paddingTop: '16px' }}>
+                    <Link href="/contact" className="btn-card-action primary" style={{ width: '100%', textAlign: 'center', display: 'block' }}>
+                      Request Rate Quote
+                    </Link>
+                  </div>
                 </div>
-                <div style={{ marginTop: 'auto', paddingTop: '16px' }}>
-                  <Link href="/contact" className="btn-card-action primary" style={{ width: '100%', textAlign: 'center', display: 'block' }}>
-                    Request Rate Quote
-                  </Link>
-                </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
         </div>
       </section>
-
-      {/* BUDGET ESTIMATOR CALCULATOR (Commented Out)
-      <section className="calculator-section" id="budget-estimator">
-        <div className="container">
-          <div style={{ textAlign: 'center', marginBottom: '32px' }}>
-            <span style={{ color: 'var(--brand-red)', fontWeight: 700, textTransform: 'uppercase', fontSize: '0.85rem', letterSpacing: '0.08em' }}>
-              Transparent Cost Estimator
-            </span>
-            <h2 className="heading-md" style={{ marginTop: '4px' }}>Estimate Your Campaign Investment</h2>
-            <p className="subheading" style={{ maxWidth: '600px', margin: '8px auto 0' }}>
-              Select target districts, hoarding formats, and campaign duration to instantly estimate media reach and budget.
-            </p>
-          </div>
-          <BudgetCalculator />
-        </div>
-      </section>
-      */}
     </>
   );
 }

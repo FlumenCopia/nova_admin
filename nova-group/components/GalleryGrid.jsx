@@ -2,34 +2,43 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { Check, X, ChevronLeft, ChevronRight } from 'lucide-react';
-import { campaigns as defaultCampaigns } from '../data/campaigns';
 import { fetchApi, getMediaUrl } from '../lib/api';
 
 export default function GalleryGrid({ onOpenModal }) {
   const [filterCategory, setFilterCategory] = useState('all');
-  const [campaignsList, setCampaignsList] = useState(defaultCampaigns);
+  const [campaignsList, setCampaignsList] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [lightboxImg, setLightboxImg] = useState(null);
   const filterPillsRef = useRef(null);
 
   useEffect(() => {
     async function fetchDynamicPortfolio() {
-      const json = await fetchApi('/public/portfolio');
-      if (json && json.success && json.data && json.data.length > 0) {
-        const mapped = json.data.map((item, idx) => ({
-          id: item.id || `api-${idx}`,
-          title: item.title,
-          category: item.isVacant ? `${item.category} vacant` : item.category,
-          badgeType: item.badgeType || 'Billboard',
-          badgeStatus: item.badgeStatus || 'Prime Location',
-          priceRowTitle: item.location || 'Highway Junction',
-          image: getMediaUrl(item.imageUrl, '/mainhero1.png'),
-          specs: Array.isArray(item.specs) ? item.specs : [],
-          serviceName: item.serviceName || item.title,
-          isVacant: item.isVacant,
-          location: item.location,
-        }));
+      try {
+        const json = await fetchApi('/public/portfolio');
+        if (json && json.success && Array.isArray(json.data)) {
+          const mapped = json.data.map((item, idx) => ({
+            id: item.id || `api-${idx}`,
+            title: item.title,
+            category: item.isVacant ? `${item.category} vacant` : item.category,
+            badgeType: item.badgeType || 'Billboard',
+            badgeStatus: item.badgeStatus || 'Prime Location',
+            priceRowTitle: item.location || 'Highway Junction',
+            image: getMediaUrl(item.imageUrl, '/mainhero1.png'),
+            specs: Array.isArray(item.specs) ? item.specs : [],
+            serviceName: item.serviceName || item.title,
+            isVacant: item.isVacant,
+            location: item.location,
+          }));
 
-        setCampaignsList(mapped);
+          setCampaignsList(mapped);
+        } else {
+          setCampaignsList([]);
+        }
+      } catch (err) {
+        console.error('Failed to load portfolio:', err);
+        setCampaignsList([]);
+      } finally {
+        setLoading(false);
       }
     }
     fetchDynamicPortfolio();
@@ -85,7 +94,7 @@ export default function GalleryGrid({ onOpenModal }) {
 
   const filteredCampaigns = campaignsList.filter((item) => {
     if (filterCategory === 'all') return true;
-    const categories = item.category.split(' ');
+    const categories = (item.category || '').split(' ');
     return categories.includes(filterCategory);
   });
 
@@ -132,82 +141,77 @@ export default function GalleryGrid({ onOpenModal }) {
         </div>
       </div>
 
-      <div className="gallery-grid" id="properties-container">
-        {displayedCampaigns.map((item) => (
-          <div key={item.id} className="property-listing-card" data-category={item.category}>
-            <div
-              className="listing-media"
-              style={{ cursor: 'pointer' }}
-              onClick={() => setLightboxImg(item.image)}
-            >
+      {loading ? (
+        <div style={{ textAlign: 'center', padding: '60px 20px', color: 'var(--text-muted)' }}>
+          Loading campaign gallery...
+        </div>
+      ) : displayedCampaigns.length === 0 ? (
+        <div style={{ textAlign: 'center', padding: '60px 20px', color: 'var(--text-muted)' }}>
+          No campaigns found in this category.
+        </div>
+      ) : (
+        <div className="gallery-grid" id="properties-container">
+          {displayedCampaigns.map((item) => (
+            <div key={item.id} className="property-listing-card" data-category={item.category}>
               <div
-                className="listing-img-blur"
-                style={{ backgroundImage: `url("${item.image}")` }}
-                aria-hidden="true"
-              />
-              <img
-                src={item.image}
-                alt={item.title}
-                className="listing-img"
-                onError={(e) => { e.target.src = '/mainhero1.png'; }}
-              />
-              <span className="listing-badge-type">{item.badgeType}</span>
-              <span className="listing-badge-status">
-                {item.location || item.badgeStatus || 'Location'}
-              </span>
-            </div>
-
-            <div className="listing-content">
-              <div className="listing-price-row">
-                <span className="listing-price">
-                  {item.location || item.priceRowTitle}
+                className="listing-media"
+                style={{ cursor: 'pointer' }}
+                onClick={() => setLightboxImg(item.image)}
+              >
+                <div
+                  className="listing-img-blur"
+                  style={{ backgroundImage: `url("${item.image}")` }}
+                  aria-hidden="true"
+                />
+                <img
+                  src={item.image}
+                  alt={item.title}
+                  className="listing-img"
+                  onError={(e) => { e.target.src = '/mainhero1.png'; }}
+                />
+                <span className="listing-badge-type">{item.badgeType}</span>
+                <span className="listing-badge-status">
+                  {item.location || item.badgeStatus || 'Location'}
                 </span>
               </div>
 
-              <h3 className="listing-title" title={item.title}>{item.title}</h3>
+              <div className="listing-content">
+                <div className="listing-price-row">
+                  <span className="listing-price">
+                    {item.location || item.priceRowTitle}
+                  </span>
+                </div>
 
-              <ul className="listing-specs">
-                {item.specs && item.specs.length > 0 ? (
-                  item.specs.slice(0, 3).map((spec, sIdx) => (
-                    <li key={sIdx} className="spec-item">
-                      <Check size={14} strokeWidth={2.5} style={{ flexShrink: 0, color: 'var(--brand-green, #529621)' }} />
-                      <span>{spec}</span>
-                    </li>
-                  ))
-                ) : (
-                  <>
-                    <li className="spec-item">
-                      <Check size={14} strokeWidth={2.5} style={{ flexShrink: 0, color: 'var(--brand-green, #529621)' }} />
-                      <span>Prime Visibility Corridor</span>
-                    </li>
-                    <li className="spec-item">
-                      <Check size={14} strokeWidth={2.5} style={{ flexShrink: 0, color: 'var(--brand-green, #529621)' }} />
-                      <span>High Traffic Arterial Site</span>
-                    </li>
-                    <li className="spec-item">
-                      <Check size={14} strokeWidth={2.5} style={{ flexShrink: 0, color: 'var(--brand-green, #529621)' }} />
-                      <span>24/7 Illumination Available</span>
-                    </li>
-                  </>
+                <h3 className="listing-title" title={item.title}>{item.title}</h3>
+
+                {item.specs && item.specs.length > 0 && (
+                  <ul className="listing-specs">
+                    {item.specs.slice(0, 3).map((spec, sIdx) => (
+                      <li key={sIdx} className="spec-item">
+                        <Check size={14} strokeWidth={2.5} style={{ flexShrink: 0, color: 'var(--brand-green, #529621)' }} />
+                        <span>{spec}</span>
+                      </li>
+                    ))}
+                  </ul>
                 )}
-              </ul>
 
-              <div className="listing-actions">
-                <button
-                  type="button"
-                  className="btn-card-action primary"
-                  onClick={() => onOpenModal(item.serviceName || item.title)}
-                >
-                  Reserve / Inquire Site
-                </button>
+                <div className="listing-actions">
+                  <button
+                    type="button"
+                    className="btn-card-action primary"
+                    onClick={() => onOpenModal(item.serviceName || item.title)}
+                  >
+                    Reserve / Inquire Site
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      )}
 
       {/* LOAD MORE BUTTON */}
-      {visibleCount < filteredCampaigns.length && (
+      {!loading && visibleCount < filteredCampaigns.length && (
         <div style={{ textAlign: 'center', marginTop: '40px' }}>
           <button
             type="button"

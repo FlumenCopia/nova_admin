@@ -7,11 +7,10 @@ import MarqueeLogos from '../components/MarqueeLogos';
 import PortfolioSlider from '../components/PortfolioSlider';
 import LeadershipSection from '../components/LeadershipSection';
 import AnimatedStatNumber from '../components/AnimatedStatNumber';
-import { servicesData as defaultServices } from '../data/servicesData';
 import { fetchApi, getMediaUrl } from '../lib/api';
 
 export default function HomePage() {
-  const [services, setServices] = useState(defaultServices);
+  const [services, setServices] = useState([]);
   const [heroData, setHeroData] = useState({
     bannerUrl: '/mainhero1.png',
     title: 'INNOVATIONS THAT\nHALLMARKS YOUR BRAND',
