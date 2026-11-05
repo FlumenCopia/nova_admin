@@ -20,7 +20,7 @@ export default function GalleryGrid({ onOpenModal }) {
           title: item.title,
           category: item.isVacant ? `${item.category} vacant` : item.category,
           badgeType: item.badgeType || 'Billboard',
-          badgeStatus: item.location || 'Highway Junction',
+          badgeStatus: item.badgeStatus || 'Prime Location',
           priceRowTitle: item.location || 'Highway Junction',
           image: getMediaUrl(item.imageUrl, '/mainhero1.png'),
           specs: Array.isArray(item.specs) ? item.specs : [],
@@ -29,7 +29,7 @@ export default function GalleryGrid({ onOpenModal }) {
           location: item.location,
         }));
 
-        setCampaignsList([...mapped, ...defaultCampaigns]);
+        setCampaignsList(mapped);
       }
     }
     fetchDynamicPortfolio();

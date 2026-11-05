@@ -33,7 +33,7 @@ export default function PortfolioSlider() {
           image: getMediaUrl(item.imageUrl, '/mainhero1.png'),
           isVacant: item.isVacant,
         }));
-        setCampaignsList([...mapped, ...defaultCampaigns]);
+        setCampaignsList(mapped);
       }
     }
     loadDynamicPortfolio();
