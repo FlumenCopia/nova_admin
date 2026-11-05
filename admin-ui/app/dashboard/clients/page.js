@@ -25,7 +25,7 @@ export default function ClientLogosPage() {
   const fetchClients = async () => {
     try {
       const res = await apiFetch('/admin/clients');
-      if (res.success) {
+      if (res.success && Array.isArray(res.data)) {
         setClients(res.data);
       }
     } catch (err) {
@@ -83,7 +83,7 @@ export default function ClientLogosPage() {
   };
 
   const handleDelete = async (id) => {
-    if (!confirm('Are you sure you want to remove this client logo?')) return;
+    if (!confirm('Are you sure you want to remove this client logo from the website marquee?')) return;
     try {
       const res = await apiFetch(`/admin/clients/${id}`, { method: 'DELETE' });
       if (res.success) {
@@ -99,11 +99,11 @@ export default function ClientLogosPage() {
     <>
       <Toast message={toastMsg} onClose={() => setToastMsg('')} />
 
-      <div className="page-header">
+      <div className="page-header" style={{ marginBottom: '28px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '16px' }}>
         <div>
           <h1 style={{ fontSize: '1.75rem', fontWeight: 800 }}>Client & Partner Logos</h1>
-          <p style={{ color: 'var(--color-text-secondary)', fontSize: '0.9rem' }}>
-            Manage corporate brand partner logos displayed in the continuous website marquee
+          <p style={{ color: 'var(--color-text-secondary)', fontSize: '0.9rem', marginTop: '4px' }}>
+            Manage corporate brand partner logos displayed in the live website marquee ({clients.length} active logos)
           </p>
         </div>
 
@@ -120,10 +120,10 @@ export default function ClientLogosPage() {
         </div>
       ) : clients.length === 0 ? (
         <div className="card" style={{ padding: '32px', textAlign: 'center', color: 'var(--color-text-muted)' }}>
-          No custom client logos uploaded yet. Add corporate partner brand logos to showcase on the marquee.
+          No client logos in the database. Add corporate partner brand logos to showcase on the marquee.
         </div>
       ) : (
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: '20px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: '20px' }}>
           {clients.map((item) => {
             const imgSrc = getMediaUrl(item.logoUrl, '/logo.png');
 
@@ -137,21 +137,36 @@ export default function ClientLogosPage() {
                   display: 'flex',
                   flexDirection: 'column',
                   justifyContent: 'space-between',
+                  borderRadius: '14px',
+                  boxShadow: 'var(--shadow-sm)',
                 }}
               >
-                {/* Top Image Banner matching Campaign Gallery */}
-                <div style={{ position: 'relative', height: '180px', background: '#e2e8f0' }}>
+                {/* Logo Display Container */}
+                <div
+                  style={{
+                    position: 'relative',
+                    height: '110px',
+                    background: '#FFFFFF',
+                    padding: '16px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    borderBottom: '1px solid var(--color-border)',
+                  }}
+                >
                   <img
                     src={imgSrc}
                     alt={item.name}
-                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                    style={{ maxHeight: '70px', maxWidth: '85%', objectFit: 'contain' }}
                     onError={(e) => { e.target.src = '/logo.png'; }}
                   />
                 </div>
 
                 {/* Card Body */}
-                <div style={{ padding: '16px', display: 'flex', flexDirection: 'column', gap: '12px', flex: 1, justifyContent: 'space-between' }}>
-                  <h3 style={{ fontSize: '1.05rem', fontWeight: 700, color: 'var(--color-text-primary)' }}>{item.name}</h3>
+                <div style={{ padding: '14px 16px', display: 'flex', flexDirection: 'column', gap: '10px', flex: 1, justifyContent: 'space-between' }}>
+                  <h3 style={{ fontSize: '0.95rem', fontWeight: 700, color: 'var(--color-text-primary)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }} title={item.name}>
+                    {item.name}
+                  </h3>
 
                   <button
                     onClick={() => handleDelete(item.id)}
@@ -161,6 +176,8 @@ export default function ClientLogosPage() {
                       justifyContent: 'center',
                       color: 'var(--color-danger)',
                       borderColor: 'rgba(217, 45, 32, 0.25)',
+                      fontSize: '0.8rem',
+                      padding: '6px 12px',
                     }}
                   >
                     Remove Logo

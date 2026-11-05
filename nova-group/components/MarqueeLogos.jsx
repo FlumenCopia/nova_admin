@@ -9,13 +9,23 @@ export default function MarqueeLogos() {
 
   useEffect(() => {
     async function fetchDynamicLogos() {
-      const json = await fetchApi('/public/clients');
-      if (json && json.success && json.data && json.data.length > 0) {
-        const mapped = json.data.map((item) => ({
-          name: item.name,
-          src: getMediaUrl(item.logoUrl, '/logo.png'),
-        }));
-        setLogos([...mapped, ...defaultLogos]);
+      try {
+        const json = await fetchApi('/public/clients');
+        if (json && json.success && Array.isArray(json.data) && json.data.length > 0) {
+          const mapped = json.data.map((item) => ({
+            name: item.name,
+            src: getMediaUrl(item.logoUrl, '/logo.png'),
+          }));
+
+          // Ensure enough items (at least 12) for smooth continuous marquee animation
+          let displayList = mapped;
+          while (displayList.length > 0 && displayList.length < 12) {
+            displayList = [...displayList, ...mapped];
+          }
+          setLogos(displayList);
+        }
+      } catch (err) {
+        console.error('Failed to load dynamic client logos:', err);
       }
     }
     fetchDynamicLogos();

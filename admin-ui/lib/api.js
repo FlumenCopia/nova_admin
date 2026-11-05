@@ -39,6 +39,7 @@ export const apiFetch = apiRequest;
 export function getMediaUrl(url, fallback = '/logo.png') {
   if (!url) return fallback;
   if (url.startsWith('http://') || url.startsWith('https://')) return url;
+  if (url.startsWith('/client-logos/') || url.startsWith('/logo.png')) return url;
   const apiServer = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api').replace(/\/api\/?$/, '');
   const cleanPath = url.startsWith('/') ? url : `/${url}`;
   return `${apiServer}${cleanPath}`;

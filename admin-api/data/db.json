@@ -23,13 +23,13 @@
       "heroTitle": "INNOVATIONS THAT\nHALLMARKS YOUR BRAND",
       "heroSubtitle": "Outdoors • Design Studio • Events — Prime hoardings, branding & overnight campaign execution across Kerala.",
       "createdAt": "2026-11-02T10:43:53.727Z",
-      "updatedAt": "2026-11-05T06:26:07.333Z",
+      "updatedAt": "2026-11-05T06:37:14.566Z",
       "leaderName": "GIREESH KUMAR S",
       "leaderRole": "Founder, Director & CEO — Nova Innovations",
       "leaderTag": "Leadership Spotlight",
-      "leaderYears": "27+",
+      "leaderYears": "28+",
       "leaderYearsLabel": "Years Leadership",
-      "leaderImage": "/heroman.jpeg",
+      "leaderImage": "/uploads/banners/banner-1793860633084-310071416.webp",
       "leaderBio": "Pioneering outdoor advertising, highway hoardings, and transit fleet branding across Kerala for over 27 years. Under Gireesh Kumar S's leadership, Nova Innovations manages 500+ prime hoarding corridors and nationwide campaign executions.",
       "leaderPhone": "+91 9539000640",
       "leaderFeature1Title": "Visionary Direction",
@@ -142,7 +142,248 @@
       "updatedAt": "2026-11-02T10:43:53.727Z"
     }
   ],
-  "ClientLogo": [],
+  "ClientLogo": [
+    {
+      "id": "67cb50000000000000000001",
+      "_id": "67cb50000000000000000001",
+      "name": "myG - Digital & Electronics",
+      "logoUrl": "/client-logos/myg.png",
+      "order": 1,
+      "isActive": true,
+      "createdAt": "2026-11-05T06:37:27.692Z",
+      "updatedAt": "2026-11-05T06:37:27.694Z"
+    },
+    {
+      "id": "67cb50000000000000000002",
+      "_id": "67cb50000000000000000002",
+      "name": "Pothys",
+      "logoUrl": "/client-logos/pothys.png",
+      "order": 2,
+      "isActive": true,
+      "createdAt": "2026-11-05T06:37:27.694Z",
+      "updatedAt": "2026-11-05T06:37:27.694Z"
+    },
+    {
+      "id": "67cb50000000000000000003",
+      "_id": "67cb50000000000000000003",
+      "name": "Bhima Jewellery",
+      "logoUrl": "/client-logos/bhima.png",
+      "order": 3,
+      "isActive": true,
+      "createdAt": "2026-11-05T06:37:27.694Z",
+      "updatedAt": "2026-11-05T06:37:27.694Z"
+    },
+    {
+      "id": "67cb50000000000000000004",
+      "_id": "67cb50000000000000000004",
+      "name": "Loka Medicity",
+      "logoUrl": "/client-logos/lokamedicity.png",
+      "order": 4,
+      "isActive": true,
+      "createdAt": "2026-11-05T06:37:27.694Z",
+      "updatedAt": "2026-11-05T06:37:27.694Z"
+    },
+    {
+      "id": "67cb50000000000000000005",
+      "_id": "67cb50000000000000000005",
+      "name": "Muthoot Group",
+      "logoUrl": "/client-logos/muthoot.png",
+      "order": 5,
+      "isActive": true,
+      "createdAt": "2026-11-05T06:37:27.694Z",
+      "updatedAt": "2026-11-05T06:37:27.694Z"
+    },
+    {
+      "id": "67cb50000000000000000006",
+      "_id": "67cb50000000000000000006",
+      "name": "Havells",
+      "logoUrl": "/client-logos/havells.png",
+      "order": 6,
+      "isActive": true,
+      "createdAt": "2026-11-05T06:37:27.694Z",
+      "updatedAt": "2026-11-05T06:37:27.694Z"
+    },
+    {
+      "id": "67cb50000000000000000007",
+      "_id": "67cb50000000000000000007",
+      "name": "Medimix",
+      "logoUrl": "/client-logos/medimix.png",
+      "order": 7,
+      "isActive": true,
+      "createdAt": "2026-11-05T06:37:27.694Z",
+      "updatedAt": "2026-11-05T06:37:27.694Z"
+    },
+    {
+      "id": "67cb50000000000000000008",
+      "_id": "67cb50000000000000000008",
+      "name": "Kannan Devan",
+      "logoUrl": "/client-logos/kannandevan.png",
+      "order": 8,
+      "isActive": true,
+      "createdAt": "2026-11-05T06:37:27.694Z",
+      "updatedAt": "2026-11-05T06:37:27.694Z"
+    },
+    {
+      "id": "67cb50000000000000000009",
+      "_id": "67cb50000000000000000009",
+      "name": "Oxygen Digital",
+      "logoUrl": "/client-logos/oxygen.png",
+      "order": 9,
+      "isActive": true,
+      "createdAt": "2026-11-05T06:37:27.694Z",
+      "updatedAt": "2026-11-05T06:37:27.694Z"
+    },
+    {
+      "id": "67cb5000000000000000000a",
+      "_id": "67cb5000000000000000000a",
+      "name": "Pankajakasthuri",
+      "logoUrl": "/client-logos/pankajakasthuri.png",
+      "order": 10,
+      "isActive": true,
+      "createdAt": "2026-11-05T06:37:27.694Z",
+      "updatedAt": "2026-11-05T06:37:27.694Z"
+    },
+    {
+      "id": "67cb5000000000000000000b",
+      "_id": "67cb5000000000000000000b",
+      "name": "Alice Gold",
+      "logoUrl": "/client-logos/alicegold.png",
+      "order": 11,
+      "isActive": true,
+      "createdAt": "2026-11-05T06:37:27.694Z",
+      "updatedAt": "2026-11-05T06:37:27.694Z"
+    },
+    {
+      "id": "67cb5000000000000000000c",
+      "_id": "67cb5000000000000000000c",
+      "name": "Bank of Baroda",
+      "logoUrl": "/client-logos/bob.png",
+      "order": 12,
+      "isActive": true,
+      "createdAt": "2026-11-05T06:37:27.694Z",
+      "updatedAt": "2026-11-05T06:37:27.694Z"
+    },
+    {
+      "id": "67cb5000000000000000000d",
+      "_id": "67cb5000000000000000000d",
+      "name": "Ananthapuri Hospital",
+      "logoUrl": "/client-logos/ananthapuri.png",
+      "order": 13,
+      "isActive": true,
+      "createdAt": "2026-11-05T06:37:27.694Z",
+      "updatedAt": "2026-11-05T06:37:27.694Z"
+    },
+    {
+      "id": "67cb5000000000000000000e",
+      "_id": "67cb5000000000000000000e",
+      "name": "Swayamvaram Silks",
+      "logoUrl": "/client-logos/swayamvaram.png",
+      "order": 14,
+      "isActive": true,
+      "createdAt": "2026-11-05T06:37:27.694Z",
+      "updatedAt": "2026-11-05T06:37:27.694Z"
+    },
+    {
+      "id": "67cb5000000000000000000f",
+      "_id": "67cb5000000000000000000f",
+      "name": "Arcon Homes",
+      "logoUrl": "/client-logos/arcon.png",
+      "order": 15,
+      "isActive": true,
+      "createdAt": "2026-11-05T06:37:27.694Z",
+      "updatedAt": "2026-11-05T06:37:27.694Z"
+    },
+    {
+      "id": "67cb50000000000000000010",
+      "_id": "67cb50000000000000000010",
+      "name": "Neyyar Medicity",
+      "logoUrl": "/client-logos/neyyarmedicity.png",
+      "order": 16,
+      "isActive": true,
+      "createdAt": "2026-11-05T06:37:27.694Z",
+      "updatedAt": "2026-11-05T06:37:27.694Z"
+    },
+    {
+      "id": "67cb50000000000000000011",
+      "_id": "67cb50000000000000000011",
+      "name": "NIMS Medicity",
+      "logoUrl": "/client-logos/nims.png",
+      "order": 17,
+      "isActive": true,
+      "createdAt": "2026-11-05T06:37:27.694Z",
+      "updatedAt": "2026-11-05T06:37:27.694Z"
+    },
+    {
+      "id": "67cb50000000000000000012",
+      "_id": "67cb50000000000000000012",
+      "name": "Kairali Foods",
+      "logoUrl": "/client-logos/kairalifood.png",
+      "order": 18,
+      "isActive": true,
+      "createdAt": "2026-11-05T06:37:27.694Z",
+      "updatedAt": "2026-11-05T06:37:27.694Z"
+    },
+    {
+      "id": "67cb50000000000000000013",
+      "_id": "67cb50000000000000000013",
+      "name": "Duro Design",
+      "logoUrl": "/client-logos/durodesign.png",
+      "order": 19,
+      "isActive": true,
+      "createdAt": "2026-11-05T06:37:27.694Z",
+      "updatedAt": "2026-11-05T06:37:27.694Z"
+    },
+    {
+      "id": "67cb50000000000000000014",
+      "_id": "67cb50000000000000000014",
+      "name": "Lifelong",
+      "logoUrl": "/client-logos/lifelong.png",
+      "order": 20,
+      "isActive": true,
+      "createdAt": "2026-11-05T06:37:27.694Z",
+      "updatedAt": "2026-11-05T06:37:27.694Z"
+    },
+    {
+      "id": "67cb50000000000000000015",
+      "_id": "67cb50000000000000000015",
+      "name": "Pothys Mahal",
+      "logoUrl": "/client-logos/pothysmahal.png",
+      "order": 21,
+      "isActive": true,
+      "createdAt": "2026-11-05T06:37:27.694Z",
+      "updatedAt": "2026-11-05T06:37:27.694Z"
+    },
+    {
+      "id": "67cb50000000000000000016",
+      "_id": "67cb50000000000000000016",
+      "name": "S Bharath",
+      "logoUrl": "/client-logos/sbharath.png",
+      "order": 22,
+      "isActive": true,
+      "createdAt": "2026-11-05T06:37:27.694Z",
+      "updatedAt": "2026-11-05T06:37:27.694Z"
+    },
+    {
+      "id": "67cb50000000000000000017",
+      "_id": "67cb50000000000000000017",
+      "name": "Shanoor Homes",
+      "logoUrl": "/client-logos/shanoor.png",
+      "order": 23,
+      "isActive": true,
+      "createdAt": "2026-11-05T06:37:27.694Z",
+      "updatedAt": "2026-11-05T06:37:27.694Z"
+    },
+    {
+      "id": "67cb50000000000000000018",
+      "_id": "67cb50000000000000000018",
+      "name": "SP Fort Hospital",
+      "logoUrl": "/client-logos/spfort.png",
+      "order": 24,
+      "isActive": true,
+      "createdAt": "2026-11-05T06:37:27.694Z",
+      "updatedAt": "2026-11-05T06:37:27.694Z"
+    }
+  ],
   "PortfolioItem": [],
   "Enquiry": [
     {
