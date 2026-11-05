@@ -1,11 +1,11 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { clientLogos as defaultLogos } from '../data/clientLogos';
 import { fetchApi, getMediaUrl } from '../lib/api';
 
 export default function MarqueeLogos() {
-  const [logos, setLogos] = useState(defaultLogos);
+  const [logos, setLogos] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function fetchDynamicLogos() {
@@ -23,13 +23,22 @@ export default function MarqueeLogos() {
             displayList = [...displayList, ...mapped];
           }
           setLogos(displayList);
+        } else {
+          setLogos([]);
         }
       } catch (err) {
         console.error('Failed to load dynamic client logos:', err);
+        setLogos([]);
+      } finally {
+        setLoading(false);
       }
     }
     fetchDynamicLogos();
   }, []);
+
+  if (loading || !logos || logos.length === 0) {
+    return null;
+  }
 
   return (
     <section className="partners-section" id="partners">

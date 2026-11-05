@@ -384,7 +384,28 @@
       "updatedAt": "2026-11-05T06:37:27.694Z"
     }
   ],
-  "PortfolioItem": [],
+  "PortfolioItem": [
+    {
+      "title": ".op,o",
+      "category": "wall",
+      "badgeType": "Billboard,",
+      "badgeStatus": "Prime Location",
+      "location": ",llll,",
+      "dimensions": ",,,,",
+      "specs": [
+        ",,,,"
+      ],
+      "imageUrl": "/uploads/portfolio/portfolio-1793861184664-436257772.webp",
+      "serviceName": "Hoarding - .op,o",
+      "isVacant": false,
+      "isActive": true,
+      "order": 0,
+      "id": "6aec264194b6f6b3321bd87e",
+      "_id": "6aec264194b6f6b3321bd87e",
+      "createdAt": "2026-11-05T06:46:25.290Z",
+      "updatedAt": "2026-11-05T06:46:25.290Z"
+    }
+  ],
   "Enquiry": [
     {
       "name": "jgmkjhm",
