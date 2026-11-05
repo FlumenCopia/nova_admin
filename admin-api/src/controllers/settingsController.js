@@ -1,40 +1,15 @@
 const { SiteSettings } = require('../models');
 
-const DEFAULT_SETTINGS = {
-  primaryPhone: '+91 95390 00640',
-  altPhone: '+91 95263 64446',
-  contactEmail: 'novainnovations2020@gmail.com',
-  hqAddress: 'T.C. 29/314, S J Tower, M P Appan Road, Vazhuthacaud - Poojappura Rd, P.O, Thycaud, Thiruvananthapuram, Kerala - 695014',
-  cityOfficeAddress: 'T.C. 29/314, S J Tower, MP Appan Road, Vazhuthacaud, Trivandrum - 695014',
-  heroBannerUrl: '/mainhero1.png',
-  heroTitle: 'INNOVATIONS THAT\nHALLMARKS YOUR BRAND',
-  heroSubtitle: 'Outdoors • Design Studio • Events — Prime hoardings, branding & overnight campaign execution across Kerala.',
-  leaderName: 'GIREESH KUMAR S',
-  leaderRole: 'Founder, Director & CEO — Nova Innovations',
-  leaderTag: 'Leadership Spotlight',
-  leaderYears: '27+',
-  leaderYearsLabel: 'Years Leadership',
-  leaderImage: '/heroman.jpeg',
-  leaderBio: "Pioneering outdoor advertising, highway hoardings, and transit fleet branding across Kerala for over 27 years. Under Gireesh Kumar S's leadership, Nova Innovations manages 500+ prime hoarding corridors and nationwide campaign executions.",
-  leaderPhone: '+91 9539000640',
-  leaderFeature1Title: 'Visionary Direction',
-  leaderFeature1Desc: "Building Kerala's most reliable 24/7 overnight advertising engine.",
-  leaderFeature2Title: 'Enterprise Relationships',
-  leaderFeature2Desc: 'Trusted partner to myG, Bhima, Pothys, KSRTC & Bank of Baroda.',
-};
-
 const getSettings = async (req, res) => {
   try {
     let settings = await SiteSettings.findOne();
 
     if (!settings) {
-      settings = await SiteSettings.create(DEFAULT_SETTINGS);
+      settings = await SiteSettings.create({});
     }
 
     const doc = settings.toObject ? settings.toObject() : { ...settings };
-    const merged = { ...DEFAULT_SETTINGS, ...doc };
-
-    return res.status(200).json({ success: true, data: merged });
+    return res.status(200).json({ success: true, data: doc });
   } catch (error) {
     console.error('Get settings error:', error);
     return res.status(500).json({ success: false, message: 'Server error retrieving settings.' });
@@ -92,21 +67,16 @@ const updateSettings = async (req, res) => {
     };
 
     if (settings) {
-      settings = await SiteSettings.findByIdAndUpdate(settings.id, updateData, { new: true });
+      settings = await SiteSettings.findByIdAndUpdate(settings.id || settings._id, updateData, { new: true });
     } else {
-      settings = await SiteSettings.create({
-        ...DEFAULT_SETTINGS,
-        ...updateData,
-      });
+      settings = await SiteSettings.create(updateData);
     }
 
     const doc = settings.toObject ? settings.toObject() : { ...settings };
-    const merged = { ...DEFAULT_SETTINGS, ...doc };
-
     return res.status(200).json({
       success: true,
       message: 'Site settings updated successfully!',
-      data: merged,
+      data: doc,
     });
   } catch (error) {
     console.error('Update settings error:', error);
@@ -124,13 +94,12 @@ const uploadHeroBanner = async (req, res) => {
 
     if (settings) {
       settings = await SiteSettings.findByIdAndUpdate(
-        settings.id,
+        settings.id || settings._id,
         { heroBannerUrl: req.processedImageUrl },
         { new: true }
       );
     } else {
       settings = await SiteSettings.create({
-        ...DEFAULT_SETTINGS,
         heroBannerUrl: req.processedImageUrl,
       });
     }
@@ -157,13 +126,12 @@ const uploadLeaderImage = async (req, res) => {
 
     if (settings) {
       settings = await SiteSettings.findByIdAndUpdate(
-        settings.id,
+        settings.id || settings._id,
         { leaderImage: req.processedImageUrl },
         { new: true }
       );
     } else {
       settings = await SiteSettings.create({
-        ...DEFAULT_SETTINGS,
         leaderImage: req.processedImageUrl,
       });
     }

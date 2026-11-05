@@ -5,20 +5,18 @@ import Toast from '../../../components/Toast';
 import { apiRequest, getMediaUrl, uploadLeaderImage, PUBLIC_SITE_URL } from '../../../lib/api';
 
 export default function LeadershipPage() {
-  const [leaderName, setLeaderName] = useState('GIREESH KUMAR S');
-  const [leaderRole, setLeaderRole] = useState('Founder, Director & CEO — Nova Innovations');
-  const [leaderTag, setLeaderTag] = useState('Leadership Spotlight');
-  const [leaderYears, setLeaderYears] = useState('27+');
-  const [leaderYearsLabel, setLeaderYearsLabel] = useState('Years Leadership');
+  const [leaderName, setLeaderName] = useState('');
+  const [leaderRole, setLeaderRole] = useState('');
+  const [leaderTag, setLeaderTag] = useState('');
+  const [leaderYears, setLeaderYears] = useState('');
+  const [leaderYearsLabel, setLeaderYearsLabel] = useState('');
   const [leaderImage, setLeaderImage] = useState('/heroman.jpeg');
-  const [leaderBio, setLeaderBio] = useState(
-    "Pioneering outdoor advertising, highway hoardings, and transit fleet branding across Kerala for over 27 years. Under Gireesh Kumar S's leadership, Nova Innovations manages 500+ prime hoarding corridors and nationwide campaign executions."
-  );
-  const [leaderPhone, setLeaderPhone] = useState('+91 9539000640');
-  const [leaderFeature1Title, setLeaderFeature1Title] = useState('Visionary Direction');
-  const [leaderFeature1Desc, setLeaderFeature1Desc] = useState("Building Kerala's most reliable 24/7 overnight advertising engine.");
-  const [leaderFeature2Title, setLeaderFeature2Title] = useState('Enterprise Relationships');
-  const [leaderFeature2Desc, setLeaderFeature2Desc] = useState('Trusted partner to myG, Bhima, Pothys, KSRTC & Bank of Baroda.');
+  const [leaderBio, setLeaderBio] = useState('');
+  const [leaderPhone, setLeaderPhone] = useState('');
+  const [leaderFeature1Title, setLeaderFeature1Title] = useState('');
+  const [leaderFeature1Desc, setLeaderFeature1Desc] = useState('');
+  const [leaderFeature2Title, setLeaderFeature2Title] = useState('');
+  const [leaderFeature2Desc, setLeaderFeature2Desc] = useState('');
 
   const [imageFile, setImageFile] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
@@ -32,18 +30,19 @@ export default function LeadershipPage() {
     try {
       const res = await apiRequest('/admin/settings');
       if (res.success && res.data) {
-        if (res.data.leaderName) setLeaderName(res.data.leaderName);
-        if (res.data.leaderRole) setLeaderRole(res.data.leaderRole);
-        if (res.data.leaderTag) setLeaderTag(res.data.leaderTag);
-        if (res.data.leaderYears) setLeaderYears(res.data.leaderYears);
-        if (res.data.leaderYearsLabel) setLeaderYearsLabel(res.data.leaderYearsLabel);
-        if (res.data.leaderImage) setLeaderImage(res.data.leaderImage);
-        if (res.data.leaderBio) setLeaderBio(res.data.leaderBio);
-        if (res.data.leaderPhone) setLeaderPhone(res.data.leaderPhone);
-        if (res.data.leaderFeature1Title) setLeaderFeature1Title(res.data.leaderFeature1Title);
-        if (res.data.leaderFeature1Desc) setLeaderFeature1Desc(res.data.leaderFeature1Desc);
-        if (res.data.leaderFeature2Title) setLeaderFeature2Title(res.data.leaderFeature2Title);
-        if (res.data.leaderFeature2Desc) setLeaderFeature2Desc(res.data.leaderFeature2Desc);
+        const d = res.data;
+        if (d.leaderName !== undefined) setLeaderName(d.leaderName || '');
+        if (d.leaderRole !== undefined) setLeaderRole(d.leaderRole || '');
+        if (d.leaderTag !== undefined) setLeaderTag(d.leaderTag || '');
+        if (d.leaderYears !== undefined) setLeaderYears(d.leaderYears || '');
+        if (d.leaderYearsLabel !== undefined) setLeaderYearsLabel(d.leaderYearsLabel || '');
+        if (d.leaderImage !== undefined) setLeaderImage(d.leaderImage || '/heroman.jpeg');
+        if (d.leaderBio !== undefined) setLeaderBio(d.leaderBio || '');
+        if (d.leaderPhone !== undefined) setLeaderPhone(d.leaderPhone || '');
+        if (d.leaderFeature1Title !== undefined) setLeaderFeature1Title(d.leaderFeature1Title || '');
+        if (d.leaderFeature1Desc !== undefined) setLeaderFeature1Desc(d.leaderFeature1Desc || '');
+        if (d.leaderFeature2Title !== undefined) setLeaderFeature2Title(d.leaderFeature2Title || '');
+        if (d.leaderFeature2Desc !== undefined) setLeaderFeature2Desc(d.leaderFeature2Desc || '');
       }
     } catch (err) {
       console.error(err);
@@ -146,13 +145,13 @@ export default function LeadershipPage() {
   // Resolve Preview Image URL
   const currentPhotoPreviewUrl = imagePreview
     ? imagePreview
-    : leaderImage.startsWith('/uploads/')
+    : leaderImage && leaderImage.startsWith('/uploads/')
     ? getMediaUrl(leaderImage)
-    : leaderImage.startsWith('http')
+    : leaderImage && leaderImage.startsWith('http')
     ? leaderImage
-    : leaderImage.startsWith('/')
+    : leaderImage && leaderImage.startsWith('/')
     ? `${PUBLIC_SITE_URL}${leaderImage}`
-    : leaderImage;
+    : leaderImage || '/heroman.jpeg';
 
   return (
     <>
@@ -161,7 +160,7 @@ export default function LeadershipPage() {
       <div style={{ marginBottom: '28px' }}>
         <h1 style={{ fontSize: '1.75rem', fontWeight: 800 }}>Leadership Spotlight</h1>
         <p style={{ color: 'var(--color-text-muted)', fontSize: '0.9rem', marginTop: '4px' }}>
-          Manage the Founder & Director section displayed on the Nova Innovations homepage
+          Manage the Founder & Director section displayed on the Nova Innovations homepage and about page
         </p>
       </div>
 
@@ -361,7 +360,7 @@ export default function LeadershipPage() {
             </div>
           </div>
 
-          {/* RIGHT: LIVE CARD PREVIEW */}
+          {/* RIGHT: EXACT LIVE CARD PREVIEW (Matches user-side) */}
           <div style={{ position: 'sticky', top: '24px' }}>
             <label className="form-label" style={{ fontWeight: 700, fontSize: '0.95rem', marginBottom: '12px', display: 'block' }}>
               Live Website Card Preview
@@ -369,87 +368,146 @@ export default function LeadershipPage() {
             <div
               style={{
                 background: '#ffffff',
-                borderRadius: '20px',
-                padding: '24px',
+                borderRadius: '24px',
+                padding: '28px',
                 border: '1px solid var(--color-border)',
                 boxShadow: 'var(--shadow-md)',
               }}
             >
-              <div style={{ display: 'grid', gridTemplateColumns: '170px 1fr', gap: '20px', alignItems: 'start' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: '190px 1fr', gap: '24px', alignItems: 'start' }}>
                 {/* Photo & Badge */}
-                <div style={{ position: 'relative', borderRadius: '14px', overflow: 'hidden', height: '230px', background: '#0f172a' }}>
+                <div style={{ position: 'relative', borderRadius: '16px', overflow: 'hidden', height: '240px', background: '#0f172a' }}>
                   <img
                     src={currentPhotoPreviewUrl}
-                    alt={leaderName}
+                    alt={leaderName || 'Leader'}
                     style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top' }}
                     onError={(e) => {
                       e.target.src = '/heroman.jpeg';
                     }}
                   />
-                  <div
-                    style={{
-                      position: 'absolute',
-                      bottom: '10px',
-                      left: '10px',
-                      right: '10px',
-                      background: 'rgba(216, 35, 42, 0.95)',
-                      color: '#ffffff',
-                      borderRadius: '8px',
-                      padding: '6px',
-                      textAlign: 'center',
-                    }}
-                  >
-                    <div style={{ fontWeight: 800, fontSize: '1.05rem', lineHeight: 1 }}>{leaderYears}</div>
-                    <div style={{ fontSize: '0.68rem', textTransform: 'uppercase', letterSpacing: '0.04em', marginTop: '2px' }}>
-                      {leaderYearsLabel}
+                  {leaderYears ? (
+                    <div
+                      style={{
+                        position: 'absolute',
+                        bottom: '12px',
+                        left: '12px',
+                        right: '12px',
+                        background: 'rgba(216, 35, 42, 0.95)',
+                        color: '#ffffff',
+                        borderRadius: '10px',
+                        padding: '8px 10px',
+                        textAlign: 'center',
+                      }}
+                    >
+                      <div style={{ fontWeight: 800, fontSize: '1.2rem', lineHeight: 1 }}>{leaderYears}</div>
+                      {leaderYearsLabel ? (
+                        <div style={{ fontSize: '0.68rem', textTransform: 'uppercase', letterSpacing: '0.05em', marginTop: '3px', fontWeight: 700 }}>
+                          {leaderYearsLabel}
+                        </div>
+                      ) : null}
                     </div>
-                  </div>
+                  ) : null}
                 </div>
 
                 {/* Details */}
                 <div>
-                  <div style={{ color: 'var(--color-primary, #E3222B)', fontWeight: 700, fontSize: '0.72rem', letterSpacing: '0.08em', textTransform: 'uppercase', display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '4px' }}>
-                    <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: 'var(--color-primary, #E3222B)' }}></span>
-                    {leaderTag}
-                  </div>
-                  <h3 style={{ fontSize: '1.25rem', fontWeight: 800, color: 'var(--color-text-primary)', margin: '0 0 2px 0' }}>{leaderName}</h3>
-                  <p style={{ fontSize: '0.8rem', fontWeight: 600, color: 'var(--color-primary, #E3222B)', margin: '0 0 10px 0' }}>{leaderRole}</p>
-                  <p style={{ fontSize: '0.8rem', color: 'var(--color-text-secondary)', lineHeight: 1.45, margin: '0 0 12px 0' }}>{leaderBio}</p>
+                  {leaderTag ? (
+                    <div style={{ color: 'var(--color-primary, #E3222B)', fontWeight: 700, fontSize: '0.78rem', letterSpacing: '0.08em', textTransform: 'uppercase', display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '6px' }}>
+                      <span style={{ display: 'inline-flex', gap: '3px' }}>
+                        <span style={{ width: '5px', height: '5px', borderRadius: '50%', background: 'var(--color-primary, #E3222B)' }}></span>
+                        <span style={{ width: '5px', height: '5px', borderRadius: '50%', background: 'var(--color-primary, #E3222B)' }}></span>
+                      </span>
+                      {leaderTag}
+                    </div>
+                  ) : null}
 
-                  {/* Highlights preview */}
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '14px' }}>
-                    <div style={{ padding: '8px 10px', background: '#F8FAFC', borderRadius: '6px', border: '1px solid var(--color-border)' }}>
-                      <div style={{ fontSize: '0.78rem', fontWeight: 700, color: 'var(--color-text-primary)' }}>{leaderFeature1Title}</div>
-                      <div style={{ fontSize: '0.72rem', color: 'var(--color-text-secondary)' }}>{leaderFeature1Desc}</div>
-                    </div>
-                    <div style={{ padding: '8px 10px', background: '#F8FAFC', borderRadius: '6px', border: '1px solid var(--color-border)' }}>
-                      <div style={{ fontSize: '0.78rem', fontWeight: 700, color: 'var(--color-text-primary)' }}>{leaderFeature2Title}</div>
-                      <div style={{ fontSize: '0.72rem', color: 'var(--color-text-secondary)' }}>{leaderFeature2Desc}</div>
-                    </div>
+                  <h3 style={{ fontSize: '1.45rem', fontWeight: 800, color: 'var(--color-text-primary)', margin: '0 0 2px 0', letterSpacing: '-0.01em' }}>
+                    {leaderName}
+                  </h3>
+                  {leaderRole ? (
+                    <p style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--color-primary, #E3222B)', margin: '0 0 12px 0' }}>
+                      {leaderRole}
+                    </p>
+                  ) : null}
+                  {leaderBio ? (
+                    <p style={{ fontSize: '0.84rem', color: 'var(--color-text-secondary)', lineHeight: 1.55, margin: '0 0 16px 0' }}>
+                      {leaderBio}
+                    </p>
+                  ) : null}
+
+                  {/* Highlights preview matching frontend */}
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '18px' }}>
+                    {leaderFeature1Title ? (
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '10px 14px', background: '#F8FAFC', borderRadius: '10px', border: '1px solid #EEF2F6' }}>
+                        <div style={{ width: '36px', height: '36px', borderRadius: '50%', background: 'rgba(216, 35, 42, 0.08)', color: 'var(--color-primary, #E3222B)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                            <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path>
+                            <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path>
+                            <path d="M4 22h16"></path>
+                            <path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"></path>
+                            <path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"></path>
+                            <path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"></path>
+                          </svg>
+                        </div>
+                        <div>
+                          <div style={{ fontSize: '0.84rem', fontWeight: 700, color: 'var(--color-text-primary)' }}>{leaderFeature1Title}</div>
+                          {leaderFeature1Desc ? <div style={{ fontSize: '0.76rem', color: 'var(--color-text-secondary)', marginTop: '2px' }}>{leaderFeature1Desc}</div> : null}
+                        </div>
+                      </div>
+                    ) : null}
+
+                    {leaderFeature2Title ? (
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '10px 14px', background: '#F8FAFC', borderRadius: '10px', border: '1px solid #EEF2F6' }}>
+                        <div style={{ width: '36px', height: '36px', borderRadius: '50%', background: 'rgba(216, 35, 42, 0.08)', color: 'var(--color-primary, #E3222B)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="9" cy="7" r="4"></circle>
+                            <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                          </svg>
+                        </div>
+                        <div>
+                          <div style={{ fontSize: '0.84rem', fontWeight: 700, color: 'var(--color-text-primary)' }}>{leaderFeature2Title}</div>
+                          {leaderFeature2Desc ? <div style={{ fontSize: '0.76rem', color: 'var(--color-text-secondary)', marginTop: '2px' }}>{leaderFeature2Desc}</div> : null}
+                        </div>
+                      </div>
+                    ) : null}
                   </div>
 
-                  {/* Call Button Preview */}
-                  <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
-                    <div
-                      style={{
-                        background: 'var(--color-primary, #E3222B)',
-                        color: '#ffffff',
-                        fontSize: '0.75rem',
-                        fontWeight: 700,
-                        padding: '6px 12px',
-                        borderRadius: '20px',
-                      }}
-                    >
-                      Call: {leaderPhone}
-                    </div>
+                  {/* Actions matching frontend */}
+                  <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
+                    {leaderPhone ? (
+                      <div
+                        style={{
+                          background: 'var(--color-primary, #E3222B)',
+                          color: '#ffffff',
+                          fontSize: '0.78rem',
+                          fontWeight: 700,
+                          padding: '8px 16px',
+                          borderRadius: '30px',
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          gap: '6px',
+                          boxShadow: '0 4px 12px rgba(227, 34, 43, 0.25)',
+                        }}
+                      >
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                          <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                        </svg>
+                        Call Founder: {leaderPhone}
+                      </div>
+                    ) : null}
                     <div
                       style={{
                         border: '1px solid var(--color-border-strong)',
                         color: 'var(--color-text-primary)',
-                        fontSize: '0.75rem',
+                        fontSize: '0.78rem',
                         fontWeight: 600,
-                        padding: '6px 12px',
-                        borderRadius: '20px',
+                        padding: '8px 16px',
+                        borderRadius: '30px',
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: '6px',
                       }}
                     >
                       Connect with Director →
