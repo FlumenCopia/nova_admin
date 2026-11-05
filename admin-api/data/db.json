@@ -23,7 +23,19 @@
       "heroTitle": "INNOVATIONS THAT\nHALLMARKS YOUR BRAND",
       "heroSubtitle": "Outdoors • Design Studio • Events — Prime hoardings, branding & overnight campaign execution across Kerala.",
       "createdAt": "2026-11-02T10:43:53.727Z",
-      "updatedAt": "2026-11-02T10:43:53.727Z"
+      "updatedAt": "2026-11-05T06:17:55.118Z",
+      "leaderName": "GIREESH KUMAR S",
+      "leaderRole": "Founder, Director & CEO — Nova Innovations",
+      "leaderTag": "Leadership Spotlight",
+      "leaderYears": "27+",
+      "leaderYearsLabel": "Years Leadership",
+      "leaderImage": "/heroman.jpeg",
+      "leaderBio": "Pioneering outdoor advertising, highway hoardings, and transit fleet branding across Kerala for over 27 years. Under Gireesh Kumar S's leadership, Nova Innovations manages 500+ prime hoarding corridors and nationwide campaign executions.",
+      "leaderPhone": "+91 9539000640",
+      "leaderFeature1Title": "Visionary Direction",
+      "leaderFeature1Desc": "Building Kerala's most reliable 24/7 overnight advertising engine.",
+      "leaderFeature2Title": "",
+      "leaderFeature2Desc": ""
     }
   ],
   "Service": [
@@ -158,6 +170,18 @@
       "_id": "6aeb2081982e3ee8324c7d05",
       "createdAt": "2026-11-04T12:09:37.542Z",
       "updatedAt": "2026-11-04T12:09:37.542Z"
+    },
+    {
+      "name": "Quick Call Request",
+      "phone": "akhilss235@gmail.com",
+      "serviceType": "Quick Call Back",
+      "notes": "Submitted via Footer Quick Call Request",
+      "source": "Footer Call Request",
+      "status": "NEW",
+      "id": "6aeb21cf591b8f123d66d367",
+      "_id": "6aeb21cf591b8f123d66d367",
+      "createdAt": "2026-11-04T12:15:11.019Z",
+      "updatedAt": "2026-11-04T12:15:11.019Z"
     }
   ]
 }

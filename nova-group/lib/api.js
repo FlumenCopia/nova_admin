@@ -15,7 +15,10 @@ export function getMediaUrl(url, fallback = '/mainhero1.png') {
 export async function fetchApi(endpoint, options = {}) {
   const url = `${API_BASE}${endpoint}`;
   try {
-    const res = await fetch(url, options);
+    const res = await fetch(url, {
+      cache: 'no-store',
+      ...options,
+    });
     if (!res.ok) return { success: false, data: null };
     return await res.json();
   } catch (error) {

@@ -52,6 +52,16 @@ export default function Sidebar({ isOpen, onClose }) {
       ),
     },
     {
+      name: 'Leadership Spotlight',
+      path: '/dashboard/leadership',
+      icon: (
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+          <circle cx="12" cy="7" r="4"></circle>
+        </svg>
+      ),
+    },
+    {
       name: 'Services Management',
       path: '/dashboard/services',
       icon: (
@@ -130,7 +140,7 @@ export default function Sidebar({ isOpen, onClose }) {
 
         <nav className="sidebar-nav">
           {navItems.map((item) => {
-            const isActive = pathname === item.path;
+            const isActive = pathname === item.path || (item.path !== '/dashboard' && pathname.startsWith(item.path));
             return (
               <Link
                 key={item.path}
@@ -147,11 +157,12 @@ export default function Sidebar({ isOpen, onClose }) {
 
         <div className="sidebar-footer">
           <button
+            type="button"
             onClick={() => setShowLogoutModal(true)}
             className="btn-secondary"
             style={{
               width: '100%',
-              justify: 'center',
+              justifyContent: 'center',
               color: '#111827',
               borderColor: '#E2E8F0',
               background: '#FFFFFF',
@@ -180,12 +191,14 @@ export default function Sidebar({ isOpen, onClose }) {
 
           <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '12px' }}>
             <button
+              type="button"
               onClick={() => setShowLogoutModal(false)}
               className="btn-secondary"
             >
               Cancel
             </button>
             <button
+              type="button"
               onClick={confirmLogout}
               className="btn-danger"
               disabled={loggingOut}

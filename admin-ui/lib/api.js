@@ -75,3 +75,13 @@ export async function uploadBanner(file) {
     body: formData,
   });
 }
+
+export async function uploadLeaderImage(file) {
+  const formData = new FormData();
+  formData.append('image', file);
+
+  return apiRequest('/admin/settings/leader-image', {
+    method: 'POST',
+    body: formData,
+  });
+}

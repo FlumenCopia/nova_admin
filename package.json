@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "npx concurrently -k -n \"api,admin,web\" -c \"cyan,magenta,green\" \"npm --prefix admin-api run dev\" \"npm --prefix admin-ui run dev\" \"npm --prefix nova-group run dev\"",
+    "dev": "node dev.js",
     "dev:api": "npm --prefix admin-api run dev",
     "dev:admin": "npm --prefix admin-ui run dev",
     "dev:web": "npm --prefix nova-group run dev"

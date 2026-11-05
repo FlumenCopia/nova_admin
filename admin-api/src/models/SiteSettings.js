@@ -42,6 +42,67 @@ const siteSettingsSchema = new mongoose.Schema(
       default: 'Outdoors • Design Studio • Events — Prime hoardings, branding & overnight campaign execution across Kerala.',
       trim: true,
     },
+    // Leadership Spotlight
+    leaderName: {
+      type: String,
+      default: 'GIREESH KUMAR S',
+      trim: true,
+    },
+    leaderRole: {
+      type: String,
+      default: 'Founder, Director & CEO — Nova Innovations',
+      trim: true,
+    },
+    leaderTag: {
+      type: String,
+      default: 'Leadership Spotlight',
+      trim: true,
+    },
+    leaderYears: {
+      type: String,
+      default: '27+',
+      trim: true,
+    },
+    leaderYearsLabel: {
+      type: String,
+      default: 'Years Leadership',
+      trim: true,
+    },
+    leaderImage: {
+      type: String,
+      default: '/heroman.jpeg',
+      trim: true,
+    },
+    leaderBio: {
+      type: String,
+      default: "Pioneering outdoor advertising, highway hoardings, and transit fleet branding across Kerala for over 27 years. Under Gireesh Kumar S's leadership, Nova Innovations manages 500+ prime hoarding corridors and nationwide campaign executions.",
+      trim: true,
+    },
+    leaderPhone: {
+      type: String,
+      default: '+91 9539000640',
+      trim: true,
+    },
+    leaderFeature1Title: {
+      type: String,
+      default: 'Visionary Direction',
+      trim: true,
+    },
+    leaderFeature1Desc: {
+      type: String,
+      default: "Building Kerala's most reliable 24/7 overnight advertising engine.",
+      trim: true,
+    },
+    leaderFeature2Title: {
+      type: String,
+      default: 'Enterprise Relationships',
+      trim: true,
+    },
+    leaderFeature2Desc: {
+      type: String,
+      default: 'Trusted partner to myG, Bhima, Pothys, KSRTC & Bank of Baroda.',
+      trim: true,
+    },
   },
   {
     collection: 'SiteSettings',
