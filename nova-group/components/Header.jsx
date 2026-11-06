@@ -35,6 +35,7 @@ export default function Header({ onOpenModal, onToggleMobile, isMobileOpen }) {
 
         <nav className="nav-links" id="main-nav">
           {navLinks.map((link) => {
+            const isStaticHtml = link.href.endsWith('.html');
             const isActive = link.isExternal ? false : pathname === link.href;
             if (link.isExternal) {
               return (
@@ -44,6 +45,17 @@ export default function Header({ onOpenModal, onToggleMobile, isMobileOpen }) {
                   target="_blank"
                   rel="noopener noreferrer"
                   className="nav-link"
+                >
+                  {link.label}
+                </a>
+              );
+            }
+            if (isStaticHtml) {
+              return (
+                <a
+                  key={link.href}
+                  href={link.href}
+                  className={`nav-link ${isActive ? 'active' : ''}`}
                 >
                   {link.label}
                 </a>

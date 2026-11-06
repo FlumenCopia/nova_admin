@@ -105,9 +105,7 @@ export default function LeadershipSection({ initialData = null }) {
                 </a>
               )}
               <a
-                href="https://portfolio-founder-of-nova.vercel.app/"
-                target="_blank"
-                rel="noopener noreferrer"
+                href="/founder-of-nova.html"
                 className="btn-leadership-contact"
               >
                 Connect with Director <ArrowRight size={15} />

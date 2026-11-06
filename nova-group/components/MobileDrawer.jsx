@@ -10,7 +10,7 @@ export default function MobileDrawer({ isOpen, onClose, onOpenModal }) {
   const navLinks = [
     { href: '/', label: 'Home' },
     { href: '/about', label: 'About Us' },
-    { href: '/founder', label: 'Founder' },
+    { href: '/founder-of-nova.html', label: 'Founder' },
     { href: '/services', label: 'Services' },
     { href: '/gallery', label: 'Campaign Gallery' },
     { href: '/contact', label: 'Contact' },
@@ -40,7 +40,20 @@ export default function MobileDrawer({ isOpen, onClose, onOpenModal }) {
         </div>
 
         {navLinks.map((link) => {
+          const isStaticHtml = link.href.endsWith('.html');
           const isActive = link.isExternal ? false : pathname === link.href;
+          if (isStaticHtml) {
+            return (
+              <a
+                key={link.href}
+                href={link.href}
+                className={`nav-link ${isActive ? 'active' : ''}`}
+                onClick={onClose}
+              >
+                {link.label}
+              </a>
+            );
+          }
           if (link.isExternal) {
             return (
               <a
