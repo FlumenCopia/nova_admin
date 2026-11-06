@@ -104,9 +104,14 @@ export default function LeadershipSection({ initialData = null }) {
                   Call Founder: {data.leaderPhone}
                 </a>
               )}
-              <Link href="/contact" className="btn-leadership-contact">
+              <a
+                href="https://portfolio-founder-of-nova.vercel.app/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-leadership-contact"
+              >
                 Connect with Director <ArrowRight size={15} />
-              </Link>
+              </a>
             </div>
           </div>
         </div>
