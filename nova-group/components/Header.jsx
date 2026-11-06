@@ -20,7 +20,7 @@ export default function Header({ onOpenModal, onToggleMobile, isMobileOpen }) {
   const navLinks = [
     { href: '/', label: 'Home' },
     { href: '/about', label: 'About Us' },
-    { href: 'https://portfolio-founder-of-nova.vercel.app/', label: 'Founder', isExternal: true },
+    { href: '/founder', label: 'Founder' },
     { href: '/services', label: 'Services' },
     { href: '/gallery', label: 'Campaign Gallery' },
     { href: '/contact', label: 'Contact' },
