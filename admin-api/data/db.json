@@ -53,104 +53,98 @@
     {
       "id": "67cb50000000000000000010",
       "_id": "67cb50000000000000000010",
-      "title": "Outdoor Hoardings",
-      "subtitle": "Prime Highway & City Billboards",
+      "title": "Innovative Hoardings",
+      "subtitle": "High-visibility billboards & unipoles",
       "icon": "billboard",
-      "description": "Prime highway formats, lit junction gantries, and maximum visibility unipoles across Kerala.",
+      "description": "High-visibility billboards, unipoles, gantries, and cantilever structures in prime city junctions and national highways across Kerala.",
       "features": [
-        "Illuminated & Non-Lit Billboards",
-        "Unipoles & Gantries at High-Traffic Junctions",
-        "Pan-Kerala Coverage (Trivandrum, Cochin, Calicut, Kollam)"
+        "Prime footfall locations",
+        "Weatherproof flex & LED lights"
       ],
       "order": 1,
       "isActive": true,
-      "createdAt": "2026-11-02T10:43:53.727Z",
-      "updatedAt": "2026-11-02T10:43:53.727Z"
+      "createdAt": "2026-11-07T06:53:57.210Z",
+      "updatedAt": "2026-11-07T06:53:57.213Z"
     },
     {
       "id": "67cb50000000000000000011",
       "_id": "67cb50000000000000000011",
-      "title": "Vehicle & Transit Advertising",
-      "subtitle": "KSRTC Bus Wraps & Mobile Media",
+      "title": "Vehicle Advertising",
+      "subtitle": "KSRTC bus & fleet transit branding",
       "icon": "transit",
-      "description": "KSRTC bus wraps, auto autorickshaw hood branding, and mobile LED publicity vans.",
+      "description": "Time-bound mobile advertising fleet services including KSRTC buses, private transit branding, and promotional display vans.",
       "features": [
-        "Full & Side KSRTC Bus Wraps",
-        "Auto Hood Branding",
-        "Mobile Publicity Vans with Sound System"
+        "High city-wide reach & mobility",
+        "Full body wrap & side panels"
       ],
       "order": 2,
       "isActive": true,
-      "createdAt": "2026-11-02T10:43:53.727Z",
-      "updatedAt": "2026-11-02T10:43:53.727Z"
+      "createdAt": "2026-11-07T06:53:57.213Z",
+      "updatedAt": "2026-11-07T06:53:57.213Z"
     },
     {
       "id": "67cb50000000000000000012",
       "_id": "67cb50000000000000000012",
-      "title": "Shop & Retail Facade Branding",
-      "subtitle": "Storefront Signboards & In-shop Media",
+      "title": "Shop & Retail Branding",
+      "subtitle": "Storefront signboards & retail facade",
       "icon": "retail",
-      "description": "3D LED acrylic channel letters, ACP facade cladding, flex signboards, and glow boxes.",
+      "description": "Complete store exterior & interior transformations: 3D illuminated signboards, LED glow boards, ACP signboards, and retail display units.",
       "features": [
-        "3D LED Acrylic Letters & ACP Cladding",
-        "Flex Signboards & Glow Box Systems",
-        "Dealer & Franchise Chain Branding"
+        "LED glow & ACP signboards",
+        "Showroom facade design"
       ],
       "order": 3,
       "isActive": true,
-      "createdAt": "2026-11-02T10:43:53.727Z",
-      "updatedAt": "2026-11-02T10:43:53.727Z"
+      "createdAt": "2026-11-07T06:53:57.213Z",
+      "updatedAt": "2026-11-07T06:53:57.213Z"
     },
     {
       "id": "67cb50000000000000000013",
       "_id": "67cb50000000000000000013",
-      "title": "Event Branding & Exhibitions",
-      "subtitle": "Corporate Stalls & Stage Setup",
+      "title": "Event Branding & Stalls",
+      "subtitle": "Exhibition stalls & stage setup",
       "icon": "event",
-      "description": "Complete exhibition stall design, backdrop fabrication, launch event branding, and kiosks.",
+      "description": "Capturing the essence of your brand in corporate events, exhibition stalls, stage backdrops, kiosks, and product launch productions.",
       "features": [
-        "Exhibition Stalls & Custom Fabricated Kiosks",
-        "Stage Backdrops & Sound/Lighting Setup",
-        "Product Launch Event Branding & Entry Arches"
+        "Custom stall fabrication",
+        "Turnkey event management"
       ],
       "order": 4,
       "isActive": true,
-      "createdAt": "2026-11-02T10:43:53.727Z",
-      "updatedAt": "2026-11-02T10:43:53.727Z"
+      "createdAt": "2026-11-07T06:53:57.213Z",
+      "updatedAt": "2026-11-07T06:53:57.213Z"
     },
     {
       "id": "67cb50000000000000000014",
       "_id": "67cb50000000000000000014",
-      "title": "Commercial Wall Painting",
-      "subtitle": "Highway Murals & Boundary Walls",
+      "title": "Commercial Wall Paintings",
+      "subtitle": "Direct highway artwork & murals",
       "icon": "wall",
-      "description": "Hand-painted advertising murals on high-visibility national & state highways across rural and semi-urban Kerala.",
+      "description": "Long-lasting direct wall artworks and branding murals executed with durable weather-resistant paint on prominent roadsides and town walls.",
       "features": [
-        "Large Format High-Contrast Wall Murals",
-        "Weatherproof Exterior Emulsion Painting",
-        "Long-term High-Traffic Rural Coverage"
+        "Long-term brand retention",
+        "Rural & urban highway routes"
       ],
       "order": 5,
       "isActive": true,
-      "createdAt": "2026-11-02T10:43:53.727Z",
-      "updatedAt": "2026-11-02T10:43:53.727Z"
+      "createdAt": "2026-11-07T06:53:57.213Z",
+      "updatedAt": "2026-11-07T06:53:57.213Z"
     },
     {
       "id": "67cb50000000000000000015",
       "_id": "67cb50000000000000000015",
-      "title": "Design Studio & Digital Printing",
-      "subtitle": "Creative Graphics & Solvent Printing",
+      "title": "Design Studio & Printing",
+      "subtitle": "Flex printing & graphic production",
       "icon": "design",
-      "description": "In-house high-resolution solvent flex printing, star flex, vinyl stickers, and artwork design.",
+      "description": "State-of-the-art flex digital printing, large format banners, offset catalogs, brochures, bulk posters, and corporate stationery.",
       "features": [
-        "Large Format Solvent & Eco-Solvent Printing",
-        "Star Flex & Vinyl Graphic Printing",
-        "Creative Campaign Conceptualization & Art Direction"
+        "Large format flex & vinyl",
+        "Corporate identity design"
       ],
       "order": 6,
       "isActive": true,
-      "createdAt": "2026-11-02T10:43:53.727Z",
-      "updatedAt": "2026-11-02T10:43:53.727Z"
+      "createdAt": "2026-11-07T06:53:57.213Z",
+      "updatedAt": "2026-11-07T06:53:57.213Z"
     }
   ],
   "ClientLogo": [
