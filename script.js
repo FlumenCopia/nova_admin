@@ -3,6 +3,7 @@
    ========================================================================== */
 
 document.addEventListener('DOMContentLoaded', () => {
+  initFounderHeroSettings();
   initTheme();
   initNavigation();
   initCounters();
@@ -473,4 +474,87 @@ function initImageSwipeGallery() {
   }
 
   startAutoSlide();
+}
+
+
+/* --- 8. Dynamic Founder Hero Backend Integration --- */
+async function initFounderHeroSettings() {
+  try {
+    const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+    const apiUrl = isLocal ? 'http://localhost:5000/api/public/settings' : '/api/public/settings';
+    const backendHost = isLocal ? 'http://localhost:5000' : '';
+
+    const res = await fetch(apiUrl);
+    const result = await res.json();
+    if (result && result.success && result.data) {
+      const s = result.data;
+
+      // 1. Tagline Badge
+      const tag = s.founderHeroTag || s.leaderTag;
+      if (tag) {
+        const tagEl = document.getElementById('founder-hero-tag-text');
+        if (tagEl) tagEl.textContent = tag;
+      }
+
+      // 2. Headline / Title
+      const title = s.founderHeroTitle || s.heroTitle;
+      if (title) {
+        const titleEl = document.getElementById('founder-hero-title');
+        if (titleEl) {
+          titleEl.innerHTML = title.replace(/\n/g, '<br>');
+        }
+      }
+
+      // 3. Description
+      const desc = s.founderHeroDesc || s.heroSubtitle;
+      if (desc) {
+        const descEl = document.getElementById('founder-hero-desc');
+        if (descEl) descEl.textContent = desc;
+      }
+
+      // 4. CTA Button Text & Link
+      const ctaText = s.founderHeroCtaText;
+      if (ctaText) {
+        const ctaTextEl = document.getElementById('founder-hero-cta-text');
+        if (ctaTextEl) ctaTextEl.textContent = ctaText;
+      }
+
+      const ctaPhone = s.founderHeroCtaPhone || s.primaryPhone;
+      if (ctaPhone) {
+        const ctaLinkEl = document.getElementById('founder-hero-cta');
+        if (ctaLinkEl) {
+          const clean = ctaPhone.replace(/[\s-]/g, '');
+          ctaLinkEl.href = 'tel:' + clean;
+          ctaLinkEl.title = 'Call ' + ctaPhone;
+        }
+      }
+
+      // 5. Founder Photo
+      const photo = s.founderImage || s.leaderImage;
+      if (photo) {
+        const imgEl = document.getElementById('founder-hero-img');
+        if (imgEl) {
+          const srcUrl = (photo.startsWith('http') || photo.startsWith('//'))
+            ? photo
+            : (photo.startsWith('/uploads') ? backendHost + photo : photo);
+          imgEl.src = srcUrl;
+        }
+      }
+
+      // 6. Founder Name & Role
+      const name = s.founderName || s.leaderName;
+      if (name) {
+        const nameEl = document.getElementById('founder-hero-name');
+        if (nameEl) nameEl.textContent = name;
+      }
+
+      const role = s.founderRole || s.leaderRole;
+      if (role) {
+        const roleEl = document.getElementById('founder-hero-role');
+        if (roleEl) roleEl.textContent = role;
+      }
+    }
+  } catch (err) {
+    console.warn('Founder hero settings dynamic fetch fallback:', err);
+  }
 }

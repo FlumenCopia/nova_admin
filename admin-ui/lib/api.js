@@ -86,3 +86,13 @@ export async function uploadLeaderImage(file) {
     body: formData,
   });
 }
+
+export async function uploadFounderImage(file) {
+  const formData = new FormData();
+  formData.append('image', file);
+
+  return apiRequest('/admin/settings/founder-image', {
+    method: 'POST',
+    body: formData,
+  });
+}

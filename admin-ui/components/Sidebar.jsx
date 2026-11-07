@@ -62,6 +62,17 @@ export default function Sidebar({ isOpen, onClose }) {
       ),
     },
     {
+      name: 'Founder Hero Section',
+      path: '/dashboard/founder',
+      icon: (
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+          <circle cx="9" cy="7" r="4"></circle>
+          <polyline points="16 11 18 13 22 9"></polyline>
+        </svg>
+      ),
+    },
+    {
       name: 'Services Management',
       path: '/dashboard/services',
       icon: (

@@ -103,6 +103,47 @@ const siteSettingsSchema = new mongoose.Schema(
       default: 'Trusted partner to myG, Bhima, Pothys, KSRTC & Bank of Baroda.',
       trim: true,
     },
+    // Founder Page Hero Section
+    founderHeroTag: {
+      type: String,
+      default: '27+ Years of Creative Advertising Excellence',
+      trim: true,
+    },
+    founderHeroTitle: {
+      type: String,
+      default: 'INNOVATIONS THAT HALLMARKS YOUR BRAND',
+      trim: true,
+    },
+    founderHeroDesc: {
+      type: String,
+      default: 'Outdoors • Design Studio • Events — Prime hoardings, transit vehicle branding, and overnight campaign execution across Kerala.',
+      trim: true,
+    },
+    founderHeroCtaText: {
+      type: String,
+      default: 'Book Hoardings',
+      trim: true,
+    },
+    founderHeroCtaPhone: {
+      type: String,
+      default: '+91 95390 00640',
+      trim: true,
+    },
+    founderName: {
+      type: String,
+      default: 'GIREESH KUMAR S',
+      trim: true,
+    },
+    founderRole: {
+      type: String,
+      default: 'Founder & CEO — NOVA Innovations',
+      trim: true,
+    },
+    founderImage: {
+      type: String,
+      default: '/heroman.jpeg',
+      trim: true,
+    },
   },
   {
     collection: 'SiteSettings',

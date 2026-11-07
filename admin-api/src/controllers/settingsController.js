@@ -39,6 +39,14 @@ const updateSettings = async (req, res) => {
       leaderFeature1Desc,
       leaderFeature2Title,
       leaderFeature2Desc,
+      founderHeroTag,
+      founderHeroTitle,
+      founderHeroDesc,
+      founderHeroCtaText,
+      founderHeroCtaPhone,
+      founderName,
+      founderRole,
+      founderImage,
     } = req.body;
 
     let settings = await SiteSettings.findOne();
@@ -64,6 +72,14 @@ const updateSettings = async (req, res) => {
       ...(leaderFeature1Desc !== undefined && { leaderFeature1Desc }),
       ...(leaderFeature2Title !== undefined && { leaderFeature2Title }),
       ...(leaderFeature2Desc !== undefined && { leaderFeature2Desc }),
+      ...(founderHeroTag !== undefined && { founderHeroTag }),
+      ...(founderHeroTitle !== undefined && { founderHeroTitle }),
+      ...(founderHeroDesc !== undefined && { founderHeroDesc }),
+      ...(founderHeroCtaText !== undefined && { founderHeroCtaText }),
+      ...(founderHeroCtaPhone !== undefined && { founderHeroCtaPhone }),
+      ...(founderName !== undefined && { founderName }),
+      ...(founderRole !== undefined && { founderRole }),
+      ...(founderImage !== undefined && { founderImage }),
     };
 
     if (settings) {
@@ -148,9 +164,42 @@ const uploadLeaderImage = async (req, res) => {
   }
 };
 
+const uploadFounderImage = async (req, res) => {
+  try {
+    if (!req.processedImageUrl) {
+      return res.status(400).json({ success: false, message: 'No image file uploaded.' });
+    }
+
+    let settings = await SiteSettings.findOne();
+
+    if (settings) {
+      settings = await SiteSettings.findByIdAndUpdate(
+        settings.id || settings._id,
+        { founderImage: req.processedImageUrl },
+        { new: true }
+      );
+    } else {
+      settings = await SiteSettings.create({
+        founderImage: req.processedImageUrl,
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: 'Founder photo uploaded and updated successfully!',
+      imageUrl: req.processedImageUrl,
+      data: settings,
+    });
+  } catch (error) {
+    console.error('Upload founder image error:', error);
+    return res.status(500).json({ success: false, message: 'Server error uploading founder image.' });
+  }
+};
+
 module.exports = {
   getSettings,
   updateSettings,
   uploadHeroBanner,
   uploadLeaderImage,
+  uploadFounderImage,
 };
