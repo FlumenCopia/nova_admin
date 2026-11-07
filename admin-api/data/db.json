@@ -46,7 +46,8 @@
       "founderImage": "/uploads/banners/banner-1793860633084-310071416.webp",
       "servicesSectionSubhead": "WHAT WE OFFER",
       "servicesSectionHeading": "Comprehensive Advertising Services",
-      "servicesSectionDesc": "End-to-end outdoor advertising, design studio creations, transit branding, and corporate events across Kerala."
+      "servicesSectionDesc": "End-to-end outdoor advertising, design studio creations, transit branding, and corporate events across Kerala.",
+      "partnersSectionTitle": "OUR ESTEEMED CLIENTS & BRAND PARTNERS"
     }
   ],
   "Service": [
@@ -387,6 +388,16 @@
       "isActive": true,
       "createdAt": "2026-11-05T06:37:27.694Z",
       "updatedAt": "2026-11-05T06:37:27.694Z"
+    },
+    {
+      "name": "lk",
+      "logoUrl": "/uploads/clients/client-1794045778557-525394970.webp",
+      "order": 0,
+      "isActive": true,
+      "id": "6aeef7529a9d5cb88ac3b413",
+      "_id": "6aeef7529a9d5cb88ac3b413",
+      "createdAt": "2026-11-07T10:02:58.619Z",
+      "updatedAt": "2026-11-07T10:02:58.619Z"
     }
   ],
   "PortfolioItem": [

@@ -160,6 +160,12 @@ const siteSettingsSchema = new mongoose.Schema(
       default: 'End-to-end outdoor advertising, design studio creations, transit branding, and corporate events across Kerala.',
       trim: true,
     },
+    // Partners & Client Logos Section
+    partnersSectionTitle: {
+      type: String,
+      default: 'OUR ESTEEMED CLIENTS & BRAND PARTNERS',
+      trim: true,
+    },
   },
   {
     collection: 'SiteSettings',

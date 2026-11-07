@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initFounderHeroSettings();
   initServicesBackend();
   initLeadershipSpotlightBackend();
+  initPartnersMarqueeBackend();
   initTheme();
   initNavigation();
   initCounters();
@@ -742,5 +743,77 @@ async function initLeadershipSpotlightBackend() {
     }
   } catch (err) {
     console.warn('Leadership Spotlight settings fetch error:', err);
+  }
+}
+
+
+/* --- 11. Dynamic Client & Partner Logos Marquee Backend Integration --- */
+function resolveClientLogoUrl(url) {
+  if (!url) return 'assets/client-logos/myg.png';
+  if (url.startsWith('http://') || url.startsWith('https://')) return url;
+  
+  const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+  const backendHost = isLocal ? 'http://localhost:5000' : '';
+
+  if (url.startsWith('/uploads/')) {
+    return backendHost + url;
+  }
+  if (url.startsWith('/client-logos/')) {
+    return url;
+  }
+  return url;
+}
+
+async function initPartnersMarqueeBackend() {
+  const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+  const apiBase = isLocal ? 'http://localhost:5000/api' : '/api';
+
+  // 1. Update Section Title
+  try {
+    const settingsRes = await fetch(`${apiBase}/public/settings`);
+    const settingsData = await settingsRes.json();
+    if (settingsData && settingsData.success && settingsData.data) {
+      const titleEl = document.getElementById('partners-title');
+      if (titleEl && settingsData.data.partnersSectionTitle) {
+        titleEl.textContent = settingsData.data.partnersSectionTitle;
+      }
+    }
+  } catch (err) {
+    console.warn('Partners title fetch error:', err);
+  }
+
+  // 2. Update Marquee Logos Track
+  try {
+    const clientsRes = await fetch(`${apiBase}/public/clients`);
+    const clientsData = await clientsRes.json();
+    if (clientsData && clientsData.success && Array.isArray(clientsData.data) && clientsData.data.length > 0) {
+      const track = document.getElementById('partners-marquee-track');
+      if (!track) return;
+
+      const activeClients = clientsData.data.filter(c => c.isActive !== false);
+      if (activeClients.length === 0) return;
+
+      let set1Html = '';
+      let set2Html = '';
+
+      activeClients.forEach(item => {
+        const imgSrc = resolveClientLogoUrl(item.logoUrl);
+        const name = (item.name || 'Client Partner').replace(/"/g, '&quot;');
+
+        set1Html += `
+          <div class="partner-logo-item" title="${name}">
+            <img src="${imgSrc}" alt="${name}" class="partner-logo-img" onerror="this.src='assets/client-logos/myg.png'">
+          </div>`;
+
+        set2Html += `
+          <div class="partner-logo-item" aria-hidden="true" title="${name}">
+            <img src="${imgSrc}" alt="${name}" class="partner-logo-img" onerror="this.src='assets/client-logos/myg.png'">
+          </div>`;
+      });
+
+      track.innerHTML = set1Html + set2Html;
+    }
+  } catch (err) {
+    console.warn('Partners logos dynamic fetch error:', err);
   }
 }

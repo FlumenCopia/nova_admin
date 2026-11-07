@@ -48,6 +48,7 @@ const defaultInitialData = {
       servicesSectionSubhead: 'WHAT WE OFFER',
       servicesSectionHeading: 'Comprehensive Advertising Services',
       servicesSectionDesc: 'End-to-end outdoor advertising, design studio creations, transit branding, and corporate events across Kerala.',
+      partnersSectionTitle: 'OUR ESTEEMED CLIENTS & BRAND PARTNERS',
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
     },

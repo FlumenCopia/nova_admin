@@ -49,6 +49,12 @@ export default function FounderAdminPage() {
   const [savingServiceItem, setSavingServiceItem] = useState(false);
 
 
+  // --- SECTION 4: CLIENT & PARTNER LOGOS STATE ---
+  const [partnersTitle, setPartnersTitle] = useState('OUR ESTEEMED CLIENTS & BRAND PARTNERS');
+  const [savingPartnersTitle, setSavingPartnersTitle] = useState(false);
+  const [clientsList, setClientsList] = useState([]);
+  const [loadingClients, setLoadingClients] = useState(true);
+
   // --- SECTION 3: LEADERSHIP SPOTLIGHT STATE ---
   const [leaderTag, setLeaderTag] = useState('LEADERSHIP SPOTLIGHT');
   const [spotlightName, setSpotlightName] = useState('GIREESH KUMAR S');
@@ -89,6 +95,7 @@ export default function FounderAdminPage() {
         if (d.servicesSectionSubhead !== undefined) setServicesSubhead(d.servicesSectionSubhead || 'WHAT WE OFFER');
         if (d.servicesSectionHeading !== undefined) setServicesHeading(d.servicesSectionHeading || 'Comprehensive Advertising Services');
         if (d.servicesSectionDesc !== undefined) setServicesDesc(d.servicesSectionDesc || '');
+        if (d.partnersSectionTitle !== undefined) setPartnersTitle(d.partnersSectionTitle || 'OUR ESTEEMED CLIENTS & BRAND PARTNERS');
 
         if (d.leaderTag !== undefined) setLeaderTag(d.leaderTag || 'LEADERSHIP SPOTLIGHT');
         if (d.leaderName !== undefined) setSpotlightName(d.leaderName || 'GIREESH KUMAR S');
@@ -109,6 +116,20 @@ export default function FounderAdminPage() {
     }
   };
 
+  const fetchClients = async () => {
+    setLoadingClients(true);
+    try {
+      const res = await apiRequest('/admin/clients');
+      if (res && res.success) {
+        setClientsList(res.data || []);
+      }
+    } catch (err) {
+      console.error('Failed to load clients:', err);
+    } finally {
+      setLoadingClients(false);
+    }
+  };
+
   const fetchServices = async () => {
     setLoadingServices(true);
     try {
@@ -126,6 +147,7 @@ export default function FounderAdminPage() {
   useEffect(() => {
     fetchSettings();
     fetchServices();
+    fetchClients();
   }, []);
 
   // --- HERO SAVE ---
@@ -238,6 +260,28 @@ export default function FounderAdminPage() {
       setToastMsg(err.message || 'Error saving leadership spotlight');
     } finally {
       setSavingSpotlight(false);
+    }
+  };
+
+  const handleSavePartnersTitle = async (e) => {
+    e.preventDefault();
+    setSavingPartnersTitle(true);
+    try {
+      const res = await apiRequest('/admin/settings', {
+        method: 'PUT',
+        body: JSON.stringify({ partnersSectionTitle: partnersTitle }),
+      });
+      if (res.success) {
+        setToastType('success');
+        setToastMsg('Marquee section title updated successfully!');
+      } else {
+        throw new Error(res.message || 'Failed to update title');
+      }
+    } catch (err) {
+      setToastType('error');
+      setToastMsg('Error saving title');
+    } finally {
+      setSavingPartnersTitle(false);
     }
   };
 

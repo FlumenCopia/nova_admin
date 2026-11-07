@@ -10,6 +10,10 @@ export default function ClientLogosPage() {
   const [loading, setLoading] = useState(true);
   const [toastMsg, setToastMsg] = useState('');
 
+  // Section Title State
+  const [partnersTitle, setPartnersTitle] = useState('OUR ESTEEMED CLIENTS & BRAND PARTNERS');
+  const [savingTitle, setSavingTitle] = useState(false);
+
   // Modal State
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [name, setName] = useState('');
@@ -20,7 +24,39 @@ export default function ClientLogosPage() {
 
   useEffect(() => {
     fetchClients();
+    fetchTitleSettings();
   }, []);
+
+  const fetchTitleSettings = async () => {
+    try {
+      const res = await apiFetch('/admin/settings');
+      if (res.success && res.data && res.data.partnersSectionTitle) {
+        setPartnersTitle(res.data.partnersSectionTitle);
+      }
+    } catch (err) {
+      console.error('Fetch title error:', err);
+    }
+  };
+
+  const handleSaveTitle = async (e) => {
+    e.preventDefault();
+    setSavingTitle(true);
+    try {
+      const res = await apiFetch('/admin/settings', {
+        method: 'PUT',
+        body: JSON.stringify({ partnersSectionTitle: partnersTitle }),
+      });
+      if (res.success) {
+        setToastMsg('Marquee section title updated successfully!');
+      } else {
+        setToastMsg(res.message || 'Failed to update title.');
+      }
+    } catch (err) {
+      setToastMsg('Error saving title.');
+    } finally {
+      setSavingTitle(false);
+    }
+  };
 
   const fetchClients = async () => {
     try {
@@ -107,11 +143,53 @@ export default function ClientLogosPage() {
           </p>
         </div>
 
-        <div className="page-header-actions">
+        <div className="page-header-actions" style={{ display: 'flex', gap: '10px' }}>
+          <a
+            href="http://localhost:3000/founder-of-nova.html#partners"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-secondary"
+            style={{ textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '6px' }}
+          >
+            <span>View Live Marquee</span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
+              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+              <polyline points="15 3 21 3 21 9"></polyline>
+              <line x1="10" y1="14" x2="21" y2="3"></line>
+            </svg>
+          </a>
           <button onClick={() => setIsModalOpen(true)} className="btn-primary">
             + Add Client Logo
           </button>
         </div>
+      </div>
+
+      {/* MARQUEE SECTION TITLE SETTINGS CARD */}
+      <div className="card" style={{ padding: '24px', marginBottom: '24px', borderLeft: '4px solid #dc2626' }}>
+        <form onSubmit={handleSaveTitle} style={{ display: 'flex', gap: '16px', alignItems: 'flex-end', flexWrap: 'wrap' }}>
+          <div style={{ flex: 1, minWidth: '280px' }}>
+            <label style={{ display: 'block', fontSize: '0.82rem', fontWeight: 700, marginBottom: '6px', color: 'var(--text-secondary)' }}>
+              Marquee Section Title
+            </label>
+            <input
+              type="text"
+              value={partnersTitle}
+              onChange={(e) => setPartnersTitle(e.target.value)}
+              placeholder="e.g. OUR ESTEEMED CLIENTS & BRAND PARTNERS"
+              required
+              className="input-field"
+              style={{ width: '100%', padding: '10px 14px', borderRadius: '6px', border: '1px solid var(--color-border)', fontSize: '0.92rem' }}
+            />
+          </div>
+          <button
+            type="submit"
+            disabled={savingTitle}
+            className="btn-primary"
+            style={{ padding: '10px 22px', fontSize: '0.88rem' }}
+          >
+            {savingTitle ? 'Saving Title...' : 'Save Marquee Title'}
+          </button>
+        </form>
       </div>
 
       {loading ? (

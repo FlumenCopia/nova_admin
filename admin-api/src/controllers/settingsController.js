@@ -50,6 +50,7 @@ const updateSettings = async (req, res) => {
       servicesSectionSubhead,
       servicesSectionHeading,
       servicesSectionDesc,
+      partnersSectionTitle,
     } = req.body;
 
     let settings = await SiteSettings.findOne();
@@ -86,6 +87,7 @@ const updateSettings = async (req, res) => {
       ...(servicesSectionSubhead !== undefined && { servicesSectionSubhead }),
       ...(servicesSectionHeading !== undefined && { servicesSectionHeading }),
       ...(servicesSectionDesc !== undefined && { servicesSectionDesc }),
+      ...(partnersSectionTitle !== undefined && { partnersSectionTitle }),
     };
 
     if (settings) {
