@@ -4,6 +4,7 @@
 
 document.addEventListener('DOMContentLoaded', () => {
   initFounderHeroSettings();
+  initServicesBackend();
   initTheme();
   initNavigation();
   initCounters();
@@ -556,5 +557,112 @@ async function initFounderHeroSettings() {
     }
   } catch (err) {
     console.warn('Founder hero settings dynamic fetch fallback:', err);
+  }
+}
+
+
+/* --- 9. Dynamic Services Section Backend Integration --- */
+function getServiceIconClass(iconKey, title) {
+  const key = (iconKey || '').toLowerCase();
+  const t = (title || '').toLowerCase();
+  
+  if (key === 'billboard' || key === 'hoarding' || t.includes('hoarding') || t.includes('billboard')) {
+    return 'fa-solid fa-rectangle-ad';
+  }
+  if (key === 'transit' || key === 'bus' || key === 'vehicle' || t.includes('vehicle') || t.includes('transit') || t.includes('bus')) {
+    return 'fa-solid fa-bus';
+  }
+  if (key === 'retail' || key === 'shop' || t.includes('shop') || t.includes('retail') || t.includes('facade')) {
+    return 'fa-solid fa-store';
+  }
+  if (key === 'event' || key === 'stall' || t.includes('event') || t.includes('stall')) {
+    return 'fa-solid fa-champagne-glasses';
+  }
+  if (key === 'wall' || key === 'painting' || t.includes('wall') || t.includes('mural') || t.includes('paint')) {
+    return 'fa-solid fa-paintbrush';
+  }
+  if (key === 'design' || key === 'print' || t.includes('design') || t.includes('print')) {
+    return 'fa-solid fa-pen-ruler';
+  }
+  return 'fa-solid fa-layer-group';
+}
+
+function getServiceButtonLabel(service) {
+  const t = (service.title || '').toLowerCase();
+  if (t.includes('hoarding') || t.includes('billboard')) return 'Inquire Hoardings';
+  if (t.includes('vehicle') || t.includes('transit') || t.includes('bus')) return 'Inquire Transit';
+  if (t.includes('shop') || t.includes('retail') || t.includes('facade')) return 'Inquire Retail';
+  if (t.includes('event') || t.includes('stall')) return 'Inquire Events';
+  if (t.includes('wall') || t.includes('mural') || t.includes('paint')) return 'Inquire Wall Murals';
+  if (t.includes('design') || t.includes('print')) return 'Inquire Design';
+  return 'Inquire ' + (service.title || 'Service');
+}
+
+async function initServicesBackend() {
+  const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+  const apiBase = isLocal ? 'http://localhost:5000/api' : '/api';
+
+  // 1. Load Services Header from SiteSettings
+  try {
+    const settingsRes = await fetch(`${apiBase}/public/settings`);
+    const settingsData = await settingsRes.json();
+    if (settingsData && settingsData.success && settingsData.data) {
+      const s = settingsData.data;
+      const subheadEl = document.getElementById('services-subhead');
+      const headingEl = document.getElementById('services-heading');
+      const descEl = document.getElementById('services-desc');
+
+      if (subheadEl && s.servicesSectionSubhead) subheadEl.textContent = s.servicesSectionSubhead;
+      if (headingEl && s.servicesSectionHeading) headingEl.textContent = s.servicesSectionHeading;
+      if (descEl && s.servicesSectionDesc) descEl.textContent = s.servicesSectionDesc;
+    }
+  } catch (err) {
+    console.warn('Services header settings fetch error:', err);
+  }
+
+  // 2. Load Services Cards from /api/public/services
+  try {
+    const servicesRes = await fetch(`${apiBase}/public/services`);
+    const servicesData = await servicesRes.json();
+    if (servicesData && servicesData.success && Array.isArray(servicesData.data) && servicesData.data.length > 0) {
+      const container = document.getElementById('services-cards-container');
+      if (!container) return;
+
+      const activeServices = servicesData.data.filter(s => s.isActive !== false);
+      if (activeServices.length === 0) return;
+
+      let cardsHtml = '';
+      activeServices.forEach(item => {
+        const iconClass = getServiceIconClass(item.icon, item.title);
+        const btnLabel = getServiceButtonLabel(item);
+        const safeTitle = (item.title || '').replace(/'/g, "\\'");
+
+        let tagsHtml = '';
+        if (Array.isArray(item.features) && item.features.length > 0) {
+          tagsHtml = '<div class="service-tags-list">';
+          item.features.slice(0, 3).forEach(feat => {
+            tagsHtml += `<span class="service-tag-item"><i class="fa-solid fa-check"></i> ${feat}</span>`;
+          });
+          tagsHtml += '</div>';
+        }
+
+        cardsHtml += `
+        <div class="service-squircle-card">
+          <div class="service-icon-box">
+            <i class="${iconClass}"></i>
+          </div>
+          <h3 class="service-title">${item.title}</h3>
+          <p class="service-desc">${item.description || ''}</p>
+          ${tagsHtml}
+          <button class="service-card-btn" onclick="openContactModal('${safeTitle}')">
+            <span>${btnLabel}</span> <i class="fa-solid fa-arrow-right"></i>
+          </button>
+        </div>`;
+      });
+
+      container.innerHTML = cardsHtml;
+    }
+  } catch (err) {
+    console.warn('Services cards dynamic fetch error:', err);
   }
 }

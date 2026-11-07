@@ -24,6 +24,14 @@ export default function ServicesPage() {
 
   const [submitting, setSubmitting] = useState(false);
 
+  // Section Header Settings State
+  const [sectionSubhead, setSectionSubhead] = useState('WHAT WE OFFER');
+  const [sectionHeading, setSectionHeading] = useState('Comprehensive Advertising Services');
+  const [sectionDesc, setSectionDesc] = useState(
+    'End-to-end outdoor advertising, design studio creations, transit branding, and corporate events across Kerala.'
+  );
+  const [savingHeader, setSavingHeader] = useState(false);
+
   const fetchServices = async (showLoading = true) => {
     if (showLoading) setLoading(true);
     try {
@@ -38,9 +46,47 @@ export default function ServicesPage() {
     }
   };
 
+  const fetchHeaderSettings = async () => {
+    try {
+      const res = await apiFetch('/admin/settings');
+      if (res.success && res.data) {
+        if (res.data.servicesSectionSubhead) setSectionSubhead(res.data.servicesSectionSubhead);
+        if (res.data.servicesSectionHeading) setSectionHeading(res.data.servicesSectionHeading);
+        if (res.data.servicesSectionDesc) setSectionDesc(res.data.servicesSectionDesc);
+      }
+    } catch (err) {
+      console.error('Fetch settings error:', err);
+    }
+  };
+
   useEffect(() => {
     fetchServices(true);
+    fetchHeaderSettings();
   }, []);
+
+  const handleSaveHeader = async (e) => {
+    e.preventDefault();
+    setSavingHeader(true);
+    try {
+      const res = await apiFetch('/admin/settings', {
+        method: 'PUT',
+        body: JSON.stringify({
+          servicesSectionSubhead: sectionSubhead,
+          servicesSectionHeading: sectionHeading,
+          servicesSectionDesc: sectionDesc,
+        }),
+      });
+      if (res.success) {
+        setToastMsg('Services section header updated successfully!');
+      } else {
+        setToastMsg(res.message || 'Failed to update section header.');
+      }
+    } catch (err) {
+      setToastMsg('Failed to update section header.');
+    } finally {
+      setSavingHeader(false);
+    }
+  };
 
   const handleOpenModal = (service = null) => {
     if (service) {
@@ -167,15 +213,100 @@ export default function ServicesPage() {
         <div>
           <h1 style={{ fontSize: '1.75rem', fontWeight: 800 }}>Services Management</h1>
           <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem' }}>
-            Manage core service offerings displayed on the website portal
+            Manage core service offerings and header displayed on the website portal and founder page
           </p>
         </div>
 
-        <div className="page-header-actions">
+        <div className="page-header-actions" style={{ display: 'flex', gap: '10px' }}>
+          <a
+            href="http://localhost:3000/founder-of-nova.html#services"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-secondary"
+            style={{ textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '6px' }}
+          >
+            <span>View Live Section</span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
+              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+              <polyline points="15 3 21 3 21 9"></polyline>
+              <line x1="10" y1="14" x2="21" y2="3"></line>
+            </svg>
+          </a>
           <button onClick={() => handleOpenModal()} className="btn-primary">
             + Add New Service
           </button>
         </div>
+      </div>
+
+      {/* SECTION HEADER SETTINGS CARD */}
+      <div className="card" style={{ padding: '24px', marginBottom: '24px', borderLeft: '4px solid #dc2626' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+          <div>
+            <h3 style={{ fontSize: '1.1rem', fontWeight: 800, margin: 0 }}>Services Section Header</h3>
+            <p style={{ fontSize: '0.82rem', color: 'var(--text-muted)', margin: '4px 0 0 0' }}>
+              Customizes the title, badge, and description displayed above the service cards grid.
+            </p>
+          </div>
+        </div>
+
+        <form onSubmit={handleSaveHeader}>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: '16px', marginBottom: '14px' }}>
+            <div>
+              <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 700, marginBottom: '6px', color: 'var(--text-secondary)' }}>
+                Section Tag / Subhead
+              </label>
+              <input
+                type="text"
+                value={sectionSubhead}
+                onChange={(e) => setSectionSubhead(e.target.value)}
+                placeholder="e.g. WHAT WE OFFER"
+                required
+                className="input-field"
+                style={{ width: '100%', padding: '8px 12px', borderRadius: '6px', border: '1px solid var(--color-border)' }}
+              />
+            </div>
+            <div>
+              <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 700, marginBottom: '6px', color: 'var(--text-secondary)' }}>
+                Section Main Heading
+              </label>
+              <input
+                type="text"
+                value={sectionHeading}
+                onChange={(e) => setSectionHeading(e.target.value)}
+                placeholder="e.g. Comprehensive Advertising Services"
+                required
+                className="input-field"
+                style={{ width: '100%', padding: '8px 12px', borderRadius: '6px', border: '1px solid var(--color-border)' }}
+              />
+            </div>
+          </div>
+
+          <div style={{ marginBottom: '14px' }}>
+            <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 700, marginBottom: '6px', color: 'var(--text-secondary)' }}>
+              Section Description Paragraph
+            </label>
+            <textarea
+              rows={2}
+              value={sectionDesc}
+              onChange={(e) => setSectionDesc(e.target.value)}
+              placeholder="e.g. End-to-end outdoor advertising, design studio creations..."
+              required
+              className="input-field"
+              style={{ width: '100%', padding: '8px 12px', borderRadius: '6px', border: '1px solid var(--color-border)', fontFamily: 'inherit' }}
+            />
+          </div>
+
+          <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+            <button
+              type="submit"
+              disabled={savingHeader}
+              className="btn-primary"
+              style={{ padding: '8px 20px', fontSize: '0.88rem' }}
+            >
+              {savingHeader ? 'Saving Header...' : 'Save Section Header'}
+            </button>
+          </div>
+        </form>
       </div>
 
       {loading ? (
@@ -283,15 +414,33 @@ export default function ServicesPage() {
             />
           </div>
 
-          <div className="form-group">
-            <label className="form-label">Sub-Headline / Tagline</label>
-            <input
-              type="text"
-              className="form-input"
-              placeholder="e.g. Prime Highway & City Billboards"
-              value={formData.subtitle}
-              onChange={(e) => setFormData({ ...formData, subtitle: e.target.value })}
-            />
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+            <div className="form-group">
+              <label className="form-label">Sub-Headline / Tagline</label>
+              <input
+                type="text"
+                className="form-input"
+                placeholder="e.g. Prime Highway & City Billboards"
+                value={formData.subtitle}
+                onChange={(e) => setFormData({ ...formData, subtitle: e.target.value })}
+              />
+            </div>
+
+            <div className="form-group">
+              <label className="form-label">Icon Style</label>
+              <select
+                className="form-select"
+                value={formData.icon}
+                onChange={(e) => setFormData({ ...formData, icon: e.target.value })}
+              >
+                <option value="billboard">Billboard / Hoarding (Ad Icon)</option>
+                <option value="transit">Vehicle / Transit (Bus Icon)</option>
+                <option value="retail">Shop & Facade (Store Icon)</option>
+                <option value="event">Event & Stalls (Celebration Icon)</option>
+                <option value="wall">Wall Painting (Paintbrush Icon)</option>
+                <option value="design">Design Studio (Ruler/Pen Icon)</option>
+              </select>
+            </div>
           </div>
 
           <div className="form-group">

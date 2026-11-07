@@ -144,6 +144,22 @@ const siteSettingsSchema = new mongoose.Schema(
       default: '/heroman.jpeg',
       trim: true,
     },
+    // Services Section Header Settings
+    servicesSectionSubhead: {
+      type: String,
+      default: 'WHAT WE OFFER',
+      trim: true,
+    },
+    servicesSectionHeading: {
+      type: String,
+      default: 'Comprehensive Advertising Services',
+      trim: true,
+    },
+    servicesSectionDesc: {
+      type: String,
+      default: 'End-to-end outdoor advertising, design studio creations, transit branding, and corporate events across Kerala.',
+      trim: true,
+    },
   },
   {
     collection: 'SiteSettings',

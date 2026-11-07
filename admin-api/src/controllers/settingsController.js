@@ -47,6 +47,9 @@ const updateSettings = async (req, res) => {
       founderName,
       founderRole,
       founderImage,
+      servicesSectionSubhead,
+      servicesSectionHeading,
+      servicesSectionDesc,
     } = req.body;
 
     let settings = await SiteSettings.findOne();
@@ -80,6 +83,9 @@ const updateSettings = async (req, res) => {
       ...(founderName !== undefined && { founderName }),
       ...(founderRole !== undefined && { founderRole }),
       ...(founderImage !== undefined && { founderImage }),
+      ...(servicesSectionSubhead !== undefined && { servicesSectionSubhead }),
+      ...(servicesSectionHeading !== undefined && { servicesSectionHeading }),
+      ...(servicesSectionDesc !== undefined && { servicesSectionDesc }),
     };
 
     if (settings) {
