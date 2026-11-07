@@ -5,6 +5,7 @@
 document.addEventListener('DOMContentLoaded', () => {
   initFounderHeroSettings();
   initServicesBackend();
+  initLeadershipSpotlightBackend();
   initTheme();
   initNavigation();
   initCounters();
@@ -664,5 +665,82 @@ async function initServicesBackend() {
     }
   } catch (err) {
     console.warn('Services cards dynamic fetch error:', err);
+  }
+}
+
+
+/* --- 10. Dynamic Leadership Spotlight Backend Integration --- */
+async function initLeadershipSpotlightBackend() {
+  const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+  const apiBase = isLocal ? 'http://localhost:5000/api' : '/api';
+  const backendHost = isLocal ? 'http://localhost:5000' : '';
+
+  try {
+    const res = await fetch(`${apiBase}/public/settings`);
+    const result = await res.json();
+    if (result && result.success && result.data) {
+      const s = result.data;
+
+      // 1. Tag & Name & Designation
+      const tagEl = document.getElementById('spotlight-tag');
+      if (tagEl && s.leaderTag) tagEl.textContent = s.leaderTag;
+
+      const nameEl = document.getElementById('spotlight-name');
+      if (nameEl && s.leaderName) nameEl.textContent = s.leaderName;
+
+      const roleEl = document.getElementById('spotlight-designation');
+      if (roleEl && s.leaderRole) roleEl.textContent = s.leaderRole;
+
+      // 2. Bio text
+      const bioEl = document.getElementById('spotlight-bio');
+      if (bioEl && s.leaderBio) bioEl.textContent = s.leaderBio;
+
+      // 3. Years badge
+      const yearsEl = document.getElementById('spotlight-years-number');
+      if (yearsEl && s.leaderYears) yearsEl.textContent = s.leaderYears;
+
+      const yearsLabelEl = document.getElementById('spotlight-years-label');
+      if (yearsLabelEl && s.leaderYearsLabel) yearsLabelEl.textContent = s.leaderYearsLabel;
+
+      // 4. Portrait Image
+      const imgEl = document.getElementById('spotlight-portrait-img');
+      const photo = s.leaderImage || s.founderImage;
+      if (imgEl && photo) {
+        const finalUrl = (photo.startsWith('http') || photo.startsWith('//'))
+          ? photo
+          : (photo.startsWith('/uploads') ? backendHost + photo : photo);
+        imgEl.src = finalUrl;
+      }
+
+      // 5. Features / Pillars
+      const f1TitleEl = document.getElementById('spotlight-feat1-title');
+      if (f1TitleEl && s.leaderFeature1Title) f1TitleEl.textContent = s.leaderFeature1Title;
+
+      const f1DescEl = document.getElementById('spotlight-feat1-desc');
+      if (f1DescEl && s.leaderFeature1Desc) f1DescEl.textContent = s.leaderFeature1Desc;
+
+      const f2TitleEl = document.getElementById('spotlight-feat2-title');
+      if (f2TitleEl && s.leaderFeature2Title) f2TitleEl.textContent = s.leaderFeature2Title;
+
+      const f2DescEl = document.getElementById('spotlight-feat2-desc');
+      if (f2DescEl && s.leaderFeature2Desc) f2DescEl.textContent = s.leaderFeature2Desc;
+
+      // 6. Phone button
+      const phone = s.leaderPhone || s.founderHeroCtaPhone || s.primaryPhone;
+      const phoneBtn = document.getElementById('spotlight-phone-btn');
+      const phoneText = document.getElementById('spotlight-phone-text');
+      if (phone) {
+        const clean = phone.replace(/[\s-]/g, '');
+        if (phoneBtn) {
+          phoneBtn.href = 'tel:' + clean;
+          phoneBtn.title = 'Call Founder: ' + phone;
+        }
+        if (phoneText) {
+          phoneText.textContent = 'Call Founder: ' + phone;
+        }
+      }
+    }
+  } catch (err) {
+    console.warn('Leadership Spotlight settings fetch error:', err);
   }
 }

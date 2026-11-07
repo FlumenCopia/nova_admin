@@ -157,11 +157,40 @@ export default function LeadershipPage() {
     <>
       <Toast message={toastMsg} type={toastType} onClose={() => setToastMsg('')} />
 
-      <div style={{ marginBottom: '28px' }}>
-        <h1 style={{ fontSize: '1.75rem', fontWeight: 800 }}>Leadership Spotlight</h1>
-        <p style={{ color: 'var(--color-text-muted)', fontSize: '0.9rem', marginTop: '4px' }}>
-          Manage the Founder & Director section displayed on the Nova Innovations homepage and about page
-        </p>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '28px' }}>
+        <div>
+          <h1 style={{ fontSize: '1.75rem', fontWeight: 800 }}>Leadership Spotlight</h1>
+          <p style={{ color: 'var(--color-text-muted)', fontSize: '0.9rem', marginTop: '4px' }}>
+            Manage the Founder & Director section displayed on the Nova Innovations homepage, about page, and founder page (<code>/founder-of-nova.html#founder</code>)
+          </p>
+        </div>
+
+        <a
+          href="http://localhost:3000/founder-of-nova.html#founder"
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '8px',
+            background: '#ffffff',
+            border: '1px solid #e5e7eb',
+            color: '#374151',
+            padding: '10px 18px',
+            borderRadius: '8px',
+            fontSize: '0.88rem',
+            fontWeight: 600,
+            textDecoration: 'none',
+            boxShadow: '0 1px 2px rgba(0,0,0,0.05)',
+          }}
+        >
+          <span>View Live Spotlight</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
+            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+            <polyline points="15 3 21 3 21 9"></polyline>
+            <line x1="10" y1="14" x2="21" y2="3"></line>
+          </svg>
+        </a>
       </div>
 
       <form onSubmit={handleSaveLeadership}>

@@ -48,6 +48,25 @@ export default function FounderAdminPage() {
   });
   const [savingServiceItem, setSavingServiceItem] = useState(false);
 
+
+  // --- SECTION 3: LEADERSHIP SPOTLIGHT STATE ---
+  const [leaderTag, setLeaderTag] = useState('LEADERSHIP SPOTLIGHT');
+  const [spotlightName, setSpotlightName] = useState('GIREESH KUMAR S');
+  const [spotlightRole, setSpotlightRole] = useState('Founder, Director & CEO — Nova Innovations');
+  const [leaderYears, setLeaderYears] = useState('27+');
+  const [leaderYearsLabel, setLeaderYearsLabel] = useState('Years Leadership');
+  const [leaderBio, setLeaderBio] = useState('');
+  const [leaderPhone, setLeaderPhone] = useState('+91 9539000640');
+  const [leaderFeature1Title, setLeaderFeature1Title] = useState('Visionary Direction');
+  const [leaderFeature1Desc, setLeaderFeature1Desc] = useState("Building Kerala's most reliable 24/7 overnight advertising engine.");
+  const [leaderFeature2Title, setLeaderFeature2Title] = useState('Enterprise Relationships');
+  const [leaderFeature2Desc, setLeaderFeature2Desc] = useState('Trusted partner to myG, Bhima, Pothys, KSRTC & Bank of Baroda.');
+  const [leaderImage, setLeaderImage] = useState('/heroman.jpeg');
+  const [spotlightImageFile, setSpotlightImageFile] = useState(null);
+  const [spotlightImagePreview, setSpotlightImagePreview] = useState(null);
+  const [savingSpotlight, setSavingSpotlight] = useState(false);
+  const spotlightFileInputRef = useRef(null);
+
   // --- NOTIFICATION STATE ---
   const [toastMsg, setToastMsg] = useState('');
   const [toastType, setToastType] = useState('success');
@@ -70,6 +89,20 @@ export default function FounderAdminPage() {
         if (d.servicesSectionSubhead !== undefined) setServicesSubhead(d.servicesSectionSubhead || 'WHAT WE OFFER');
         if (d.servicesSectionHeading !== undefined) setServicesHeading(d.servicesSectionHeading || 'Comprehensive Advertising Services');
         if (d.servicesSectionDesc !== undefined) setServicesDesc(d.servicesSectionDesc || '');
+
+        if (d.leaderTag !== undefined) setLeaderTag(d.leaderTag || 'LEADERSHIP SPOTLIGHT');
+        if (d.leaderName !== undefined) setSpotlightName(d.leaderName || 'GIREESH KUMAR S');
+        if (d.leaderRole !== undefined) setSpotlightRole(d.leaderRole || 'Founder, Director & CEO — Nova Innovations');
+        if (d.leaderYears !== undefined) setLeaderYears(d.leaderYears || '27+');
+        if (d.leaderYearsLabel !== undefined) setLeaderYearsLabel(d.leaderYearsLabel || 'Years Leadership');
+        if (d.leaderBio !== undefined) setLeaderBio(d.leaderBio || '');
+        if (d.leaderPhone !== undefined) setLeaderPhone(d.leaderPhone || '+91 9539000640');
+        if (d.leaderFeature1Title !== undefined) setLeaderFeature1Title(d.leaderFeature1Title || 'Visionary Direction');
+        if (d.leaderFeature1Desc !== undefined) setLeaderFeature1Desc(d.leaderFeature1Desc || '');
+        if (d.leaderFeature2Title !== undefined) setLeaderFeature2Title(d.leaderFeature2Title || 'Enterprise Relationships');
+        if (d.leaderFeature2Desc !== undefined) setLeaderFeature2Desc(d.leaderFeature2Desc || '');
+        if (d.leaderImage !== undefined) setLeaderImage(d.leaderImage || '/heroman.jpeg');
+
       }
     } catch (err) {
       console.error('Failed to load settings:', err);
@@ -148,6 +181,63 @@ export default function FounderAdminPage() {
       setToastMsg(err.message || 'Error saving founder settings');
     } finally {
       setSavingHero(false);
+    }
+  };
+
+
+  const handleSpotlightPhotoChange = (e) => {
+    const file = e.target.files && e.target.files[0];
+    if (file) {
+      setSpotlightImageFile(file);
+      setSpotlightImagePreview(URL.createObjectURL(file));
+    }
+  };
+
+  const handleSaveSpotlight = async (e) => {
+    e.preventDefault();
+    setSavingSpotlight(true);
+
+    try {
+      let finalImg = leaderImage;
+      if (spotlightImageFile) {
+        const uploadRes = await uploadFounderImage(spotlightImageFile);
+        if (uploadRes && uploadRes.success && uploadRes.imageUrl) {
+          finalImg = uploadRes.imageUrl;
+          setLeaderImage(finalImg);
+          setSpotlightImagePreview(null);
+          setSpotlightImageFile(null);
+        }
+      }
+
+      const res = await apiRequest('/admin/settings', {
+        method: 'PUT',
+        body: JSON.stringify({
+          leaderTag,
+          leaderName: spotlightName,
+          leaderRole: spotlightRole,
+          leaderYears,
+          leaderYearsLabel,
+          leaderBio,
+          leaderPhone,
+          leaderFeature1Title,
+          leaderFeature1Desc,
+          leaderFeature2Title,
+          leaderFeature2Desc,
+          leaderImage: finalImg,
+        }),
+      });
+
+      if (res && res.success) {
+        setToastType('success');
+        setToastMsg('Leadership Spotlight updated successfully!');
+      } else {
+        throw new Error(res.message || 'Failed to update leadership spotlight');
+      }
+    } catch (err) {
+      setToastType('error');
+      setToastMsg(err.message || 'Error saving leadership spotlight');
+    } finally {
+      setSavingSpotlight(false);
     }
   };
 
