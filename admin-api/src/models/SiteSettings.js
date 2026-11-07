@@ -106,42 +106,42 @@ const siteSettingsSchema = new mongoose.Schema(
     // Founder Page Hero Section
     founderHeroTag: {
       type: String,
-      default: '27+ Years of Creative Advertising Excellence',
+      default: '',
       trim: true,
     },
     founderHeroTitle: {
       type: String,
-      default: 'INNOVATIONS THAT HALLMARKS YOUR BRAND',
+      default: '',
       trim: true,
     },
     founderHeroDesc: {
       type: String,
-      default: 'Outdoors • Design Studio • Events — Prime hoardings, transit vehicle branding, and overnight campaign execution across Kerala.',
+      default: '',
       trim: true,
     },
     founderHeroCtaText: {
       type: String,
-      default: 'Book Hoardings',
+      default: '',
       trim: true,
     },
     founderHeroCtaPhone: {
       type: String,
-      default: '+91 95390 00640',
+      default: '',
       trim: true,
     },
     founderName: {
       type: String,
-      default: 'GIREESH KUMAR S',
+      default: '',
       trim: true,
     },
     founderRole: {
       type: String,
-      default: 'Founder & CEO — NOVA Innovations',
+      default: '',
       trim: true,
     },
     founderImage: {
       type: String,
-      default: '/heroman.jpeg',
+      default: '',
       trim: true,
     },
   },
