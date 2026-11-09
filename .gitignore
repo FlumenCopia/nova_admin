@@ -40,3 +40,9 @@ admin-api/uploads/portfolio/*
 !admin-api/uploads/portfolio/.gitkeep
 admin-api/uploads/clients/*
 !admin-api/uploads/clients/.gitkeep
+
+# Old Site Backups & Temporary Scratch Scripts
+backup/
+scratch/
+hostinger-package/
+*.zip
