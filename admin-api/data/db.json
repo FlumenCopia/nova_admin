@@ -924,6 +924,19 @@
       "_id": "6aeb21cf591b8f123d66d367",
       "createdAt": "2026-11-04T12:15:11.019Z",
       "updatedAt": "2026-11-04T12:15:11.019Z"
+    },
+    {
+      "name": "Verification Bot",
+      "phone": "+91 95390 00640",
+      "email": "qa-bot@novainnovations.in",
+      "serviceType": "Outdoor Hoardings",
+      "notes": "Comprehensive automated integration test verification.",
+      "source": "Website Form",
+      "status": "NEW",
+      "id": "6af173d94f5a35473f574932",
+      "_id": "6af173d94f5a35473f574932",
+      "createdAt": "2026-11-09T07:18:49.455Z",
+      "updatedAt": "2026-11-09T07:18:49.455Z"
     }
   ]
 }
