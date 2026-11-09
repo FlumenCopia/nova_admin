@@ -1,0 +1,9 @@
+export { default as FounderHero } from './FounderHero';
+export { default as FounderServices } from './FounderServices';
+export { default as FounderAboutMosaic } from './FounderAboutMosaic';
+export { default as FounderLeadershipSpotlight } from './FounderLeadershipSpotlight';
+export { default as FounderPartnersMarquee } from './FounderPartnersMarquee';
+export { default as FounderSwipeGallery } from './FounderSwipeGallery';
+export { default as FounderCtaBanner } from './FounderCtaBanner';
+export { default as FounderContactSection } from './FounderContactSection';
+export { default as FounderContactModal } from './FounderContactModal';

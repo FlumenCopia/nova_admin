@@ -36,7 +36,11 @@ export default function Header({ onOpenModal, onToggleMobile, isMobileOpen }) {
         <nav className="nav-links" id="main-nav">
           {navLinks.map((link) => {
             const isStaticHtml = link.href.endsWith('.html');
-            const isActive = link.isExternal ? false : pathname === link.href;
+            const isActive = link.isExternal
+              ? false
+              : (link.href === '/'
+                  ? pathname === '/'
+                  : pathname === link.href || (link.href === '/founder-of-nova' && (pathname === '/founder' || pathname.startsWith('/founder'))));
             if (link.isExternal) {
               return (
                 <a

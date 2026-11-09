@@ -1,4 +1,4 @@
-import '../founder/founder.css';
+import './founder.css';
 
 export const metadata = {
   title: 'Founder & CEO — Gireesh Kumar S | Nova Innovations',
