@@ -749,7 +749,7 @@ async function initLeadershipSpotlightBackend() {
 
 /* --- 11. Dynamic Client & Partner Logos Marquee Backend Integration --- */
 function resolveClientLogoUrl(url) {
-  if (!url) return 'assets/client-logos/myg.png';
+  if (!url) return '/client-logos/myg.png';
   if (url.startsWith('http://') || url.startsWith('https://')) return url;
   
   const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
@@ -802,12 +802,12 @@ async function initPartnersMarqueeBackend() {
 
         set1Html += `
           <div class="partner-logo-item" title="${name}">
-            <img src="${imgSrc}" alt="${name}" class="partner-logo-img" onerror="this.src='assets/client-logos/myg.png'">
+            <img src="${imgSrc}" alt="${name}" class="partner-logo-img" onerror="this.src='/client-logos/myg.png'">
           </div>`;
 
         set2Html += `
           <div class="partner-logo-item" aria-hidden="true" title="${name}">
-            <img src="${imgSrc}" alt="${name}" class="partner-logo-img" onerror="this.src='assets/client-logos/myg.png'">
+            <img src="${imgSrc}" alt="${name}" class="partner-logo-img" onerror="this.src='/client-logos/myg.png'">
           </div>`;
       });
 
