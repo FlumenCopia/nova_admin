@@ -22,5 +22,15 @@ export const clientLogos = [
   { name: 'Pothys Mahal', src: '/client-logos/pothysmahal.png' },
   { name: 'S Bharath', src: '/client-logos/sbharath.png' },
   { name: 'Shanoor Homes', src: '/client-logos/shanoor.png' },
-  { name: 'SP Fort Hospital', src: '/client-logos/spfort.png' }
+  { name: 'SP Fort Hospital', src: '/client-logos/spfort.png' },
+  { name: 'Fair Exports', src: '/client-logos/fair.png' },
+  { name: 'Precise', src: '/client-logos/precise.png' },
+  { name: 'PRS Hospital', src: '/client-logos/prs.png' },
+  { name: 'Salpido', src: '/client-logos/salpido.png' },
+  { name: 'Susrutha Institute', src: '/client-logos/susrutha.png' },
+  { name: 'Silver Hills', src: '/client-logos/silver.png' },
+  { name: 'Mookambika', src: '/client-logos/mookambika.png' },
+  { name: 'RK Builders', src: '/client-logos/rk.png' },
+  { name: 'Vyra', src: '/client-logos/vyra.png' },
+  { name: 'Retnakala Jewellers', src: '/client-logos/retnakala.png' }
 ];
