@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NOVA INNOVATIONS — Outdoors • Design Studio • Events | Kerala</title>
+  <meta name="description"
+    content="NOVA Innovations - Premier Creative Advertising Agency in Kerala. 27+ Years of Excellence in Outdoor Hoardings, Vehicle Branding, Design Studio, and Events.">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&display=swap"
+    rel="stylesheet">
+
+  <!-- Font Awesome / Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+  <!-- Header Navigation -->
+  <header class="site-header" id="navbar">
+    <!-- Logo -->
+    <a href="#hero" class="brand-logo" id="brand-logo">
+      <span class="logo-text">GIREESH<span class="logo-accent">KUMAR</span></span>
+    </a>
+
+    <!-- Navigation Links -->
+    <nav class="nav-menu" id="nav-menu">
+      <a href="#hero" class="nav-link active">Home</a>
+      <a href="#about" class="nav-link">About Us</a>
+      <a href="#services" class="nav-link">Services</a>
+      <a href="#gallery" class="nav-link">Gallery</a>
+      <a href="#contact" class="nav-link">Contact</a>
+    </nav>
+
+    <!-- Right Action Button & Mobile Toggle -->
+    <div class="nav-actions">
+      <button class="theme-toggle" id="theme-toggle" aria-label="Toggle Theme">
+        <i class="fa-solid fa-moon"></i>
+      </button>
+      <a href="tel:+919539000640" class="btn btn-dark nav-cta" id="contact-btn" title="Call +91 95390 00640">
+        <i class="fa-solid fa-phone"></i>
+        <span>Call Now</span>
+      </a>
+      <button class="mobile-toggle" id="mobile-toggle" aria-label="Toggle Navigation">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Dark Backdrop Overlay for Offcanvas Drawer -->
+  <div class="drawer-overlay" id="drawer-overlay"></div>
+
+  <!-- Mobile Offcanvas Slide-over Drawer Navigation -->
+  <div class="mobile-drawer" id="mobile-drawer">
+    <div class="drawer-header">
+      <span class="logo-text">GIREESH <span class="logo-accent">KUMAR S</span></span>
+      <button class="drawer-close" id="drawer-close" aria-label="Close Menu">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+    <div class="drawer-links">
+      <a href="#hero" class="drawer-link active"><i class="fa-solid fa-house"></i> Home</a>
+      <a href="#about" class="drawer-link"><i class="fa-solid fa-circle-info"></i> About Us</a>
+      <a href="#services" class="drawer-link"><i class="fa-solid fa-layer-group"></i> Services</a>
+      <a href="#gallery" class="drawer-link"><i class="fa-solid fa-images"></i> Gallery</a>
+      <a href="#contact" class="drawer-link"><i class="fa-solid fa-envelope"></i> Contact</a>
+    </div>
+    <div class="drawer-footer">
+      <a href="https://wa.me/919539000640" target="_blank" class="btn btn-whatsapp btn-block drawer-btn">
+        <i class="fa-brands fa-whatsapp"></i> Chat on WhatsApp
+      </a>
+    </div>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <main class="site-main">
+
+    <!-- HERO SECTION -->
+    <section class="hero-section" id="hero">
+      <div class="hero-grid">
+        <!-- Left Column Content -->
+        <div class="hero-content">
+          <div class="hero-tag-badge">
+            <i class="fa-solid fa-star"></i> <span id="founder-hero-tag-text">27+ Years of Creative Advertising Excellence</span>
+          </div>
+          <h1 class="hero-title" id="founder-hero-title">
+            INNOVATIONS THAT HALLMARKS YOUR BRAND
+          </h1>
+          <p class="hero-desc" id="founder-hero-desc">
+            Outdoors • Design Studio • Events — Prime hoardings, transit vehicle branding, and overnight campaign
+            execution across Kerala.
+          </p>
+          <div class="hero-actions">
+            <a href="tel:+919539000640" class="btn btn-primary hero-cta-btn" id="founder-hero-cta">
+              <span id="founder-hero-cta-text">Book Hoardings</span>
+              <i class="fa-solid fa-arrow-right"></i>
+            </a>
+          </div>
+        </div>
+
+        <!-- Right Column Image Composition -->
+        <div class="hero-visual">
+          <div class="visual-wrapper">
+            <!-- Signature NOVA Red Circle Backdrop -->
+            <div class="hero-blue-circle"></div>
+
+            <!-- Founder Portrait Image (Gireesh Kumar S - Director & CEO) -->
+            <div class="hero-img-box">
+              <img src="assets/hero_man.jpeg" alt="Gireesh Kumar S" class="hero-founder-img" id="founder-hero-img">
+            </div>
+
+            <div class="founder-title-badge">
+              <strong id="founder-hero-name">GIREESH KUMAR S</strong>
+              <span id="founder-hero-role">Founder &amp; CEO — NOVA Innovations</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 1: COMPREHENSIVE ADVERTISING SERVICES (6 CARDS GRID) -->
+    <section class="features-wrapper-section rounded-container-light" id="services">
+      <!-- Top subtle dash indicator -->
+      <div class="container-top-notch">
+        <span class="notch-dash"></span>
+      </div>
+
+      <div class="section-header-left">
+        <span class="about-subhead" id="services-subhead">WHAT WE OFFER</span>
+        <h2 class="section-heading-sm" id="services-heading">Comprehensive Advertising Services</h2>
+        <p class="section-desc-left" id="services-desc">End-to-end outdoor advertising, design studio creations, transit branding, and
+          corporate events across Kerala.</p>
+      </div>
+
+      <div class="services-cards-grid" id="services-cards-container">
+        <!-- Service 1: Innovative Hoardings -->
+        <div class="service-squircle-card">
+          <div class="service-icon-box">
+            <i class="fa-solid fa-rectangle-ad"></i>
+          </div>
+          <h3 class="service-title">Innovative Hoardings</h3>
+          <p class="service-desc">
+            High-visibility billboards, unipoles, gantries, and cantilever structures in prime city junctions and
+            national highways across Kerala.
+          </p>
+          <div class="service-tags-list">
+            <span class="service-tag-item"><i class="fa-solid fa-check"></i> Prime footfall locations</span>
+            <span class="service-tag-item"><i class="fa-solid fa-check"></i> Weatherproof flex &amp; LED lights</span>
+          </div>
+          <button class="service-card-btn" onclick="openContactModal('Outdoor Hoardings')">
+            <span>Inquire Hoardings</span> <i class="fa-solid fa-arrow-right"></i>
+          </button>
+        </div>
+
+        <!-- Service 2: Vehicle Advertising -->
+        <div class="service-squircle-card">
+          <div class="service-icon-box">
+            <i class="fa-solid fa-bus"></i>
+          </div>
+          <h3 class="service-title">Vehicle Advertising</h3>
+          <p class="service-desc">
+            Time-bound mobile advertising fleet services including KSRTC buses, private transit branding, and
+            promotional display vans.
+          </p>
+          <div class="service-tags-list">
+            <span class="service-tag-item"><i class="fa-solid fa-check"></i> High city-wide reach &amp; mobility</span>
+            <span class="service-tag-item"><i class="fa-solid fa-check"></i> Full body wrap &amp; side panels</span>
+          </div>
+          <button class="service-card-btn" onclick="openContactModal('Vehicle Advertising')">
+            <span>Inquire Transit</span> <i class="fa-solid fa-arrow-right"></i>
+          </button>
+        </div>
+
+        <!-- Service 3: Shop & Retail Branding -->
+        <div class="service-squircle-card">
+          <div class="service-icon-box">
+            <i class="fa-solid fa-store"></i>
+          </div>
+          <h3 class="service-title">Shop &amp; Retail Branding</h3>
+          <p class="service-desc">
+            Complete store exterior &amp; interior transformations: 3D illuminated signboards, LED glow boards, ACP
+            signboards, and retail display units.
+          </p>
+          <div class="service-tags-list">
+            <span class="service-tag-item"><i class="fa-solid fa-check"></i> LED glow &amp; ACP signboards</span>
+            <span class="service-tag-item"><i class="fa-solid fa-check"></i> Showroom facade design</span>
+          </div>
+          <button class="service-card-btn" onclick="openContactModal('Shop & Retail Branding')">
+            <span>Inquire Retail</span> <i class="fa-solid fa-arrow-right"></i>
+          </button>
+        </div>
+
+        <!-- Service 4: Event Branding & Stalls -->
+        <div class="service-squircle-card">
+          <div class="service-icon-box">
+            <i class="fa-solid fa-champagne-glasses"></i>
+          </div>
+          <h3 class="service-title">Event Branding &amp; Stalls</h3>
+          <p class="service-desc">
+            Capturing the essence of your brand in corporate events, exhibition stalls, stage backdrops, kiosks, and
+            product launch productions.
+          </p>
+          <div class="service-tags-list">
+            <span class="service-tag-item"><i class="fa-solid fa-check"></i> Custom stall fabrication</span>
+            <span class="service-tag-item"><i class="fa-solid fa-check"></i> Turnkey event management</span>
+          </div>
+          <button class="service-card-btn" onclick="openContactModal('Event Branding')">
+            <span>Inquire Events</span> <i class="fa-solid fa-arrow-right"></i>
+          </button>
+        </div>
+
+        <!-- Service 5: Commercial Wall Paintings -->
+        <div class="service-squircle-card">
+          <div class="service-icon-box">
+            <i class="fa-solid fa-paintbrush"></i>
+          </div>
+          <h3 class="service-title">Commercial Wall Paintings</h3>
+          <p class="service-desc">
+            Long-lasting direct wall artworks and branding murals executed with durable weather-resistant paint on
+            prominent roadsides and town walls.
+          </p>
+          <div class="service-tags-list">
+            <span class="service-tag-item"><i class="fa-solid fa-check"></i> Long-term brand retention</span>
+            <span class="service-tag-item"><i class="fa-solid fa-check"></i> Rural &amp; urban highway routes</span>
+          </div>
+          <button class="service-card-btn" onclick="openContactModal('Outdoor Hoardings')">
+            <span>Inquire Wall Murals</span> <i class="fa-solid fa-arrow-right"></i>
+          </button>
+        </div>
+
+        <!-- Service 6: Design Studio & Printing -->
+        <div class="service-squircle-card">
+          <div class="service-icon-box">
+            <i class="fa-solid fa-pen-ruler"></i>
+          </div>
+          <h3 class="service-title">Design Studio &amp; Printing</h3>
+          <p class="service-desc">
+            State-of-the-art flex digital printing, large format banners, offset catalogs, brochures, bulk posters, and
+            corporate stationery.
+          </p>
+          <div class="service-tags-list">
+            <span class="service-tag-item"><i class="fa-solid fa-check"></i> High-definition printing machinery</span>
+            <span class="service-tag-item"><i class="fa-solid fa-check"></i> Creative branding agency support</span>
+          </div>
+          <button class="service-card-btn" onclick="openContactModal('Design Studio')">
+            <span>Inquire Design</span> <i class="fa-solid fa-arrow-right"></i>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 2: RICH ABOUT US DETAILS -->
+    <section class="testimonials-overview-section" id="about">
+
+      <!-- Overnight Specialty Highlight Strip -->
+      <div class="speciality-highlight-strip">
+        <div class="strip-icon-box">
+          <i class="fa-solid fa-bolt"></i>
+        </div>
+        <div class="strip-text-box">
+          <strong>OUR SPECIALITY:</strong> We can advertise your business overnight all over Kerala across 14 districts.
+        </div>
+        <a href="tel:+919539000640" class="strip-btn">
+          <i class="fa-solid fa-phone"></i> +91 9539000640
+        </a>
+      </div>
+
+      <div class="overview-grid">
+        <!-- Left Column: Detailed About Copy -->
+        <div class="overview-left">
+          <div class="dual-dots-badge">
+            <span class="dot dot-red"></span>
+            <span class="dot dot-red"></span>
+          </div>
+          <span class="about-subhead">WELCOME TO NOVA INNOVATIONS</span>
+          <h2 class="overview-title">
+            27+ Years of Creative Advertising Excellence
+          </h2>
+          <p class="about-paragraph">
+            We <strong>"Innovations"</strong> are the premier innovative and creative advertising partner for the new
+            era of outdoor hoardings and brand media in Kerala. We are deeply committed to taking each of our client
+            firms to the next levels of business hierarchy.
+          </p>
+          <p class="about-paragraph">
+            From customized graphic conceptualization in our design studio to high-visibility prime highway hoardings,
+            bus fleet branding, shop signages, and end-to-end event production, we provide head-to-tail services with
+            100% structural protection.
+          </p>
+
+          <!-- Director Quote Box -->
+          <div class="director-quote-card">
+            <div class="director-avatar-wrap">
+              <img src="assets/hero_man.jpeg" alt="Gireesh Kumar S" class="director-avatar">
+            </div>
+            <div class="director-quote-info">
+              <p class="director-quote-text">
+                "Our mission is to hallmark your brand into every customer's mind with prime locations, structural
+                perfection, and instant overnight deployment."
+              </p>
+              <h4 class="director-name">GIREESH KUMAR S</h4>
+              <span class="director-role">Director / CEO — NOVA Innovations</span>
+            </div>
+          </div>
+
+          <!-- Metric Badges/Pills -->
+          <div class="metrics-pills-row">
+            <div class="metric-pill">
+              <span class="pill-number counter" data-target="27">27</span>
+              <span class="pill-suffix">+</span>
+              <span class="pill-sub">Years Excellence</span>
+            </div>
+            <div class="metric-pill">
+              <span class="pill-number counter" data-target="500">500</span>
+              <span class="pill-suffix">+</span>
+              <span class="pill-sub">Prime Hoardings</span>
+            </div>
+            <div class="metric-pill">
+              <span class="pill-number counter" data-target="1000">1000</span>
+              <span class="pill-suffix">+</span>
+              <span class="pill-sub">Campaigns</span>
+            </div>
+            <div class="metric-pill">
+              <span class="pill-number counter" data-target="14">14</span>
+              <span class="pill-sub">Districts Overnight</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column: Mosaic Visual Showcase -->
+        <div class="overview-right-mosaic">
+          <div class="mosaic-container">
+
+            <!-- Bottom Row: Image + Radar Graphic -->
+            <div class="mosaic-bottom-row">
+              <!-- Prime Billboard Showcase Image Card -->
+              <div class="mosaic-img-card">
+                <img src="assets/about_hoarding.jpg" alt="Kerala Highway Billboard Hoarding Showcase"
+                  class="mosaic-img">
+              </div>
+
+              <!-- Official NOVA Innovations Logo Circular Badge Card -->
+              <div class="mosaic-abstract-card">
+                <div class="nova-badge-wrapper">
+                  <img src="assets/nova_logo_badge.svg" alt="NOVA Innovations Official Logo Badge"
+                    class="nova-badge-img">
+                </div>
+              </div>
+            </div>
+
+            <!-- Row 3: Statewide Transit Fleet Feature Banner -->
+            <div class="mosaic-banner-card">
+              <div class="banner-card-img-wrap">
+                <img src="assets/founder_transit.jpg" alt="KSRTC Transit Fleet Network" class="banner-card-img">
+                <div class="banner-card-overlay"></div>
+              </div>
+              <div class="banner-card-content">
+                <span class="banner-tag"><i class="fa-solid fa-bus"></i> Statewide Network</span>
+                <h4 class="banner-title">Statewide KSRTC Transit Bus Fleet Network</h4>
+                <p class="banner-desc">Pan-Kerala mobile advertising coverage across all 14 districts with 24/7 high
+                  visibility.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- FOUNDER & LEADERSHIP PROFILE SPOTLIGHT -->
+      <div class="founder-spotlight-card" id="founder">
+        <div class="founder-card-grid">
+          <div class="founder-img-col">
+            <div class="founder-portrait-frame">
+              <img src="assets/hero_man.jpeg" alt="Gireesh Kumar S"
+                class="founder-portrait-img" id="spotlight-portrait-img">
+              <div class="founder-experience-badge">
+                <span class="exp-number" id="spotlight-years-number">27+</span>
+                <span class="exp-text" id="spotlight-years-label">Years Leadership</span>
+              </div>
+            </div>
+          </div>
+          <div class="founder-info-col">
+            <div class="dual-dots-badge">
+              <span class="dot dot-red"></span>
+              <span class="dot dot-red"></span>
+            </div>
+            <span class="about-subhead" id="spotlight-tag">LEADERSHIP SPOTLIGHT</span>
+            <h2 class="founder-name-heading" id="spotlight-name">GIREESH KUMAR S</h2>
+            <h3 class="founder-designation" id="spotlight-designation">Founder, Director &amp; CEO — Nova Innovations</h3>
+            <p class="founder-bio-text" id="spotlight-bio">
+              Pioneering outdoor advertising, highway hoardings, and transit fleet branding across Kerala for over 27
+              years. Under Gireesh Kumar S's leadership, Nova Innovations manages 500+ prime hoarding corridors and
+              nationwide campaign executions.
+            </p>
+            <div class="founder-key-pillars">
+              <div class="pillar-item">
+                <div class="pillar-icon"><i class="fa-solid fa-trophy"></i></div>
+                <div>
+                  <strong id="spotlight-feat1-title">Visionary Direction</strong>
+                  <p id="spotlight-feat1-desc">Building Kerala's most reliable 24/7 overnight advertising engine.</p>
+                </div>
+              </div>
+              <div class="pillar-item">
+                <div class="pillar-icon"><i class="fa-solid fa-handshake"></i></div>
+                <div>
+                  <strong id="spotlight-feat2-title">Enterprise Relationships</strong>
+                  <p id="spotlight-feat2-desc">Trusted partner to myG, Bhima, Pothys, KSRTC & Bank of Baroda.</p>
+                </div>
+              </div>
+            </div>
+            <div class="founder-actions">
+              <a href="tel:+919539000640" class="btn btn-primary" id="spotlight-phone-btn">
+                <i class="fa-solid fa-phone"></i> <span id="spotlight-phone-text">Call Founder: +91 9539000640</span>
+              </a>
+              <button class="btn btn-ghost" onclick="openContactModal('Founder Meeting')">
+                <span>Connect with Director</span> <i class="fa-solid fa-arrow-right"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- OFFICIAL BRAND PARTNERS LOGO MARQUEE (Fetched directly from novations-seven.vercel.app) -->
+    <section class="partners-section" id="partners">
+      <div class="partners-title-wrap">
+        <span class="partners-title" id="partners-title">OUR ESTEEMED CLIENTS &amp; BRAND PARTNERS</span>
+      </div>
+
+      <!-- Infinite Swiper Marquee Track with downloaded official logos -->
+      <div class="partners-marquee-container">
+        <div class="partners-marquee-track" id="partners-marquee-track">
+          <!-- Dynamically loaded from Backend Admin Panel -->
+        
+        </div>
+      </div>
+    </section>
+
+
+
+    <!-- SECTION 4: INTERACTIVE IMAGE SWIPE GALLERY -->
+    <section class="gallery-swipe-section" id="gallery">
+      <div class="section-header-centered">
+        <div class="dual-dots-badge center">
+          <span class="dot dot-red"></span>
+          <span class="dot dot-red"></span>
+        </div>
+        <span class="section-sub">FEATURED MEDIA GALLERY</span>
+        <h2 class="section-heading">High-Impact Campaign Showcase</h2>
+        <p class="section-desc">Swipe through Nova Innovations' landmark billboard installations, mobile transit fleets,
+          and architectural displays across Kerala.</p>
+      </div>
+
+      <div class="swipe-gallery-container">
+        <!-- Swipe Stage -->
+        <div class="swipe-stage">
+          <button class="swipe-nav-btn prev" id="swipe-prev" aria-label="Previous Image Slide">
+            <i class="fa-solid fa-chevron-left"></i>
+          </button>
+
+          <div class="swipe-track-wrapper" id="swipe-track-wrapper">
+            <div class="swipe-track" id="swipe-track">
+
+              <!-- Slide 1: Founder Executive Studio -->
+              <div class="swipe-slide active" data-index="0">
+                <div class="slide-image-wrapper">
+                  <img src="assets/founder_gireesh.jpg" alt="Gireesh Kumar S - Founder & CEO, Nova Innovations"
+                    class="slide-img">
+                  <div class="slide-gradient-overlay"></div>
+                </div>
+                <div class="slide-caption-card">
+                  <div class="caption-header">
+                    <span class="slide-badge"><i class="fa-solid fa-user-tie"></i> Executive Profile</span>
+                    <span class="slide-counter">01 / 06</span>
+                  </div>
+                  <h3 class="slide-title">GIREESH KUMAR S — Founder, Director &amp; CEO</h3>
+                  <p class="slide-meta"><i class="fa-solid fa-award"></i> 27+ Years Excellence • Managing 500+ Prime
+                    Media Assets Across Kerala</p>
+                  <div class="slide-actions">
+                    <button class="btn btn-primary btn-sm" onclick="openContactModal('Founder Meeting')">Connect with
+                      Director <i class="fa-solid fa-arrow-right"></i></button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Slide 2: Founder at Night Hoarding -->
+              <div class="swipe-slide" data-index="1">
+                <div class="slide-image-wrapper">
+                  <img src="assets/founder_hoarding.jpg" alt="Director Gireesh Kumar S at Highway Hoarding Landmark"
+                    class="slide-img">
+                  <div class="slide-gradient-overlay"></div>
+                </div>
+                <div class="slide-caption-card">
+                  <div class="caption-header">
+                    <span class="slide-badge"><i class="fa-solid fa-bolt"></i> Highway Inspection</span>
+                    <span class="slide-counter">02 / 06</span>
+                  </div>
+                  <h3 class="slide-title">Founder Inspection — Highway Hoarding Landmark</h3>
+                  <p class="slide-meta"><i class="fa-solid fa-location-dot"></i> NH 66 Corridor • Director Gireesh Kumar
+                    S Overseeing Spot-Lit 40x20 FT Billboard</p>
+                  <div class="slide-actions">
+                    <button class="btn btn-primary btn-sm" onclick="openContactModal('Highway Hoarding')">Inquire
+                      Location <i class="fa-solid fa-arrow-right"></i></button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Slide 3: Founder at KSRTC Transit Launch -->
+              <div class="swipe-slide" data-index="2">
+                <div class="slide-image-wrapper">
+                  <img src="assets/founder_transit.jpg" alt="Director Gireesh Kumar S Launching KSRTC Bus Fleet"
+                    class="slide-img">
+                  <div class="slide-gradient-overlay"></div>
+                </div>
+                <div class="slide-caption-card">
+                  <div class="caption-header">
+                    <span class="slide-badge"><i class="fa-solid fa-bus"></i> Transit Fleet Launch</span>
+                    <span class="slide-counter">03 / 06</span>
+                  </div>
+                  <h3 class="slide-title">Gireesh Kumar S Launching KSRTC Transit Wrap Fleet</h3>
+                  <p class="slide-meta"><i class="fa-solid fa-location-dot"></i> 14 Districts Pan-Kerala • Statewide
+                    Mobile Media Network</p>
+                  <div class="slide-actions">
+                    <button class="btn btn-primary btn-sm" onclick="openContactModal('Transit Media')">Inquire Fleet <i
+                        class="fa-solid fa-arrow-right"></i></button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Slide 4: Founder at Commercial Facade -->
+              <div class="swipe-slide" data-index="3">
+                <div class="slide-image-wrapper">
+                  <img src="assets/founder_retail.jpg" alt="Director Gireesh Kumar S at Commercial Facade Display"
+                    class="slide-img">
+                  <div class="slide-gradient-overlay"></div>
+                </div>
+                <div class="slide-caption-card">
+                  <div class="caption-header">
+                    <span class="slide-badge"><i class="fa-solid fa-store"></i> Retail Unveiling</span>
+                    <span class="slide-counter">04 / 06</span>
+                  </div>
+                  <h3 class="slide-title">Retail Facade &amp; 3D LED Display Unveiling</h3>
+                  <p class="slide-meta"><i class="fa-solid fa-location-dot"></i> Highway Commercial Hub • Gireesh Kumar
+                    S at Architectural Facade Opening</p>
+                  <div class="slide-actions">
+                    <button class="btn btn-primary btn-sm" onclick="openContactModal('Retail Facade')">Inquire Branding
+                      <i class="fa-solid fa-arrow-right"></i></button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Slide 5: Founder at Studio Flex Printing -->
+              <div class="swipe-slide" data-index="4">
+                <div class="slide-image-wrapper">
+                  <img src="assets/founder_execution.jpg"
+                    alt="Director Gireesh Kumar S Directing Design Studio Operations" class="slide-img">
+                  <div class="slide-gradient-overlay"></div>
+                </div>
+                <div class="slide-caption-card">
+                  <div class="caption-header">
+                    <span class="slide-badge"><i class="fa-solid fa-wand-magic-sparkles"></i> Studio Operations</span>
+                    <span class="slide-counter">05 / 06</span>
+                  </div>
+                  <h3 class="slide-title">Overnight Flex Printing &amp; Studio Direction</h3>
+                  <p class="slide-meta"><i class="fa-solid fa-location-dot"></i> Design Studio Hub • Director Gireesh
+                    Kumar S Directing 24/7 Rapid Execution Team</p>
+                  <div class="slide-actions">
+                    <button class="btn btn-primary btn-sm" onclick="openContactModal('Campaign Execution')">Inquire
+                      Execution <i class="fa-solid fa-arrow-right"></i></button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Slide 6: Founder Keynote Address -->
+              <div class="swipe-slide" data-index="5">
+                <div class="slide-image-wrapper">
+                  <img src="assets/founder_award.jpg" alt="Director Gireesh Kumar S Keynote Speech at Media Summit"
+                    class="slide-img">
+                  <div class="slide-gradient-overlay"></div>
+                </div>
+                <div class="slide-caption-card">
+                  <div class="caption-header">
+                    <span class="slide-badge"><i class="fa-solid fa-microphone"></i> Media Keynote</span>
+                    <span class="slide-counter">06 / 06</span>
+                  </div>
+                  <h3 class="slide-title">Advertising Excellence Summit Keynote</h3>
+                  <p class="slide-meta"><i class="fa-solid fa-trophy"></i> Kerala Media Summit • Keynote Address on OOH
+                    Innovations by Director Gireesh Kumar S</p>
+                  <div class="slide-actions">
+                    <button class="btn btn-primary btn-sm" onclick="openContactModal('Founder Keynote')">Inquire Speaker
+                      <i class="fa-solid fa-arrow-right"></i></button>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <button class="swipe-nav-btn next" id="swipe-next" aria-label="Next Image Slide">
+            <i class="fa-solid fa-chevron-right"></i>
+          </button>
+        </div>
+
+        <!-- Dots Indicator -->
+        <div class="swipe-dots-container" id="swipe-dots">
+          <span class="swipe-dot active" data-slide="0"></span>
+          <span class="swipe-dot" data-slide="1"></span>
+          <span class="swipe-dot" data-slide="2"></span>
+          <span class="swipe-dot" data-slide="3"></span>
+          <span class="swipe-dot" data-slide="4"></span>
+          <span class="swipe-dot" data-slide="5"></span>
+        </div>
+
+
+      </div>
+    </section>
+
+    <!-- SECTION 5: CTA BANNER -->
+    <section class="cta-banner-section">
+      <div class="cta-card">
+        <div class="cta-content">
+          <h2 class="cta-heading">Ready to Hallmark Your Brand Across Kerala?</h2>
+          <p class="cta-text">Connect directly with management for vacant hoardings, bus fleet media, and custom rates.
+          </p>
+          <div class="cta-btn-group">
+            <a href="tel:+919539000640" class="btn btn-primary btn-large">
+              <i class="fa-solid fa-phone"></i> Call: +91 9539000640
+            </a>
+          </div>
+        </div>
+      </div>
+      <!-- SECTION 6: GET IN TOUCH & BOOKING (DEDICATED CONTACT SECTION) -->
+      <section class="contact-section" id="contact">
+        <div class="contact-header">
+          <div class="dual-dots-badge">
+            <span class="dot dot-red"></span>
+            <span class="dot dot-red"></span>
+          </div>
+          <span class="contact-subhead">DIRECT MEDIA INQUIRIES</span>
+          <h2 class="contact-title">Let's Hallmark Your Brand Across Kerala</h2>
+          <p class="contact-desc">
+            Get in touch directly with Gireesh Kumar S (Director / CEO) and our media planning team for prime highway
+            hoardings, KSRTC bus wraps, and retail facade campaigns.
+          </p>
+        </div>
+
+        <div class="contact-grid">
+          <!-- Left Column: Official Contact Info Cards -->
+          <div class="contact-info-column">
+
+            <!-- Info Card 1: Head Office -->
+            <div class="contact-card">
+              <div class="contact-card-icon">
+                <i class="fa-solid fa-location-dot"></i>
+              </div>
+              <div class="contact-card-details">
+                <span class="contact-label">HEAD OFFICE &amp; DESIGN STUDIO</span>
+                <h4 class="contact-val-title">Nova Innovations</h4>
+                <p class="contact-val-text">
+                  T.C 26/929(2), C.K. Tower, Panavila Junction, Thiruvananthapuram, Kerala - 695001
+                </p>
+              </div>
+            </div>
+
+            <!-- Info Card 2: Phone & WhatsApp -->
+            <div class="contact-card">
+              <div class="contact-card-icon">
+                <i class="fa-solid fa-phone-volume"></i>
+              </div>
+              <div class="contact-card-details">
+                <span class="contact-label">DIRECT PHONE &amp; WHATSAPP</span>
+                <h4 class="contact-val-title">+91 95390 00640</h4>
+                <p class="contact-val-text">
+                  Alternative: +91 95263 64446 • Available 24/7 for campaign booking
+                </p>
+                <div class="contact-quick-actions">
+                  <a href="tel:+919539000640" class="btn btn-primary btn-xs"><i class="fa-solid fa-phone"></i> Call
+                    Now</a>
+                  <a href="https://wa.me/919539000640" target="_blank" class="btn btn-whatsapp btn-xs"><i
+                      class="fa-brands fa-whatsapp"></i> WhatsApp</a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Info Card 3: Email Inquiries -->
+            <div class="contact-card">
+              <div class="contact-card-icon">
+                <i class="fa-solid fa-envelope-open-text"></i>
+              </div>
+              <div class="contact-card-details">
+                <span class="contact-label">EMAIL MEDIA DESK</span>
+                <h4 class="contact-val-title">novainnovations2020@gmail.com</h4>
+                <p class="contact-val-text">
+                  Send your campaign brief or site requirements directly for instant quotations.
+                </p>
+              </div>
+            </div>
+
+
+
+          </div>
+
+          <!-- Right Column: Interactive Booking Form -->
+          <div class="contact-form-column">
+            <div class="contact-form-card">
+              <div class="form-card-header">
+                <h3 class="form-card-title"><i class="fa-solid fa-paper-plane"></i> Send Campaign Inquiry</h3>
+                <p class="form-card-sub">Fill out the details below for a quick response from Director Gireesh Kumar S.
+                </p>
+              </div>
+
+              <form class="section-contact-form" id="page-contact-form" onsubmit="handleContactSubmit(event)">
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="p-form-name">Your Name / Business *</label>
+                    <input type="text" id="p-form-name" placeholder="e.g. Rahul Sharma (myG)" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="p-form-phone">Mobile Number *</label>
+                    <input type="tel" id="p-form-phone" placeholder="+91 95390 00000" required>
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="p-form-email">Email Address</label>
+                    <input type="email" id="p-form-email" placeholder="name@company.com">
+                  </div>
+                  <div class="form-group">
+                    <label for="p-form-service">Required Service *</label>
+                    <select id="p-form-service" required>
+                      <option value="Outdoor Hoardings">Outdoor Hoardings</option>
+                      <option value="Vehicle Advertising">KSRTC Bus Wrap</option>
+                      <option value="Shop & Retail Branding">Shop Facade Signage</option>
+                      <option value="Event Branding">Event Stall Fabrication</option>
+                      <option value="Design Studio">Design Studio &amp; Printing</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="p-form-message">Preferred Corridors / Details *</label>
+                  <textarea id="p-form-message" rows="3"
+                    placeholder="Specify your target districts (e.g. Trivandrum, Ernakulam, Palakkad)..."
+                    required></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-block page-submit-btn">
+                  <span>Submit Campaign Brief</span>
+                  <i class="fa-solid fa-arrow-right"></i>
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="footer-grid">
+      <!-- Col 1 -->
+      <div class="footer-brand-col">
+        <span class="logo-text">GIREESH <span class="logo-accent">KUMAR S</span></span>
+        <p class="footer-bio">
+          <strong>NOVA INNOVATIONS</strong> — Outdoors • Design Studio • Events. Kerala's premier advertising partner
+          with 27+ years of creative excellence.
+        </p>
+        <div class="social-links">
+          <a href="tel:+919539000640" class="social-icon" aria-label="Phone"><i class="fa-solid fa-phone"></i></a>
+          <a href="https://wa.me/919539000640" target="_blank" class="social-icon" aria-label="WhatsApp"><i
+              class="fa-brands fa-whatsapp"></i></a>
+          <a href="mailto:novainnovations2020@gmail.com" class="social-icon" aria-label="Email"><i
+              class="fa-solid fa-envelope"></i></a>
+        </div>
+      </div>
+
+      <!-- Col 2 -->
+      <div class="footer-links-col">
+        <h4 class="footer-col-title">Navigation</h4>
+        <ul class="footer-links-list">
+          <li><a href="#hero">Home</a></li>
+          <li><a href="#about">About Us</a></li>
+          <li><a href="#services">Services</a></li>
+          <li><a href="#gallery">Gallery</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </div>
+
+      <!-- Col 3 -->
+      <div class="footer-links-col">
+        <h4 class="footer-col-title">Our Services</h4>
+        <ul class="footer-links-list">
+          <li><a href="#services">Outdoor Highway Hoardings</a></li>
+          <li><a href="#services">KSRTC Bus Transit Media</a></li>
+          <li><a href="#services">Shop &amp; Retail Facade Signage</a></li>
+          <li><a href="#services">Event Stall Fabrication</a></li>
+          <li><a href="#services">Design Studio &amp; Flex Printing</a></li>
+        </ul>
+      </div>
+
+      <!-- Col 4: Newsletter -->
+      <div class="footer-newsletter-col">
+        <h4 class="footer-col-title">Contact Nova</h4>
+        <p class="newsletter-desc">
+          <strong>Head Office:</strong> T.C 26/929(2), C.K. Tower, Panavila Jn., Thiruvananthapuram - 695001<br>
+          <strong>Mob:</strong> +91 95390 00640, 95263 64446
+        </p>
+        <form class="newsletter-form" id="newsletter-form" onsubmit="handleNewsletter(event)">
+          <div class="newsletter-input-wrap">
+            <input type="tel" id="newsletter-email" placeholder="Your Phone Number..." required>
+            <button type="submit" class="newsletter-btn" aria-label="Request Call">
+              <i class="fa-solid fa-paper-plane"></i>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>&copy; 2026 NOVA Innovations (Outdoors • Design Studio • Events). All Rights Reserved.</p>
+      <div class="footer-legal">
+        <a href="tel:+919539000640">+91 9539000640</a>
+        <span class="sep">•</span>
+        <a href="mailto:novainnovations2020@gmail.com">novainnovations2020@gmail.com</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- CONTACT / BOOKING MODAL -->
+  <div class="modal-overlay" id="contact-modal" onclick="handleModalBackdropClick(event)">
+    <div class="modal-card">
+      <button class="modal-close" onclick="closeContactModal()">&times;</button>
+      <div class="modal-header">
+        <div class="modal-icon"><i class="fa-solid fa-bullhorn"></i></div>
+        <h3 class="modal-title">Book Hoardings &amp; Campaign Inquiry</h3>
+        <p class="modal-sub">Inquire directly with Gireesh Kumar S (Director / CEO) &amp; media planning team.</p>
+      </div>
+
+      <form class="modal-form" id="contact-form" onsubmit="handleContactSubmit(event)">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="form-name">Full Name / Company</label>
+            <input type="text" id="form-name" placeholder="e.g. Rahul Sharma (myG)" required>
+          </div>
+          <div class="form-group">
+            <label for="form-email">Phone Number</label>
+            <input type="tel" id="form-email" placeholder="+91 95390 00000" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="form-service">Service Required</label>
+          <select id="form-service">
+            <option value="Outdoor Hoardings">Outdoor Hoardings (Billboards &amp; Unipoles)</option>
+            <option value="Vehicle Advertising">Vehicle &amp; KSRTC Bus Branding</option>
+            <option value="Shop & Retail Branding">Shop &amp; Showroom Facade Signage</option>
+            <option value="Event Branding">Event Branding &amp; Exhibition Stalls</option>
+            <option value="Design Studio">Design Studio &amp; Flex Printing</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="form-message">Preferred Locations / Details</label>
+          <textarea id="form-message" rows="4"
+            placeholder="Specify preferred locations (e.g. Trivandrum, Kochi, Palakkad) or campaign timeline..."
+            required></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-block modal-submit-btn">
+          <span>Submit Campaign Inquiry</span>
+          <i class="fa-solid fa-paper-plane"></i>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- TOAST NOTIFICATION CONTAINER -->
+  <div class="toast" id="toast">
+    <div class="toast-icon"><i class="fa-solid fa-circle-check"></i></div>
+    <div class="toast-body">
+      <strong id="toast-title">Inquiry Submitted!</strong>
+      <p id="toast-desc">Our media team will call you back shortly.</p>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+
+</html>
