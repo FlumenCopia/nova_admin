@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import Modal from '../../../components/Modal';
 import Toast from '../../../components/Toast';
-import { apiFetch } from '../../../lib/api';
+import { apiFetch, PUBLIC_SITE_URL } from '../../../lib/api';
 
 export default function ServicesPage() {
   const [services, setServices] = useState([]);
@@ -219,7 +219,7 @@ export default function ServicesPage() {
 
         <div className="page-header-actions" style={{ display: 'flex', gap: '10px' }}>
           <a
-            href="http://localhost:3000/founder-of-nova.html#services"
+            href={`${PUBLIC_SITE_URL}/founder-of-nova.html#services`}
             target="_blank"
             rel="noopener noreferrer"
             className="btn-secondary"

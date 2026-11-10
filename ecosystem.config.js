@@ -20,8 +20,8 @@ module.exports = {
     {
       name: 'nova-web',
       cwd: './nova-group',
-      script: 'node_modules/next/dist/bin/next',
-      args: 'start -p 3000',
+      script: 'npm',
+      args: 'start',
       instances: 1,
       exec_mode: 'fork',
       autorestart: true,
@@ -35,8 +35,8 @@ module.exports = {
     {
       name: 'nova-admin',
       cwd: './admin-ui',
-      script: 'node_modules/next/dist/bin/next',
-      args: 'start -p 3001',
+      script: 'npm',
+      args: 'start',
       instances: 1,
       exec_mode: 'fork',
       autorestart: true,
@@ -49,4 +49,3 @@ module.exports = {
     },
   ],
 };
-

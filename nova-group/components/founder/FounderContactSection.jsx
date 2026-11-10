@@ -1,8 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
+import { getApiBase } from '../../lib/api';
 
 export default function FounderContactSection() {
   const [formData, setFormData] = useState({
@@ -22,7 +21,7 @@ export default function FounderContactSection() {
     e.preventDefault();
     setStatus({ loading: true, success: false, error: '' });
     try {
-      const res = await fetch(`${API_BASE}/public/enquiries`, {
+      const res = await fetch(`${getApiBase()}/public/enquiries`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),

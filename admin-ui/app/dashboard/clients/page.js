@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import Modal from '../../../components/Modal';
 import Toast from '../../../components/Toast';
-import { apiFetch, getMediaUrl } from '../../../lib/api';
+import { apiFetch, getMediaUrl, PUBLIC_SITE_URL } from '../../../lib/api';
 
 export default function ClientLogosPage() {
   const [clients, setClients] = useState([]);
@@ -145,7 +145,7 @@ export default function ClientLogosPage() {
 
         <div className="page-header-actions" style={{ display: 'flex', gap: '10px' }}>
           <a
-            href="http://localhost:3000/founder-of-nova.html#partners"
+            href={`${PUBLIC_SITE_URL}/founder-of-nova.html#partners`}
             target="_blank"
             rel="noopener noreferrer"
             className="btn-secondary"

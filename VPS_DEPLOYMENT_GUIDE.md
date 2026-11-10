@@ -9,15 +9,23 @@
 
 ## 1. CloudPanel Site Configuration
 
+### Site A: Public Website & API (`novainnovations.in`)
 1. Log into your CloudPanel Dashboard: `https://89.116.121.25:8443`
-2. Click **Add Site** &rarr; select **Reverse Proxy Site** (or **Node.js Site**):
-   * **Domain Name:** `novainnovations.in`
+2. Click **Add Site** &rarr; select **Reverse Proxy Site**:
+   * **Domain Name:** `novainnovations.in` (and check `www.novainnovations.in`)
    * **Reverse Proxy URL:** `http://127.0.0.1:3000`
 3. Click on the site &rarr; go to the **SSL/TLS** tab &rarr; click **New Let's Encrypt Certificate** &rarr; Install.
-4. Go to the **Vhost** tab in CloudPanel and replace/merge with the contents of [`nginx-cloudpanel.conf`](./nginx-cloudpanel.conf) so that:
+4. Go to the **Vhost** tab in CloudPanel and insert the contents from [`nginx-cloudpanel.conf`](./nginx-cloudpanel.conf) (Site 1 block) so that:
    * `/` routes to `http://127.0.0.1:3000` (`nova-group` public website)
    * `/api/` routes to `http://127.0.0.1:5000/api/` (`admin-api` backend)
    * `/uploads/` routes to `http://127.0.0.1:5000/uploads/` (static images/videos)
+   * `client_max_body_size 50M;` allows high-resolution banner uploads.
+
+### Site B: Admin CMS Dashboard (`admin.novainnovations.in`)
+1. Click **Add Site** &rarr; select **Reverse Proxy Site**:
+   * **Domain Name:** `admin.novainnovations.in`
+   * **Reverse Proxy URL:** `http://127.0.0.1:3001`
+2. Click on the site &rarr; go to the **SSL/TLS** tab &rarr; install Let's Encrypt Certificate.
 
 ---
 

@@ -1,8 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
+import { getApiBase } from '../../lib/api';
 
 export default function FounderHero({ onOpenModal }) {
   const [settings, setSettings] = useState({
@@ -17,7 +16,7 @@ export default function FounderHero({ onOpenModal }) {
   });
 
   useEffect(() => {
-    fetch(`${API_BASE}/public/settings`)
+    fetch(`${getApiBase()}/public/settings`)
       .then((res) => (res.ok ? res.json() : null))
       .then((data) => {
         if (data && data.success && data.data) {

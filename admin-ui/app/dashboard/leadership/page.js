@@ -166,7 +166,7 @@ export default function LeadershipPage() {
         </div>
 
         <a
-          href="http://localhost:3000/founder-of-nova.html#founder"
+          href={`${PUBLIC_SITE_URL}/founder-of-nova.html#founder`}
           target="_blank"
           rel="noopener noreferrer"
           style={{
