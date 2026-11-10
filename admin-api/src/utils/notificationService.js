@@ -44,3 +44,4 @@ const sendNewEnquiryNotification = async (enquiry) => {
 module.exports = {
   sendNewEnquiryNotification,
 };
+

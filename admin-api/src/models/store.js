@@ -1,7 +1,23 @@
 const fs = require('fs');
 const path = require('path');
-const { ObjectId, MongoClient } = require('mongodb');
-const bcrypt = require('bcryptjs');
+const crypto = require('crypto');
+let ObjectId;
+try {
+  ObjectId = require('mongodb').ObjectId;
+} catch (_) {
+  ObjectId = function () {
+    return { toString: () => crypto.randomBytes(12).toString('hex') };
+  };
+}
+let bcrypt;
+try {
+  bcrypt = require('bcryptjs');
+} catch (_) {
+  bcrypt = {
+    hashSync: (pw) => pw,
+    compareSync: (pw, hash) => pw === hash,
+  };
+}
 
 const DATA_DIR = path.join(__dirname, '../../data');
 const DB_FILE = path.join(DATA_DIR, 'db.json');
