@@ -7,3 +7,4 @@ Disallow: /_next/
 # Host & Sitemap
 Host: https://novainnovations.in
 Sitemap: https://novainnovations.in/sitemap.xml
+

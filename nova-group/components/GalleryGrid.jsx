@@ -160,12 +160,14 @@ export default function GalleryGrid({ onOpenModal }) {
               >
                 <div
                   className="listing-img-blur"
-                  style={{ backgroundImage: `url("${item.image}")` }}
+                  style={{ backgroundColor: 'rgba(20, 20, 25, 0.6)' }}
                   aria-hidden="true"
                 />
                 <img
                   src={item.image}
                   alt={item.title}
+                  loading="lazy"
+                  decoding="async"
                   className="listing-img"
                   onError={(e) => { e.target.src = '/mainhero1.png'; }}
                 />
