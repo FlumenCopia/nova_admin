@@ -59,7 +59,7 @@ export default function ContactPage() {
     setIsSubmitting(true);
 
     try {
-      await fetchApi('/public/enquiries', {
+      const res = await fetchApi('/public/enquiries', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -73,18 +73,30 @@ export default function ContactPage() {
         }),
       });
 
-      setName('');
-      setCompany('');
-      setEmail('');
-      setPhone('');
-      setMessage('');
-      if (typeof window !== 'undefined') {
-        const toast = document.getElementById('toast-notification');
-        const toastMsg = document.getElementById('toast-message');
-        if (toastMsg) toastMsg.textContent = 'Thank you! Your campaign brief has been received. Nova Innovations will contact you shortly.';
-        if (toast) {
-          toast.classList.add('show');
-          setTimeout(() => toast.classList.remove('show'), 4000);
+      if (res && res.success) {
+        setName('');
+        setCompany('');
+        setEmail('');
+        setPhone('');
+        setMessage('');
+        if (typeof window !== 'undefined') {
+          const toast = document.getElementById('toast-notification');
+          const toastMsg = document.getElementById('toast-message');
+          if (toastMsg) toastMsg.textContent = 'Thank you! Your campaign brief has been received. Nova Innovations will contact you shortly.';
+          if (toast) {
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 4000);
+          }
+        }
+      } else {
+        if (typeof window !== 'undefined') {
+          const toast = document.getElementById('toast-notification');
+          const toastMsg = document.getElementById('toast-message');
+          if (toastMsg) toastMsg.textContent = res?.message || 'Unable to submit enquiry. Please call us at +91 95390 00640.';
+          if (toast) {
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 5000);
+          }
         }
       }
     } catch (error) {
@@ -92,10 +104,10 @@ export default function ContactPage() {
       if (typeof window !== 'undefined') {
         const toast = document.getElementById('toast-notification');
         const toastMsg = document.getElementById('toast-message');
-        if (toastMsg) toastMsg.textContent = 'Thank you! Your inquiry has been received.';
+        if (toastMsg) toastMsg.textContent = 'Network error. Please call +91 95390 00640 or WhatsApp us directly.';
         if (toast) {
           toast.classList.add('show');
-          setTimeout(() => toast.classList.remove('show'), 4000);
+          setTimeout(() => toast.classList.remove('show'), 5000);
         }
       }
     } finally {

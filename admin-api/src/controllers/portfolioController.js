@@ -325,8 +325,9 @@ const deletePortfolioItem = async (req, res) => {
     }
 
     if (existing.imageUrl && existing.imageUrl.startsWith('/uploads/portfolio/')) {
-      const filePath = path.join(__dirname, '../../', existing.imageUrl);
-      if (fs.existsSync(filePath)) {
+      const uploadsBase = path.resolve(__dirname, '../../uploads/portfolio');
+      const filePath = path.resolve(__dirname, '../../', existing.imageUrl.replace(/^\/+/, ''));
+      if (filePath.startsWith(uploadsBase) && fs.existsSync(filePath)) {
         try { fs.unlinkSync(filePath); } catch (e) { console.error('Error removing file:', e); }
       }
     }

@@ -1,0 +1,9 @@
+# Robots.txt for Nova Innovations (novainnovations.in)
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /_next/
+
+# Host & Sitemap
+Host: https://novainnovations.in
+Sitemap: https://novainnovations.in/sitemap.xml

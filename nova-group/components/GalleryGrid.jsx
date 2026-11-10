@@ -14,7 +14,7 @@ export default function GalleryGrid({ onOpenModal }) {
   useEffect(() => {
     async function fetchDynamicPortfolio() {
       try {
-        const json = await fetchApi('/public/portfolio');
+        const json = await fetchApi('/public/portfolio?limit=100');
         if (json && json.success && Array.isArray(json.data)) {
           const mapped = json.data.map((item, idx) => ({
             id: item.id || `api-${idx}`,

@@ -57,7 +57,7 @@ export default function ConsultationModal({ isOpen, onClose, initialService, onS
     setIsSubmitting(true);
 
     try {
-      await fetchApi('/public/enquiries', {
+      const res = await fetchApi('/public/enquiries', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -69,15 +69,18 @@ export default function ConsultationModal({ isOpen, onClose, initialService, onS
         }),
       });
 
-      setName('');
-      setPhone('');
-      setNotes('');
-      onClose();
-      onShowToast('Thank you! Your campaign inquiry has been received. Nova Innovations will contact you shortly.');
+      if (res && res.success) {
+        setName('');
+        setPhone('');
+        setNotes('');
+        onClose();
+        onShowToast('Thank you! Your campaign inquiry has been received. Nova Innovations will contact you shortly.');
+      } else {
+        onShowToast(res?.message || 'Unable to submit inquiry. Please call +91 95390 00640.');
+      }
     } catch (error) {
       console.error('Submission error:', error);
-      onShowToast('Thank you! Your inquiry has been logged. We will contact you shortly.');
-      onClose();
+      onShowToast('Network error. Please call +91 95390 00640 or WhatsApp.');
     } finally {
       setIsSubmitting(false);
     }

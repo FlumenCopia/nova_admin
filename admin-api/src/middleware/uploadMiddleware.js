@@ -33,7 +33,7 @@ const processPortfolioImage = async (req, res, next) => {
 
     const outputPath = path.join(targetFolder, filename);
 
-    await sharp(req.file.buffer)
+    await sharp(req.file.buffer, { limitInputPixels: 40000000 })
       .resize(1600, null, { fit: 'inside', withoutEnlargement: true })
       .webp({ quality: 80 })
       .toFile(outputPath);
@@ -60,7 +60,7 @@ const processClientLogoImage = async (req, res, next) => {
 
     const outputPath = path.join(targetFolder, filename);
 
-    await sharp(req.file.buffer)
+    await sharp(req.file.buffer, { limitInputPixels: 40000000 })
       .resize(400, null, { fit: 'inside', withoutEnlargement: true })
       .webp({ quality: 85 })
       .toFile(outputPath);
@@ -87,7 +87,7 @@ const processBannerImage = async (req, res, next) => {
 
     const outputPath = path.join(targetFolder, filename);
 
-    await sharp(req.file.buffer)
+    await sharp(req.file.buffer, { limitInputPixels: 40000000 })
       .resize(2560, null, { fit: 'inside', withoutEnlargement: true })
       .webp({ quality: 85 })
       .toFile(outputPath);
@@ -170,7 +170,7 @@ const processMultiplePortfolioImages = async (req, res, next) => {
       const safeFilename = `portfolio-${Date.now()}-${crypto.randomBytes(8).toString('hex')}.webp`;
       const outputPath = path.join(targetFolder, safeFilename);
 
-      await sharp(file.buffer)
+      await sharp(file.buffer, { limitInputPixels: 40000000 })
         .rotate()
         .resize({
           width: 1600,

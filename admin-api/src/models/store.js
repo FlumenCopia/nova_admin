@@ -193,9 +193,11 @@ let dbMemory = loadData();
 
 function saveData(data) {
   try {
-    fs.writeFileSync(DB_FILE, JSON.stringify(data, null, 2), 'utf8');
+    const tmpFile = `${DB_FILE}.${Date.now()}.${Math.random().toString(36).slice(2, 8)}.tmp`;
+    fs.writeFileSync(tmpFile, JSON.stringify(data, null, 2), 'utf8');
+    fs.renameSync(tmpFile, DB_FILE);
   } catch (e) {
-    console.error('Error saving db.json:', e.message);
+    console.error('Error saving db.json (atomic write):', e.message);
   }
 }
 
