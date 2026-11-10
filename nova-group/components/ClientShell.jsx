@@ -6,6 +6,7 @@ import MobileDrawer from './MobileDrawer';
 import Footer from './Footer';
 import ConsultationModal from './ConsultationModal';
 import Toast from './Toast';
+import FloatingWhatsApp from './FloatingWhatsApp';
 
 export default function ClientShell({ children }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -66,6 +67,8 @@ export default function ClientShell({ children }) {
         isVisible={isToastVisible}
         onClose={() => setIsToastVisible(false)}
       />
+
+      <FloatingWhatsApp />
     </>
   );
 }

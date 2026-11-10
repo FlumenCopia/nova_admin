@@ -47,7 +47,7 @@ export default function Footer({ onShowToast }) {
       onShowToast('Thank you! Your call request has been received. Nova Innovations will contact you shortly.');
     } catch (error) {
       console.error('Footer form submit error:', error);
-      onShowToast('Thank you! Your call request has been received.');
+      onShowToast('Could not submit request automatically. Please dial +91 95390 00640 directly.');
     } finally {
       setIsSubmitting(false);
     }
@@ -126,6 +126,12 @@ export default function Footer({ onShowToast }) {
         <div className="footer-bottom-row">
           <p>&copy; 2026 NOVA Innovations (Outdoors • Design Studio • Events). All Rights Reserved. www.novainnovations.in</p>
           <div className="footer-bottom-links">
+            <Link href="/privacy" className="footer-link">
+              Privacy Policy
+            </Link>
+            <Link href="/terms" className="footer-link">
+              Terms & Conditions
+            </Link>
             <a href={`tel:${settings.primaryPhone.replace(/\s+/g, '')}`} className="footer-link" style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
               <Phone size={13} />
               {settings.primaryPhone}
