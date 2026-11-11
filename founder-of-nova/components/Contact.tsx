@@ -103,7 +103,7 @@ export default function Contact({
               <div className="form-row">
                 <div className="form-group">
                   <label htmlFor="p-form-name">Your Name / Business *</label>
-                  <input type="text" name="name" id="p-form-name" placeholder="e.g. Rahul Sharma (myG)" required />
+                  <input type="text" name="name" id="p-form-name" placeholder="Your Name / Business" required />
                 </div>
                 <div className="form-group">
                   <label htmlFor="p-form-phone">Mobile Number *</label>

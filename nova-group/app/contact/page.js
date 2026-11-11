@@ -225,7 +225,7 @@ export default function ContactPage() {
                     type="text"
                     id="contact-company"
                     className="form-input"
-                    placeholder="e.g. myG, Nexus Retail"
+                    placeholder=" Nexus Retail"
                     value={company}
                     onChange={(e) => setCompany(e.target.value)}
                   />

@@ -170,7 +170,7 @@ export default function FounderContactSection() {
                     name="name"
                     value={formData.name}
                     onChange={handleChange}
-                    placeholder="e.g. Rahul Sharma (myG)"
+                    placeholder="Your Name / Business"
                     required
                   />
                 </div>

@@ -40,7 +40,7 @@ export default function BookingModal({
           <div className="form-row">
             <div className="form-group">
               <label htmlFor="form-name">Full Name / Company *</label>
-              <input type="text" name="name" id="form-name" placeholder="e.g. Rahul Sharma (myG)" required />
+              <input type="text" name="name" id="form-name" placeholder="Your Name / Company" required />
             </div>
             <div className="form-group">
               <label htmlFor="form-phone">Phone Number *</label>
