@@ -26,18 +26,17 @@
   <!-- Header Navigation -->
   <header class="site-header" id="navbar">
     <!-- Logo -->
-    <a href="/" class="brand-logo" id="brand-logo" style="display: flex; align-items: center;">
-      <img src="logo.png" alt="Innovations" class="site-brand-logo" style="height: 38px; width: auto; object-fit: contain;">
+    <a href="#hero" class="brand-logo" id="brand-logo">
+      <span class="logo-text">GIREESH<span class="logo-accent">KUMAR</span></span>
     </a>
 
     <!-- Navigation Links -->
     <nav class="nav-menu" id="nav-menu">
-      <a href="/" class="nav-link">Home</a>
-      <a href="/about" class="nav-link">About Us</a>
-      <a href="/founder-of-nova" class="nav-link active">Founder</a>
-      <a href="/services" class="nav-link">Services</a>
-      <a href="/gallery" class="nav-link">Campaign Gallery</a>
-      <a href="/contact" class="nav-link">Contact</a>
+      <a href="#hero" class="nav-link active">Home</a>
+      <a href="#about" class="nav-link">About Us</a>
+      <a href="#services" class="nav-link">Services</a>
+      <a href="#gallery" class="nav-link">Gallery</a>
+      <a href="#contact" class="nav-link">Contact</a>
     </nav>
 
     <!-- Right Action Button & Mobile Toggle -->
@@ -45,10 +44,10 @@
       <button class="theme-toggle" id="theme-toggle" aria-label="Toggle Theme">
         <i class="fa-solid fa-moon"></i>
       </button>
-      <button class="btn nav-book-btn" onclick="openContactModal('Outdoor Hoardings')" style="display: inline-flex; align-items: center; gap: 8px; background: rgba(220, 38, 38, 0.08); color: #dc2626; border: 1px solid rgba(220, 38, 38, 0.2); padding: 8px 18px; border-radius: 9999px; font-weight: 700; font-size: 0.88rem; cursor: pointer; transition: all 0.2s ease;">
+      <a href="tel:+919539000640" class="btn btn-dark nav-cta" id="contact-btn" title="Call +91 95390 00640">
         <i class="fa-solid fa-phone"></i>
-        <span>Book Hoarding</span>
-      </button>
+        <span>Call Now</span>
+      </a>
       <button class="mobile-toggle" id="mobile-toggle" aria-label="Toggle Navigation">
         <span></span>
         <span></span>
@@ -63,20 +62,17 @@
   <!-- Mobile Offcanvas Slide-over Drawer Navigation -->
   <div class="mobile-drawer" id="mobile-drawer">
     <div class="drawer-header">
-      <a href="/" style="display: inline-block;">
-        <img src="logo.png" alt="Innovations" style="height: 32px; width: auto; object-fit: contain;">
-      </a>
+      <span class="logo-text">GIREESH <span class="logo-accent">KUMAR S</span></span>
       <button class="drawer-close" id="drawer-close" aria-label="Close Menu">
         <i class="fa-solid fa-xmark"></i>
       </button>
     </div>
     <div class="drawer-links">
-      <a href="/" class="drawer-link"><i class="fa-solid fa-house"></i> Home</a>
-      <a href="/about" class="drawer-link"><i class="fa-solid fa-circle-info"></i> About Us</a>
-      <a href="/founder-of-nova" class="drawer-link active"><i class="fa-solid fa-user-tie"></i> Founder</a>
-      <a href="/services" class="drawer-link"><i class="fa-solid fa-layer-group"></i> Services</a>
-      <a href="/gallery" class="drawer-link"><i class="fa-solid fa-images"></i> Campaign Gallery</a>
-      <a href="/contact" class="drawer-link"><i class="fa-solid fa-envelope"></i> Contact</a>
+      <a href="#hero" class="drawer-link active"><i class="fa-solid fa-house"></i> Home</a>
+      <a href="#about" class="drawer-link"><i class="fa-solid fa-circle-info"></i> About Us</a>
+      <a href="#services" class="drawer-link"><i class="fa-solid fa-layer-group"></i> Services</a>
+      <a href="#gallery" class="drawer-link"><i class="fa-solid fa-images"></i> Gallery</a>
+      <a href="#contact" class="drawer-link"><i class="fa-solid fa-envelope"></i> Contact</a>
     </div>
     <div class="drawer-footer">
       <a href="https://wa.me/919539000640" target="_blank" class="btn btn-whatsapp btn-block drawer-btn">

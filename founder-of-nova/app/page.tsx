@@ -174,6 +174,7 @@ export default function FounderPage() {
   const [theme, setTheme] = useState<'light' | 'dark'>('light');
   const [isScrolled, setIsScrolled] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState('hero');
 
   // Modal
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -214,10 +215,24 @@ export default function FounderPage() {
     document.documentElement.setAttribute('data-theme', next);
   };
 
-  // Scroll effect
+  // Scroll effect & active section tracking
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 30);
+
+      const scrollPos = window.scrollY + 140;
+      const sections = ['hero', 'about', 'services', 'gallery', 'contact'];
+      for (const id of sections) {
+        const el = document.getElementById(id);
+        if (el) {
+          const top = el.offsetTop;
+          const height = el.offsetHeight;
+          if (scrollPos >= top && scrollPos < top + height) {
+            setActiveSection(id);
+            break;
+          }
+        }
+      }
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
@@ -348,22 +363,48 @@ export default function FounderPage() {
     <>
       {/* HEADER NAVIGATION */}
       <header className={`site-header ${isScrolled ? 'scrolled' : ''}`} id="navbar">
-        <a href="/" className="brand-logo" id="brand-logo" style={{ display: 'flex', alignItems: 'center' }}>
-          <img
-            src="/logo.png"
-            alt="Innovations"
-            className="site-brand-logo"
-            style={{ height: '38px', width: 'auto', objectFit: 'contain' }}
-          />
+        <a href="#hero" className="brand-logo" id="brand-logo">
+          <span className="logo-text">
+            GIREESH<span className="logo-accent">KUMAR</span>
+          </span>
         </a>
 
         <nav className="nav-menu" id="nav-menu">
-          <a href="/" className="nav-link">Home</a>
-          <a href="/about" className="nav-link">About Us</a>
-          <a href="/founder-of-nova" className="nav-link active">Founder</a>
-          <a href="/services" className="nav-link">Services</a>
-          <a href="/gallery" className="nav-link">Campaign Gallery</a>
-          <a href="/contact" className="nav-link">Contact</a>
+          <a
+            href="#hero"
+            className={`nav-link ${activeSection === 'hero' ? 'active' : ''}`}
+            onClick={() => setActiveSection('hero')}
+          >
+            Home
+          </a>
+          <a
+            href="#about"
+            className={`nav-link ${activeSection === 'about' ? 'active' : ''}`}
+            onClick={() => setActiveSection('about')}
+          >
+            About Us
+          </a>
+          <a
+            href="#services"
+            className={`nav-link ${activeSection === 'services' ? 'active' : ''}`}
+            onClick={() => setActiveSection('services')}
+          >
+            Services
+          </a>
+          <a
+            href="#gallery"
+            className={`nav-link ${activeSection === 'gallery' ? 'active' : ''}`}
+            onClick={() => setActiveSection('gallery')}
+          >
+            Gallery
+          </a>
+          <a
+            href="#contact"
+            className={`nav-link ${activeSection === 'contact' ? 'active' : ''}`}
+            onClick={() => setActiveSection('contact')}
+          >
+            Contact
+          </a>
         </nav>
 
         <div className="nav-actions">
@@ -375,27 +416,15 @@ export default function FounderPage() {
           >
             <i className={`fa-solid ${theme === 'dark' ? 'fa-sun' : 'fa-moon'}`}></i>
           </button>
-          <button
-            className="btn nav-book-btn"
-            onClick={() => openModal('Outdoor Hoardings')}
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '8px',
-              background: 'rgba(220, 38, 38, 0.08)',
-              color: '#dc2626',
-              border: '1px solid rgba(220, 38, 38, 0.2)',
-              padding: '8px 18px',
-              borderRadius: '9999px',
-              fontWeight: 700,
-              fontSize: '0.88rem',
-              cursor: 'pointer',
-              transition: 'all 0.2s ease',
-            }}
+          <a
+            href="tel:+919539000640"
+            className="btn btn-dark nav-cta"
+            id="contact-btn"
+            title="Call +91 95390 00640"
           >
             <i className="fa-solid fa-phone"></i>
-            <span>Book Hoarding</span>
-          </button>
+            <span>Call Now</span>
+          </a>
           <button
             className="mobile-toggle"
             id="mobile-toggle"
@@ -419,13 +448,9 @@ export default function FounderPage() {
       {/* MOBILE DRAWER */}
       <div className={`mobile-drawer ${isDrawerOpen ? 'open' : ''}`} id="mobile-drawer">
         <div className="drawer-header">
-          <a href="/" style={{ display: 'inline-block' }}>
-            <img
-              src="/logo.png"
-              alt="Innovations"
-              style={{ height: '32px', width: 'auto', objectFit: 'contain' }}
-            />
-          </a>
+          <span className="logo-text">
+            GIREESH <span className="logo-accent">KUMAR S</span>
+          </span>
           <button
             className="drawer-close"
             id="drawer-close"
@@ -436,22 +461,54 @@ export default function FounderPage() {
           </button>
         </div>
         <div className="drawer-links">
-          <a href="/" className="drawer-link" onClick={() => setIsDrawerOpen(false)}>
+          <a
+            href="#hero"
+            className={`drawer-link ${activeSection === 'hero' ? 'active' : ''}`}
+            onClick={() => {
+              setActiveSection('hero');
+              setIsDrawerOpen(false);
+            }}
+          >
             <i className="fa-solid fa-house"></i> Home
           </a>
-          <a href="/about" className="drawer-link" onClick={() => setIsDrawerOpen(false)}>
+          <a
+            href="#about"
+            className={`drawer-link ${activeSection === 'about' ? 'active' : ''}`}
+            onClick={() => {
+              setActiveSection('about');
+              setIsDrawerOpen(false);
+            }}
+          >
             <i className="fa-solid fa-circle-info"></i> About Us
           </a>
-          <a href="/founder-of-nova" className="drawer-link active" onClick={() => setIsDrawerOpen(false)}>
-            <i className="fa-solid fa-user-tie"></i> Founder
-          </a>
-          <a href="/services" className="drawer-link" onClick={() => setIsDrawerOpen(false)}>
+          <a
+            href="#services"
+            className={`drawer-link ${activeSection === 'services' ? 'active' : ''}`}
+            onClick={() => {
+              setActiveSection('services');
+              setIsDrawerOpen(false);
+            }}
+          >
             <i className="fa-solid fa-layer-group"></i> Services
           </a>
-          <a href="/gallery" className="drawer-link" onClick={() => setIsDrawerOpen(false)}>
-            <i className="fa-solid fa-images"></i> Campaign Gallery
+          <a
+            href="#gallery"
+            className={`drawer-link ${activeSection === 'gallery' ? 'active' : ''}`}
+            onClick={() => {
+              setActiveSection('gallery');
+              setIsDrawerOpen(false);
+            }}
+          >
+            <i className="fa-solid fa-images"></i> Gallery
           </a>
-          <a href="/contact" className="drawer-link" onClick={() => setIsDrawerOpen(false)}>
+          <a
+            href="#contact"
+            className={`drawer-link ${activeSection === 'contact' ? 'active' : ''}`}
+            onClick={() => {
+              setActiveSection('contact');
+              setIsDrawerOpen(false);
+            }}
+          >
             <i className="fa-solid fa-envelope"></i> Contact
           </a>
         </div>
