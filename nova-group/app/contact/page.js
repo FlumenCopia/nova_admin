@@ -213,7 +213,7 @@ export default function ContactPage() {
                     type="text"
                     id="contact-name"
                     className="form-input"
-                    placeholder="e.g. Rahul Sharma"
+                    placeholder="Your Full Name"
                     required
                     value={name}
                     onChange={(e) => setName(e.target.value)}
@@ -225,7 +225,7 @@ export default function ContactPage() {
                     type="text"
                     id="contact-company"
                     className="form-input"
-                    placeholder=" Nexus Retail"
+                    placeholder="Company / Brand Name"
                     value={company}
                     onChange={(e) => setCompany(e.target.value)}
                   />

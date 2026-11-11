@@ -106,7 +106,7 @@ export default function ConsultationModal({ isOpen, onClose, initialService, onS
               type="text"
               id="modal-name"
               className="form-input"
-              placeholder="e.g. Rahul Sharma (myG)"
+              placeholder="Your Name / Company"
               required
               value={name}
               onChange={(e) => setName(e.target.value)}
