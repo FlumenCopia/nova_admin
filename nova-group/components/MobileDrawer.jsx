@@ -10,7 +10,6 @@ export default function MobileDrawer({ isOpen, onClose, onOpenModal }) {
   const navLinks = [
     { href: '/', label: 'Home' },
     { href: '/about', label: 'About Us' },
-    { href: '/founder-of-nova.html', label: 'Founder' },
     { href: '/services', label: 'Services' },
     { href: '/gallery', label: 'Campaign Gallery' },
     { href: '/contact', label: 'Contact' },
