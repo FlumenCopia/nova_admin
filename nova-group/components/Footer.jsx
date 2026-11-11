@@ -71,7 +71,6 @@ export default function Footer({ onShowToast }) {
             <ul className="footer-links-list">
               <li><Link href="/" className="footer-link">Home</Link></li>
               <li><Link href="/about" className="footer-link">About Us</Link></li>
-              <li><a href="/founder-of-nova.html" className="footer-link">Founder Portfolio</a></li>
               <li><Link href="/services" className="footer-link">Our Services</Link></li>
               <li><Link href="/gallery" className="footer-link">Campaign Gallery</Link></li>
               <li><Link href="/contact" className="footer-link">Contact & Locations</Link></li>
