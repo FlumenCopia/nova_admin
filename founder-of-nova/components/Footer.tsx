@@ -10,9 +10,13 @@ export default function Footer({ onNewsletterSubmit }: FooterProps) {
       <div className="footer-grid">
         {/* Col 1 */}
         <div className="footer-brand-col">
-          <span className="logo-text">
-            GIREESH <span className="logo-accent">KUMAR S</span>
-          </span>
+          <a href="#hero" style={{ display: 'inline-block', marginBottom: '14px' }}>
+            <img
+              src="/logo.png"
+              alt="NOVA Innovations"
+              style={{ height: '36px', width: 'auto', objectFit: 'contain' }}
+            />
+          </a>
           <p className="footer-bio">
             <strong>NOVA INNOVATIONS</strong> — Outdoors • Design Studio • Events. Kerala&apos;s premier advertising
             partner with 27+ years of creative excellence.

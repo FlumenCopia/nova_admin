@@ -19,10 +19,13 @@ export default function Navbar({
 }: NavbarProps) {
   return (
     <header className={`site-header ${isScrolled ? 'scrolled' : ''}`} id="navbar">
-      <a href="#hero" className="brand-logo" id="brand-logo">
-        <span className="logo-text">
-          GIREESH<span className="logo-accent">KUMAR</span>
-        </span>
+      <a href="#hero" className="brand-logo" id="brand-logo" style={{ display: 'flex', alignItems: 'center' }}>
+        <img
+          src="/logo.png"
+          alt="NOVA Innovations"
+          className="site-brand-logo"
+          style={{ height: '38px', width: 'auto', objectFit: 'contain' }}
+        />
       </a>
 
       <nav className="nav-menu" id="nav-menu">

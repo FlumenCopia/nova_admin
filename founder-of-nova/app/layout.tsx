@@ -5,6 +5,14 @@ export const metadata: Metadata = {
   title: "NOVA INNOVATIONS — Outdoors • Design Studio • Events | Kerala",
   description:
     "NOVA Innovations - Premier Creative Advertising Agency in Kerala. 27+ Years of Excellence in Outdoor Hoardings, Vehicle Branding, Design Studio, and Events.",
+  icons: {
+    icon: [
+      { url: "/logo.png", type: "image/png" },
+      { url: "/favicon.ico", type: "image/x-icon" },
+    ],
+    shortcut: "/logo.png",
+    apple: "/logo.png",
+  },
 };
 
 export default function RootLayout({
@@ -15,6 +23,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
+        <link rel="icon" type="image/png" href="/logo.png" />
+        <link rel="shortcut icon" href="/logo.png" />
+        <link rel="apple-touch-icon" href="/logo.png" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
           rel="preconnect"

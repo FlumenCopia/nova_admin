@@ -30,9 +30,13 @@ export default function MobileDrawer({
       {/* Drawer Panel */}
       <div className={`mobile-drawer ${isOpen ? 'open' : ''}`} id="mobile-drawer">
         <div className="drawer-header">
-          <span className="logo-text">
-            GIREESH <span className="logo-accent">KUMAR S</span>
-          </span>
+          <a href="#hero" onClick={onClose} style={{ display: 'inline-block' }}>
+            <img
+              src="/logo.png"
+              alt="NOVA Innovations"
+              style={{ height: '32px', width: 'auto', objectFit: 'contain' }}
+            />
+          </a>
           <button
             className="drawer-close"
             id="drawer-close"
