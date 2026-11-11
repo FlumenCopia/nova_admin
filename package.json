@@ -6,6 +6,7 @@
     "dev": "node dev.js",
     "dev:api": "npm --prefix admin-api run dev",
     "dev:admin": "npm --prefix admin-ui run dev",
-    "dev:web": "npm --prefix nova-group run dev"
+    "dev:web": "npm --prefix nova-group run dev",
+    "dev:founder": "npm --prefix founder-of-nova run dev"
   }
 }
