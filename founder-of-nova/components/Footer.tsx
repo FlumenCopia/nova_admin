@@ -45,6 +45,7 @@ export default function Footer({ onNewsletterSubmit }: FooterProps) {
             <li><a href="#services">Services</a></li>
             <li><a href="#gallery">Gallery</a></li>
             <li><a href="#contact">Contact</a></li>
+            <li><a href="https://novainnovations.in/" target="_blank" rel="noopener noreferrer">Nova Group</a></li>
           </ul>
         </div>
 

@@ -61,6 +61,15 @@ export default function Navbar({
         >
           Contact
         </a>
+        <a
+          href="https://novainnovations.in/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="nav-link"
+          style={{ display: 'inline-flex', alignItems: 'center', gap: '5px' }}
+        >
+          Nova Group <i className="fa-solid fa-arrow-up-right-from-square" style={{ fontSize: '0.75rem', opacity: 0.8 }}></i>
+        </a>
       </nav>
 
       <div className="nav-actions">

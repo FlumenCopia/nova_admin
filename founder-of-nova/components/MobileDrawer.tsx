@@ -79,6 +79,15 @@ export default function MobileDrawer({
           >
             <i className="fa-solid fa-envelope"></i> Contact
           </a>
+          <a
+            href="https://novainnovations.in/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="drawer-link"
+            onClick={onClose}
+          >
+            <i className="fa-solid fa-building"></i> Nova Group <i className="fa-solid fa-arrow-up-right-from-square" style={{ fontSize: '0.75rem', marginLeft: 'auto', opacity: 0.7 }}></i>
+          </a>
         </div>
 
         <div className="drawer-footer">
