@@ -4,10 +4,19 @@ import { ServiceItem } from '@/types';
 
 interface ServicesProps {
   services: ServiceItem[];
+  subhead?: string;
+  heading?: string;
+  desc?: string;
   onOpenModal: (serviceTitle: string) => void;
 }
 
-export default function Services({ services, onOpenModal }: ServicesProps) {
+export default function Services({
+  services,
+  subhead = 'WHAT WE OFFER',
+  heading = 'Comprehensive Advertising Services',
+  desc = 'End-to-end outdoor advertising, design studio creations, transit branding, and corporate events across Kerala.',
+  onOpenModal,
+}: ServicesProps) {
   const getIconClass = (iconKey?: string, title?: string) => {
     const k = (iconKey || '').toLowerCase();
     const t = (title || '').toLowerCase();
@@ -30,11 +39,9 @@ export default function Services({ services, onOpenModal }: ServicesProps) {
       </div>
 
       <div className="section-header-left">
-        <span className="about-subhead">WHAT WE OFFER</span>
-        <h2 className="section-heading-sm">Comprehensive Advertising Services</h2>
-        <p className="section-desc-left">
-          End-to-end outdoor advertising, design studio creations, transit branding, and corporate events across Kerala.
-        </p>
+        <span className="about-subhead">{subhead}</span>
+        <h2 className="section-heading-sm">{heading}</h2>
+        <p className="section-desc-left">{desc}</p>
       </div>
 
       <div className="services-cards-grid" id="services-cards-container">
@@ -63,4 +70,3 @@ export default function Services({ services, onOpenModal }: ServicesProps) {
     </section>
   );
 }
-

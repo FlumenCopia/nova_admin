@@ -441,12 +441,12 @@ export default function FounderAdminPage() {
             Founder Page Management
           </h1>
           <p style={{ color: '#6b7280', fontSize: '0.92rem', marginTop: '6px' }}>
-            Manage the content, services, and profile settings for <code>/founder-of-nova.html</code>.
+            Manage the content, services, and profile settings for <code>founder-of-nova</code> (Port 3002).
           </p>
         </div>
 
         <a
-          href={`${PUBLIC_SITE_URL}/founder-of-nova.html`}
+          href="http://localhost:3002"
           target="_blank"
           rel="noopener noreferrer"
           style={{
@@ -1026,7 +1026,7 @@ export default function FounderAdminPage() {
               Active Service Cards ({servicesList.length})
             </h3>
             <span style={{ fontSize: '0.82rem', color: '#6b7280' }}>
-              These cards render inside the squircle container on <code>/founder-of-nova.html#services</code>
+              These cards render inside the squircle container on <code>founder-of-nova#services</code>
             </span>
           </div>
 

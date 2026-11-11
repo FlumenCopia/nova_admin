@@ -1,10 +1,23 @@
 'use client';
 
 interface ContactProps {
+  primaryPhone?: string;
+  altPhone?: string;
+  email?: string;
+  address?: string;
   onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
 }
 
-export default function Contact({ onSubmit }: ContactProps) {
+export default function Contact({
+  primaryPhone = '+91 95390 00640',
+  altPhone = '+91 95263 64446',
+  email = 'novainnovations2020@gmail.com',
+  address = 'T.C 26/929(2), C.K. Tower, Panavila Junction, Thiruvananthapuram, Kerala - 695001',
+  onSubmit,
+}: ContactProps) {
+  const cleanPhone = primaryPhone.replace(/\s+/g, '');
+  const cleanAltPhone = altPhone.replace(/\s+/g, '');
+
   return (
     <section className="contact-section" id="contact">
       <div className="contact-header">
@@ -30,9 +43,7 @@ export default function Contact({ onSubmit }: ContactProps) {
             <div className="contact-card-details">
               <span className="contact-label">HEAD OFFICE &amp; DESIGN STUDIO</span>
               <h4 className="contact-val-title">Nova Innovations</h4>
-              <p className="contact-val-text">
-                T.C 26/929(2), C.K. Tower, Panavila Junction, Thiruvananthapuram, Kerala - 695001
-              </p>
+              <p className="contact-val-text">{address}</p>
             </div>
           </div>
 
@@ -42,16 +53,16 @@ export default function Contact({ onSubmit }: ContactProps) {
             </div>
             <div className="contact-card-details">
               <span className="contact-label">DIRECT PHONE &amp; WHATSAPP</span>
-              <h4 className="contact-val-title">+91 95390 00640</h4>
+              <h4 className="contact-val-title">{primaryPhone}</h4>
               <p className="contact-val-text">
-                Alternative: +91 95263 64446 • Available 24/7 for campaign booking
+                Alternative: {altPhone} • Available 24/7 for campaign booking
               </p>
               <div className="contact-quick-actions">
-                <a href="tel:+919539000640" className="btn btn-primary btn-xs">
+                <a href={`tel:${cleanPhone}`} className="btn btn-primary btn-xs">
                   <i className="fa-solid fa-phone"></i> Call Now
                 </a>
                 <a
-                  href="https://wa.me/919539000640"
+                  href={`https://wa.me/${cleanPhone.replace('+', '')}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="btn btn-whatsapp btn-xs"
@@ -68,7 +79,7 @@ export default function Contact({ onSubmit }: ContactProps) {
             </div>
             <div className="contact-card-details">
               <span className="contact-label">EMAIL MEDIA DESK</span>
-              <h4 className="contact-val-title">novainnovations2020@gmail.com</h4>
+              <h4 className="contact-val-title">{email}</h4>
               <p className="contact-val-text">
                 Send your campaign brief or site requirements directly for instant quotations.
               </p>
@@ -92,22 +103,22 @@ export default function Contact({ onSubmit }: ContactProps) {
               <div className="form-row">
                 <div className="form-group">
                   <label htmlFor="p-form-name">Your Name / Business *</label>
-                  <input type="text" id="p-form-name" placeholder="e.g. Rahul Sharma (myG)" required />
+                  <input type="text" name="name" id="p-form-name" placeholder="e.g. Rahul Sharma (myG)" required />
                 </div>
                 <div className="form-group">
                   <label htmlFor="p-form-phone">Mobile Number *</label>
-                  <input type="tel" id="p-form-phone" placeholder="+91 95390 00000" required />
+                  <input type="tel" name="phone" id="p-form-phone" placeholder="+91 95390 00000" required />
                 </div>
               </div>
 
               <div className="form-row">
                 <div className="form-group">
                   <label htmlFor="p-form-email">Email Address</label>
-                  <input type="email" id="p-form-email" placeholder="name@company.com" />
+                  <input type="email" name="email" id="p-form-email" placeholder="name@company.com" />
                 </div>
                 <div className="form-group">
                   <label htmlFor="p-form-service">Required Service *</label>
-                  <select id="p-form-service" required defaultValue="Outdoor Hoardings">
+                  <select name="service" id="p-form-service" required defaultValue="Outdoor Hoardings">
                     <option value="Outdoor Hoardings">Outdoor Hoardings</option>
                     <option value="Vehicle Advertising">KSRTC Bus Wrap</option>
                     <option value="Shop & Retail Branding">Shop Facade Signage</option>
@@ -120,6 +131,7 @@ export default function Contact({ onSubmit }: ContactProps) {
               <div className="form-group">
                 <label htmlFor="p-form-message">Preferred Corridors / Details *</label>
                 <textarea
+                  name="message"
                   id="p-form-message"
                   rows={3}
                   placeholder="Specify your target districts (e.g. Trivandrum, Ernakulam, Palakkad)..."
@@ -138,4 +150,3 @@ export default function Contact({ onSubmit }: ContactProps) {
     </section>
   );
 }
-

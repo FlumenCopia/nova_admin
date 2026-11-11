@@ -39,18 +39,18 @@ export default function BookingModal({
         <form className="modal-form" id="contact-form" onSubmit={onSubmit}>
           <div className="form-row">
             <div className="form-group">
-              <label htmlFor="form-name">Full Name / Company</label>
-              <input type="text" id="form-name" placeholder="e.g. Rahul Sharma (myG)" required />
+              <label htmlFor="form-name">Full Name / Company *</label>
+              <input type="text" name="name" id="form-name" placeholder="e.g. Rahul Sharma (myG)" required />
             </div>
             <div className="form-group">
-              <label htmlFor="form-email">Phone Number</label>
-              <input type="tel" id="form-email" placeholder="+91 95390 00000" required />
+              <label htmlFor="form-phone">Phone Number *</label>
+              <input type="tel" name="phone" id="form-phone" placeholder="+91 95390 00000" required />
             </div>
           </div>
 
           <div className="form-group">
             <label htmlFor="form-service">Service Required</label>
-            <select id="form-service" defaultValue={service}>
+            <select name="service" id="form-service" defaultValue={service}>
               <option value="Outdoor Hoardings">Outdoor Hoardings (Billboards &amp; Unipoles)</option>
               <option value="Vehicle Advertising">Vehicle &amp; KSRTC Bus Branding</option>
               <option value="Shop & Retail Branding">Shop &amp; Showroom Facade Signage</option>
@@ -62,6 +62,7 @@ export default function BookingModal({
           <div className="form-group">
             <label htmlFor="form-message">Preferred Locations / Details</label>
             <textarea
+              name="message"
               id="form-message"
               rows={4}
               placeholder="Specify preferred locations (e.g. Trivandrum, Kochi, Palakkad) or campaign timeline..."
@@ -78,4 +79,3 @@ export default function BookingModal({
     </div>
   );
 }
-
