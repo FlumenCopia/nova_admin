@@ -125,3 +125,4 @@ Hostinger Unlimited includes free email hosting for your domain:
 | **Admin UI** | `public_html/admin` | `admin.novainnovations.in` | Node.js (App 3) |
 | **Free SSL** | hPanel -> Security | All domains & subdomains | Active |
 | **Database** | Embedded `data/db.json` | Local File (or MongoDB Atlas) | Zero-Config Ready |
+

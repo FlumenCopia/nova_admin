@@ -277,19 +277,119 @@ function handleModalBackdropClick(event) {
   }
 }
 
-function handleContactSubmit(event) {
+async function handleContactSubmit(event) {
   event.preventDefault();
-  const name = document.getElementById('form-name').value;
-  closeContactModal();
-  showToast('Inquiry Received!', `Thank you ${name}, our executive partner will reach out shortly.`);
-  event.target.reset();
+  const form = event.target;
+  const submitBtn = form.querySelector('button[type="submit"]');
+  const originalBtnHtml = submitBtn ? submitBtn.innerHTML : '';
+
+  let name = '';
+  let phone = '';
+  let email = '';
+  let serviceType = 'Outdoor Hoardings';
+  let message = '';
+  let source = 'Founder Portfolio Page';
+
+  if (form.id === 'page-contact-form') {
+    name = (document.getElementById('p-form-name')?.value || '').trim();
+    phone = (document.getElementById('p-form-phone')?.value || '').trim();
+    email = (document.getElementById('p-form-email')?.value || '').trim();
+    serviceType = document.getElementById('p-form-service')?.value || 'Outdoor Hoardings';
+    message = (document.getElementById('p-form-message')?.value || '').trim();
+    source = 'Founder Page Main Section';
+  } else {
+    name = (document.getElementById('form-name')?.value || '').trim();
+    phone = (document.getElementById('form-email')?.value || '').trim();
+    serviceType = document.getElementById('form-service')?.value || 'Outdoor Hoardings';
+    message = (document.getElementById('form-message')?.value || '').trim();
+    source = 'Founder Page Modal Popup';
+  }
+
+  if (!name || !phone) {
+    showToast('Missing Details', 'Please provide both your name and phone number.');
+    return;
+  }
+
+  if (submitBtn) {
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<span>Submitting...</span> <i class="fa-solid fa-spinner fa-spin"></i>';
+  }
+
+  const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+  const apiEndpoint = isLocal ? 'http://localhost:5000/api/public/enquiries' : '/api/public/enquiries';
+
+  try {
+    const res = await fetch(apiEndpoint, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        name,
+        phone,
+        email: email || undefined,
+        serviceType,
+        notes: message,
+        source,
+      }),
+    });
+
+    const data = await res.json();
+
+    if (res.ok && data.success) {
+      if (typeof closeContactModal === 'function') closeContactModal();
+      showToast('Inquiry Received!', `Thank you ${name}. Director Gireesh Kumar S & team will contact you shortly.`);
+      form.reset();
+    } else {
+      showToast('Submission Issue', data.message || 'Unable to submit enquiry. Please call us at +91 95390 00640.');
+    }
+  } catch (err) {
+    console.error('Contact submission error:', err);
+    showToast('Network Error', 'Please call us directly at +91 95390 00640 or contact via WhatsApp.');
+  } finally {
+    if (submitBtn) {
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = originalBtnHtml;
+    }
+  }
 }
 
-function handleNewsletter(event) {
+async function handleNewsletter(event) {
   event.preventDefault();
-  const email = document.getElementById('newsletter-email').value;
-  showToast('Subscribed!', `You are on the list (${email}). Expect high-signal insights.`);
-  event.target.reset();
+  const form = event.target;
+  const emailInput = document.getElementById('newsletter-email');
+  const email = (emailInput?.value || '').trim();
+
+  if (!email) {
+    showToast('Email Required', 'Please enter a valid email address.');
+    return;
+  }
+
+  const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+  const apiEndpoint = isLocal ? 'http://localhost:5000/api/public/enquiries' : '/api/public/enquiries';
+
+  try {
+    const res = await fetch(apiEndpoint, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        name: 'Newsletter Subscriber',
+        phone: '+91 00000 00000',
+        email,
+        serviceType: 'Newsletter Subscription',
+        notes: 'Subscribed to outdoor advertising updates from founder page.',
+        source: 'Founder Newsletter Signup',
+      }),
+    });
+    const data = await res.json();
+    if (res.ok && data.success) {
+      showToast('Subscribed!', `You are on the list (${email}). Expect high-signal campaign updates.`);
+      form.reset();
+    } else {
+      showToast('Subscription Notice', data.message || 'Thank you for your interest!');
+    }
+  } catch (err) {
+    showToast('Subscribed!', `Thank you for subscribing (${email}).`);
+    form.reset();
+  }
 }
 
 /* --- 7. Toast Notification --- */

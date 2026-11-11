@@ -1,8 +1,43 @@
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
-export const PUBLIC_SITE_URL = process.env.NEXT_PUBLIC_PUBLIC_SITE_URL || process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
+export function getApiBase() {
+  if (process.env.NEXT_PUBLIC_API_URL) {
+    return process.env.NEXT_PUBLIC_API_URL.replace(/\/+$/, '');
+  }
+  if (typeof window !== 'undefined') {
+    const host = window.location.hostname;
+    const isLocal = host === 'localhost' || host === '127.0.0.1';
+    if (!isLocal) {
+      if (host.includes('novainnovations.in')) {
+        return 'https://novainnovations.in/api';
+      }
+      return `${window.location.origin}/api`;
+    }
+  }
+  return 'http://localhost:5000/api';
+}
+
+export function getPublicSiteUrl() {
+  if (process.env.NEXT_PUBLIC_PUBLIC_SITE_URL) return process.env.NEXT_PUBLIC_PUBLIC_SITE_URL.replace(/\/+$/, '');
+  if (process.env.NEXT_PUBLIC_SITE_URL) return process.env.NEXT_PUBLIC_SITE_URL.replace(/\/+$/, '');
+  if (typeof window !== 'undefined') {
+    const host = window.location.hostname;
+    const isLocal = host === 'localhost' || host === '127.0.0.1';
+    if (!isLocal) {
+      if (host.includes('novainnovations.in')) {
+        return 'https://novainnovations.in';
+      }
+      return window.location.origin;
+    }
+  }
+  return 'http://localhost:3000';
+}
+
+export const API_BASE = getApiBase();
+export const PUBLIC_SITE_URL = getPublicSiteUrl();
 
 export async function apiRequest(endpoint, options = {}) {
-  const url = `${API_BASE}${endpoint}`;
+  const base = getApiBase();
+  const cleanEndpoint = endpoint.startsWith('/') ? endpoint : `/${endpoint}`;
+  const url = `${base}${cleanEndpoint}`;
 
   const headers = { ...options.headers };
   if (typeof window !== 'undefined') {
@@ -40,7 +75,7 @@ export function getMediaUrl(url, fallback = '/logo.png') {
   if (!url) return fallback;
   if (url.startsWith('http://') || url.startsWith('https://')) return url;
   if (url.startsWith('/client-logos/') || url.startsWith('/logo.png') || url.startsWith('/image/')) return url;
-  const apiServer = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api').replace(/\/api\/?$/, '');
+  const apiServer = getApiBase().replace(/\/api\/?$/, '');
   const cleanPath = url.startsWith('/') ? url : `/${url}`;
   return `${apiServer}${cleanPath}`;
 }

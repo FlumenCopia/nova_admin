@@ -14,7 +14,7 @@ export default function GalleryGrid({ onOpenModal }) {
   useEffect(() => {
     async function fetchDynamicPortfolio() {
       try {
-        const json = await fetchApi('/public/portfolio');
+        const json = await fetchApi('/public/portfolio?limit=100');
         if (json && json.success && Array.isArray(json.data)) {
           const mapped = json.data.map((item, idx) => ({
             id: item.id || `api-${idx}`,
@@ -46,6 +46,7 @@ export default function GalleryGrid({ onOpenModal }) {
 
   const BASE_FILTER_BUTTONS = [
     { key: 'all', label: 'All Works' },
+    { key: 'vacant', label: '🟢 Available / Vacant Now' },
     { key: 'hoardings', label: 'Prime Hoardings' },
     { key: 'myg', label: 'myG Campaigns' },
     { key: 'transit', label: 'Bus & Vehicle Transit' },
@@ -160,12 +161,14 @@ export default function GalleryGrid({ onOpenModal }) {
               >
                 <div
                   className="listing-img-blur"
-                  style={{ backgroundImage: `url("${item.image}")` }}
+                  style={{ backgroundColor: 'rgba(20, 20, 25, 0.6)' }}
                   aria-hidden="true"
                 />
                 <img
                   src={item.image}
                   alt={item.title}
+                  loading="lazy"
+                  decoding="async"
                   className="listing-img"
                   onError={(e) => { e.target.src = '/mainhero1.png'; }}
                 />
@@ -195,7 +198,7 @@ export default function GalleryGrid({ onOpenModal }) {
                   </ul>
                 )}
 
-                <div className="listing-actions">
+                <div className="listing-actions" style={{ display: 'grid', gridTemplateColumns: '1fr auto', gap: '8px' }}>
                   <button
                     type="button"
                     className="btn-card-action primary"
@@ -203,6 +206,26 @@ export default function GalleryGrid({ onOpenModal }) {
                   >
                     Reserve / Inquire Site
                   </button>
+                  <a
+                    href={`https://wa.me/919539000640?text=${encodeURIComponent(`Hi Nova Innovations, I am inquiring about billboard site: "${item.title}" (${item.location || 'Kerala'}). Please share rate card and booking availability.`)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn-card-action"
+                    style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      background: 'rgba(37, 211, 102, 0.12)',
+                      color: '#25D366',
+                      borderColor: 'rgba(37, 211, 102, 0.35)',
+                      padding: '0 12px',
+                      textDecoration: 'none',
+                      fontWeight: 600,
+                    }}
+                    title="Direct WhatsApp Inquiry"
+                  >
+                    WhatsApp
+                  </a>
                 </div>
               </div>
             </div>

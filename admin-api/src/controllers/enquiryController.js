@@ -1,6 +1,7 @@
 const { Enquiry } = require('../models');
 const { z } = require('zod');
 const { isValidObjectId } = require('../middleware/validateObjectId');
+const { sendNewEnquiryNotification } = require('../utils/notificationService');
 
 const publicEnquirySchema = z.object({
   name: z.string({ required_error: 'Name is required' }).trim().min(1, 'Name is required').max(150, 'Name cannot exceed 150 characters'),
@@ -68,6 +69,11 @@ const createEnquiry = async (req, res) => {
     };
 
     const newEnquiry = await Enquiry.create(enquiryData);
+
+    // Asynchronously dispatch notification alerts (non-blocking)
+    sendNewEnquiryNotification(newEnquiry).catch((err) =>
+      console.warn('Notification alert background error:', err.message)
+    );
 
     return res.status(201).json({
       success: true,

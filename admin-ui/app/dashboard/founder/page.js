@@ -446,7 +446,7 @@ export default function FounderAdminPage() {
         </div>
 
         <a
-          href="http://localhost:3000/founder-of-nova.html"
+          href={`${PUBLIC_SITE_URL}/founder-of-nova.html`}
           target="_blank"
           rel="noopener noreferrer"
           style={{

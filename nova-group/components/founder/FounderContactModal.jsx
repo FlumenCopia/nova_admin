@@ -1,8 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
+import { getApiBase } from '../../lib/api';
 
 export default function FounderContactModal({ isOpen, serviceName = 'Outdoor Hoardings', onClose }) {
   const [formData, setFormData] = useState({
@@ -21,7 +20,7 @@ export default function FounderContactModal({ isOpen, serviceName = 'Outdoor Hoa
     e.preventDefault();
     setLoading(true);
     try {
-      const res = await fetch(`${API_BASE}/public/enquiries`, {
+      const res = await fetch(`${getApiBase()}/public/enquiries`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ...formData, service: serviceName }),

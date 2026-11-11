@@ -1,0 +1,4 @@
+# Disallow search engine indexing of admin portal
+User-agent: *
+Disallow: /
+

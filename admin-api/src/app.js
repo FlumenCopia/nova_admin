@@ -38,11 +38,27 @@ app.use((req, res, next) => {
 
 // Middleware & CORS Configuration
 const isProduction = process.env.NODE_ENV === 'production';
-const allowedOrigins = [
+const envOrigins = [
   process.env.PUBLIC_FRONTEND_URL,
   process.env.ADMIN_FRONTEND_URL,
-  ...(isProduction ? [] : ['http://localhost:3000', 'http://localhost:3001']),
+  ...(process.env.ALLOWED_ORIGINS ? process.env.ALLOWED_ORIGINS.split(',').map((s) => s.trim()) : []),
 ].filter(Boolean);
+
+const defaultOrigins = [
+  'https://novainnovations.in',
+  'https://www.novainnovations.in',
+  'https://admin.novainnovations.in',
+  'https://api.novainnovations.in',
+  'http://novainnovations.in',
+  'http://www.novainnovations.in',
+  'http://admin.novainnovations.in',
+  'http://localhost:3000',
+  'http://localhost:3001',
+  'http://127.0.0.1:3000',
+  'http://127.0.0.1:3001',
+];
+
+const allowedOrigins = Array.from(new Set([...envOrigins, ...defaultOrigins]));
 
 app.use(cors({
   origin: function (origin, callback) {
@@ -50,7 +66,11 @@ app.use(cors({
     if (!origin) {
       return callback(null, true);
     }
-    if (allowedOrigins.includes(origin) || (!isProduction && /^http:\/\/(localhost|127\.0\.0\.1):(3000|3001)$/.test(origin))) {
+    if (
+      allowedOrigins.includes(origin) ||
+      /^https?:\/\/([a-zA-Z0-9-]+\.)*novainnovations\.in(:[0-9]+)?$/.test(origin) ||
+      /^http:\/\/(localhost|127\.0\.0\.1)(:[0-9]+)?$/.test(origin)
+    ) {
       return callback(null, true);
     }
     // Reject by passing false: Express CORS omits Access-Control-Allow-Origin header

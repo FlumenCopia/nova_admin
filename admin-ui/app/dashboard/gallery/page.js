@@ -409,10 +409,16 @@ export default function CampaignGalleryPage() {
     }
   };
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const ITEMS_PER_PAGE = 18;
+
   const filteredItems = items.filter((item) => {
     if (filterCategory === 'ALL') return true;
     return item.category === filterCategory;
   });
+
+  const totalPages = Math.max(1, Math.ceil(filteredItems.length / ITEMS_PER_PAGE));
+  const paginatedItems = filteredItems.slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE);
 
   return (
     <>
@@ -434,7 +440,7 @@ export default function CampaignGalleryPage() {
       {/* FILTER TABS */}
       <div style={{ display: 'flex', gap: '8px', marginBottom: '24px', flexWrap: 'wrap' }}>
         <button
-          onClick={() => setFilterCategory('ALL')}
+          onClick={() => { setFilterCategory('ALL'); setCurrentPage(1); }}
           className="btn-secondary"
           style={{
             padding: '6px 14px',
@@ -453,7 +459,7 @@ export default function CampaignGalleryPage() {
           return (
             <button
               key={tab.key}
-              onClick={() => setFilterCategory(tab.key)}
+              onClick={() => { setFilterCategory(tab.key); setCurrentPage(1); }}
               className="btn-secondary"
               style={{
                 padding: '6px 14px',
@@ -480,7 +486,7 @@ export default function CampaignGalleryPage() {
         </div>
       ) : (
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '20px' }}>
-          {filteredItems.map((item) => {
+          {paginatedItems.map((item) => {
             const imgSrc = getMediaUrl(item.imageUrl);
 
             return (
@@ -595,6 +601,36 @@ export default function CampaignGalleryPage() {
               </div>
             );
           })}
+        </div>
+      )}
+
+      {/* PAGINATION CONTROLS */}
+      {totalPages > 1 && (
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '28px', padding: '14px 20px', background: 'var(--color-card-background)', borderRadius: '8px', border: '1px solid var(--color-border)', flexWrap: 'wrap', gap: '12px' }}>
+          <div style={{ fontSize: '0.88rem', color: 'var(--color-text-secondary)' }}>
+            Showing {Math.min((currentPage - 1) * ITEMS_PER_PAGE + 1, filteredItems.length)} – {Math.min(currentPage * ITEMS_PER_PAGE, filteredItems.length)} of {filteredItems.length} items
+          </div>
+          <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+            <button
+              className="btn-secondary"
+              onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+              disabled={currentPage === 1}
+              style={{ padding: '6px 14px', fontSize: '0.85rem', opacity: currentPage === 1 ? 0.5 : 1, cursor: currentPage === 1 ? 'not-allowed' : 'pointer' }}
+            >
+              Previous
+            </button>
+            <span style={{ fontSize: '0.88rem', fontWeight: 600, padding: '0 6px' }}>
+              Page {currentPage} of {totalPages}
+            </span>
+            <button
+              className="btn-secondary"
+              onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+              disabled={currentPage === totalPages}
+              style={{ padding: '6px 14px', fontSize: '0.85rem', opacity: currentPage === totalPages ? 0.5 : 1, cursor: currentPage === totalPages ? 'not-allowed' : 'pointer' }}
+            >
+              Next
+            </button>
+          </div>
         </div>
       )}
 

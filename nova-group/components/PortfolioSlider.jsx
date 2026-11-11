@@ -24,7 +24,7 @@ export default function PortfolioSlider() {
   useEffect(() => {
     async function loadDynamicPortfolio() {
       try {
-        const json = await fetchApi('/public/portfolio');
+        const json = await fetchApi('/public/portfolio?limit=8');
         if (json && json.success && Array.isArray(json.data) && json.data.length > 0) {
           const mapped = json.data.map((item, idx) => ({
             id: item.id || `api-slide-${idx}`,
@@ -238,7 +238,7 @@ export default function PortfolioSlider() {
                 <div className="cat-card-img-wrap">
                   <div
                     className="cat-card-img-blur"
-                    style={{ backgroundImage: `url("${item.image}")` }}
+                    style={{ backgroundColor: 'rgba(25, 25, 30, 0.6)' }}
                     aria-hidden="true"
                   />
                   <img src={item.image} alt={item.title} className="cat-card-img" loading="lazy" draggable={false} />

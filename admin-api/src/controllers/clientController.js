@@ -63,8 +63,9 @@ const deleteClientLogo = async (req, res) => {
     }
 
     if (existing.logoUrl && existing.logoUrl.startsWith('/uploads/clients/')) {
-      const filePath = path.join(__dirname, '../../', existing.logoUrl);
-      if (fs.existsSync(filePath)) {
+      const uploadsBase = path.resolve(__dirname, '../../uploads/clients');
+      const filePath = path.resolve(__dirname, '../../', existing.logoUrl.replace(/^\/+/, ''));
+      if (filePath.startsWith(uploadsBase) && fs.existsSync(filePath)) {
         try { fs.unlinkSync(filePath); } catch (e) { console.error('Error removing file:', e); }
       }
     }
