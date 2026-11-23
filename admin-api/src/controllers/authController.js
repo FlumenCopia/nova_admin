@@ -62,7 +62,7 @@ const login = async (req, res) => {
     });
   } catch (error) {
     console.error('Login error:', error);
-    return res.status(500).json({ success: false, message: 'Server error during login.' });
+    return res.status(500).json({ success: false, message: `Server error during login: ${error.message || 'Unknown error'}` });
   }
 };
 

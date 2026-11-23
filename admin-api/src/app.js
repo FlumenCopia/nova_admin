@@ -94,6 +94,28 @@ app.use('/uploads', (req, res, next) => {
   },
 }));
 
+const { connectDB } = require('./config/db');
+
+// Connect to MongoDB immediately on module load (vital for Hostinger/Passenger/serverless wrappers)
+connectDB().catch((err) => {
+  console.error('Initial MongoDB connection attempt failed:', err.message);
+});
+
+// Middleware to ensure DB connection is ready before processing API routes
+app.use(async (req, res, next) => {
+  if (req.path === '/api/health') return next();
+  try {
+    await connectDB();
+    next();
+  } catch (err) {
+    console.error(`Database unavailable for [${req.method} ${req.path}]:`, err.message);
+    return res.status(503).json({
+      success: false,
+      message: `Database connection unavailable: ${err.message}. Please verify DATABASE_URL in environment settings.`,
+    });
+  }
+});
+
 // Routes
 app.use('/api/public', publicRoutes);
 app.use('/api/admin/auth', authRoutes);
