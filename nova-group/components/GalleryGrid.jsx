@@ -19,14 +19,14 @@ export default function GalleryGrid({ onOpenModal }) {
           const mapped = json.data.map((item, idx) => ({
             id: item.id || `api-${idx}`,
             title: item.title,
-            category: item.isVacant ? `${item.category} vacant` : item.category,
+            category: (item.category || 'Prime Hoardings').trim(),
             badgeType: item.badgeType || 'Billboard',
             badgeStatus: item.badgeStatus || 'Prime Location',
             priceRowTitle: item.location || 'Highway Junction',
             image: getMediaUrl(item.imageUrl, '/mainhero1.png'),
             specs: Array.isArray(item.specs) ? item.specs : [],
             serviceName: item.serviceName || item.title,
-            isVacant: item.isVacant,
+            isVacant: Boolean(item.isVacant),
             location: item.location,
           }));
 
@@ -44,37 +44,79 @@ export default function GalleryGrid({ onOpenModal }) {
     fetchDynamicPortfolio();
   }, []);
 
-  const BASE_FILTER_BUTTONS = [
-    { key: 'all', label: 'All Works' },
-    { key: 'vacant', label: '🟢 Available / Vacant Now' },
-    { key: 'hoardings', label: 'Prime Hoardings' },
-    { key: 'myg', label: 'myG Campaigns' },
-    { key: 'transit', label: 'Bus & Vehicle Transit' },
-    { key: 'retail', label: 'Retail Facade' },
-    { key: 'event', label: 'Events & Exhibitions' },
-    { key: 'wall', label: 'Wall Painting' },
-    { key: 'printing', label: 'Digital Printing' },
-    { key: 'dooh', label: 'LED & Digital OOH' },
-    { key: 'unipole', label: 'Highway Gantries & Unipoles' },
-    { key: 'ksrtc', label: 'KSRTC Fleet Branding' },
-    { key: 'airport', label: 'Airport & Metro Media' },
-  ];
+  const KNOWN_LABELS = {
+    hoardings: 'Prime Hoardings',
+    myg: 'myG Campaigns',
+    transit: 'Bus & Vehicle Transit',
+    retail: 'Retail Facade',
+    event: 'Events & Exhibitions',
+    wall: 'Wall Painting',
+    printing: 'Digital Printing',
+    dooh: 'LED & Digital OOH',
+    unipole: 'Highway Gantries & Unipoles',
+    ksrtc: 'KSRTC Fleet Branding',
+    airport: 'Airport & Metro Media',
+  };
+
+  const getCategoryLabel = (raw) => {
+    if (!raw) return 'Prime Hoardings';
+    const trimmed = raw.trim();
+    const lower = trimmed.toLowerCase();
+    if (KNOWN_LABELS[lower]) return KNOWN_LABELS[lower];
+    return trimmed;
+  };
 
   const filterButtons = (() => {
-    const existingKeys = new Set(BASE_FILTER_BUTTONS.map((b) => b.key));
-    const dynamicButtons = [...BASE_FILTER_BUTTONS];
-    campaignsList.forEach((c) => {
-      if (c.category) {
-        c.category.split(' ').forEach((cat) => {
-          if (cat && cat !== 'vacant' && !existingKeys.has(cat)) {
-            existingKeys.add(cat);
-            const label = cat.charAt(0).toUpperCase() + cat.slice(1).replace(/-/g, ' ');
-            dynamicButtons.push({ key: cat, label });
-          }
-        });
+    // 1. Group and count items per category
+    const catMap = new Map();
+
+    campaignsList.forEach((item) => {
+      const rawCat = (item.category || '').trim();
+      if (!rawCat) return;
+      const label = getCategoryLabel(rawCat);
+      const key = label;
+
+      if (!catMap.has(key)) {
+        catMap.set(key, { key, label, count: 0 });
       }
+      catMap.get(key).count += 1;
     });
-    return dynamicButtons;
+
+    // 2. Sort categories based on count: High to Low (descending)
+    const sortedCategories = Array.from(catMap.values()).sort((a, b) => {
+      if (b.count !== a.count) {
+        return b.count - a.count; // High to low
+      }
+      return a.label.localeCompare(b.label);
+    });
+
+    // 3. Build pills array with image counts
+    const buttons = [
+      {
+        key: 'all',
+        label: `All Works (${campaignsList.length})`,
+        count: campaignsList.length,
+      },
+    ];
+
+    const vacantCount = campaignsList.filter((c) => c.isVacant).length;
+    if (vacantCount > 0) {
+      buttons.push({
+        key: 'vacant',
+        label: `🟢 Available / Vacant (${vacantCount})`,
+        count: vacantCount,
+      });
+    }
+
+    sortedCategories.forEach((cat) => {
+      buttons.push({
+        key: cat.key,
+        label: `${cat.label} (${cat.count})`,
+        count: cat.count,
+      });
+    });
+
+    return buttons;
   })();
 
   const [visibleCount, setVisibleCount] = useState(6);
@@ -95,8 +137,10 @@ export default function GalleryGrid({ onOpenModal }) {
 
   const filteredCampaigns = campaignsList.filter((item) => {
     if (filterCategory === 'all') return true;
-    const categories = (item.category || '').split(' ');
-    return categories.includes(filterCategory);
+    const itemLabel = getCategoryLabel(item.category).toLowerCase();
+    const targetKey = filterCategory.toLowerCase();
+    const itemRaw = (item.category || '').toLowerCase().trim();
+    return itemLabel === targetKey || itemRaw === targetKey;
   });
 
   const displayedCampaigns = filteredCampaigns.slice(0, visibleCount);

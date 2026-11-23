@@ -454,26 +454,34 @@ export default function CampaignGalleryPage() {
           All Items ({items.length})
         </button>
 
-        {categoriesList.map((tab) => {
-          const count = items.filter((i) => i.category === tab.key).length;
-          return (
-            <button
-              key={tab.key}
-              onClick={() => { setFilterCategory(tab.key); setCurrentPage(1); }}
-              className="btn-secondary"
-              style={{
-                padding: '6px 14px',
-                fontSize: '0.85rem',
-                fontWeight: 600,
-                borderColor: filterCategory === tab.key ? 'var(--color-primary)' : 'var(--color-border)',
-                color: filterCategory === tab.key ? 'var(--color-primary)' : 'var(--color-text-primary)',
-                background: filterCategory === tab.key ? 'var(--color-primary-soft)' : 'var(--color-card-background)',
-              }}
-            >
-              {tab.label} {count > 0 ? `(${count})` : ''}
-            </button>
-          );
-        })}
+        {[...categoriesList]
+          .map((tab) => ({
+            ...tab,
+            count: items.filter((i) => i.category === tab.key).length,
+          }))
+          .sort((a, b) => {
+            if (b.count !== a.count) return b.count - a.count; // High to low
+            return a.label.localeCompare(b.label);
+          })
+          .map((tab) => {
+            return (
+              <button
+                key={tab.key}
+                onClick={() => { setFilterCategory(tab.key); setCurrentPage(1); }}
+                className="btn-secondary"
+                style={{
+                  padding: '6px 14px',
+                  fontSize: '0.85rem',
+                  fontWeight: 600,
+                  borderColor: filterCategory === tab.key ? 'var(--color-primary)' : 'var(--color-border)',
+                  color: filterCategory === tab.key ? 'var(--color-primary)' : 'var(--color-text-primary)',
+                  background: filterCategory === tab.key ? 'var(--color-primary-soft)' : 'var(--color-card-background)',
+                }}
+              >
+                {tab.label} ({tab.count})
+              </button>
+            );
+          })}
       </div>
 
       {loading ? (
