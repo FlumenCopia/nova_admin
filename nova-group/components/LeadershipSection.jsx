@@ -105,10 +105,12 @@ export default function LeadershipSection({ initialData = null }) {
                 </a>
               )}
               <a
-                href="/founder-of-nova.html"
+                href="https://gireeshkumar.novainnovations.in"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="btn-leadership-contact"
               >
-                Connect with Director <ArrowRight size={15} />
+                View Founder Portfolio <ArrowRight size={15} />
               </a>
             </div>
           </div>

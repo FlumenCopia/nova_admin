@@ -8,6 +8,7 @@ import { fetchApi } from '../lib/api';
 export default function Footer({ onShowToast }) {
   const [newsletterInput, setNewsletterInput] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [services, setServices] = useState([]);
   const [settings, setSettings] = useState({
     primaryPhone: '+91 95390 00640',
     altPhone: '+91 95263 64446',
@@ -16,13 +17,23 @@ export default function Footer({ onShowToast }) {
   });
 
   useEffect(() => {
-    async function loadSettings() {
-      const res = await fetchApi('/public/settings');
-      if (res && res.success && res.data) {
-        setSettings((prev) => ({ ...prev, ...res.data }));
+    async function loadData() {
+      try {
+        const [settingsRes, servicesRes] = await Promise.all([
+          fetchApi('/public/settings'),
+          fetchApi('/public/services'),
+        ]);
+        if (settingsRes && settingsRes.success && settingsRes.data) {
+          setSettings((prev) => ({ ...prev, ...settingsRes.data }));
+        }
+        if (servicesRes && servicesRes.success && Array.isArray(servicesRes.data)) {
+          setServices(servicesRes.data.filter((s) => s.isActive !== false));
+        }
+      } catch (err) {
+        console.error('Failed to load dynamic footer data:', err);
       }
     }
-    loadSettings();
+    loadData();
   }, []);
 
   const handleNewsletterSubmit = async (e) => {
@@ -44,10 +55,14 @@ export default function Footer({ onShowToast }) {
       });
 
       setNewsletterInput('');
-      onShowToast('Thank you! Your call request has been received. Nova Innovations will contact you shortly.');
+      if (onShowToast) {
+        onShowToast('Thank you! Your call request has been received. Nova Innovations will contact you shortly.');
+      }
     } catch (error) {
       console.error('Footer form submit error:', error);
-      onShowToast('Could not submit request automatically. Please dial +91 95390 00640 directly.');
+      if (onShowToast) {
+        onShowToast(`Could not submit request. Please dial ${settings.primaryPhone} directly.`);
+      }
     } finally {
       setIsSubmitting(false);
     }
@@ -62,7 +77,7 @@ export default function Footer({ onShowToast }) {
               <img src="/logo.png" alt="Innovations" className="footer-brand-logo" />
             </Link>
             <p className="footer-about-text">
-              <strong>NOVA INNOVATIONS</strong> — Outdoors • Design Studio • Events. Kerala's premier advertising agency with 27+ years of experience in outdoor hoardings, transit vehicle branding, retail signage, and corporate events.
+              <strong>NOVA INNOVATIONS</strong> — Outdoors • Design Studio • Events. Kerala&apos;s premier advertising agency with 27+ years of experience in outdoor hoardings, transit vehicle branding, retail signage, and corporate events.
             </p>
           </div>
 
@@ -74,18 +89,24 @@ export default function Footer({ onShowToast }) {
               <li><Link href="/services" className="footer-link">Our Services</Link></li>
               <li><Link href="/gallery" className="footer-link">Campaign Gallery</Link></li>
               <li><Link href="/contact" className="footer-link">Contact & Locations</Link></li>
+              <li><Link href="/founder-of-nova" className="footer-link">Founder Spotlight</Link></li>
             </ul>
           </div>
 
           <div>
             <h4 className="footer-col-title">Our Services</h4>
             <ul className="footer-links-list">
-              <li><Link href="/services" className="footer-link">Outdoor Hoardings (Billboards & Unipoles)</Link></li>
-              <li><Link href="/services" className="footer-link">Vehicle & KSRTC Bus Advertising</Link></li>
-              <li><Link href="/services" className="footer-link">Shop & Showroom Branding</Link></li>
-              <li><Link href="/services" className="footer-link">Event Branding & Exhibition Stalls</Link></li>
-              <li><Link href="/services" className="footer-link">Commercial Wall Paintings</Link></li>
-              <li><Link href="/services" className="footer-link">Design Studio & Flex Printing</Link></li>
+              {services.length > 0 ? (
+                services.map((srv) => (
+                  <li key={srv.id || srv._id || srv.title}>
+                    <Link href={`/services`} className="footer-link">
+                      {srv.title}
+                    </Link>
+                  </li>
+                ))
+              ) : (
+                <li><Link href="/services" className="footer-link">View All Services</Link></li>
+              )}
             </ul>
           </div>
 

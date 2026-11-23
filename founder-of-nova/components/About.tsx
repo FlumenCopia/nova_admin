@@ -32,6 +32,24 @@ export default function About() {
             </p>
             <h4 className="director-name">GIREESH KUMAR S</h4>
             <span className="director-role">Director / CEO — NOVA Innovations</span>
+            <div style={{ marginTop: '10px' }}>
+              <a
+                href="https://novainnovations.in"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                  fontSize: '0.82rem',
+                  fontWeight: 600,
+                  color: 'var(--brand-red, #c90000)',
+                  textDecoration: 'none',
+                }}
+              >
+                Visit Nova Innovations Main Site <i className="fa-solid fa-arrow-right"></i>
+              </a>
+            </div>
           </div>
         </div>
 

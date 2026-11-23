@@ -1,17 +1,36 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { X } from 'lucide-react';
+import { X, ChevronDown } from 'lucide-react';
+import { fetchApi } from '../lib/api';
 
 export default function MobileDrawer({ isOpen, onClose, onOpenModal }) {
   const pathname = usePathname();
+  const [services, setServices] = useState([]);
+  const [servicesOpen, setServicesOpen] = useState(false);
+
+  useEffect(() => {
+    async function loadServices() {
+      try {
+        const res = await fetchApi('/public/services');
+        if (res && res.success && Array.isArray(res.data)) {
+          setServices(res.data.filter((s) => s.isActive !== false));
+        }
+      } catch (err) {
+        console.error('Failed to load services for mobile drawer:', err);
+      }
+    }
+    loadServices();
+  }, []);
 
   const navLinks = [
     { href: '/', label: 'Home' },
     { href: '/about', label: 'About Us' },
-    { href: '/services', label: 'Services' },
+    { href: '/services', label: 'Services', hasDropdown: true },
     { href: '/gallery', label: 'Campaign Gallery' },
+    { href: 'https://gireeshkumar.novainnovations.in', label: 'Founder Profile (Gireesh Kumar S)', isExternal: true },
     { href: '/contact', label: 'Contact' },
   ];
 
@@ -39,34 +58,58 @@ export default function MobileDrawer({ isOpen, onClose, onOpenModal }) {
         </div>
 
         {navLinks.map((link) => {
-          const isStaticHtml = link.href.endsWith('.html');
-          const isActive = link.isExternal ? false : pathname === link.href;
-          if (isStaticHtml) {
+          const isActive = pathname === link.href;
+
+          if (link.hasDropdown && services.length > 0) {
             return (
-              <a
-                key={link.href}
-                href={link.href}
-                className={`nav-link ${isActive ? 'active' : ''}`}
-                onClick={onClose}
-              >
-                {link.label}
-              </a>
+              <div key={link.href} style={{ width: '100%' }}>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                  <Link
+                    href={link.href}
+                    className={`nav-link ${isActive ? 'active' : ''}`}
+                    onClick={onClose}
+                  >
+                    {link.label}
+                  </Link>
+                  <button
+                    type="button"
+                    onClick={() => setServicesOpen(!servicesOpen)}
+                    style={{
+                      background: 'none',
+                      border: 'none',
+                      color: 'inherit',
+                      padding: '8px 12px',
+                      cursor: 'pointer',
+                    }}
+                    aria-label="Toggle Services List"
+                  >
+                    <ChevronDown
+                      size={18}
+                      style={{
+                        transform: servicesOpen ? 'rotate(180deg)' : 'rotate(0deg)',
+                        transition: 'transform 0.2s ease',
+                      }}
+                    />
+                  </button>
+                </div>
+                {servicesOpen && (
+                  <div style={{ paddingLeft: '16px', display: 'flex', flexDirection: 'column', gap: '6px', marginBottom: '8px' }}>
+                    {services.map((srv) => (
+                      <Link
+                        key={srv.id || srv._id || srv.title}
+                        href="/services"
+                        style={{ fontSize: '0.88rem', color: 'var(--text-muted, #555)', textDecoration: 'none', padding: '4px 0' }}
+                        onClick={onClose}
+                      >
+                        • {srv.title}
+                      </Link>
+                    ))}
+                  </div>
+                )}
+              </div>
             );
           }
-          if (link.isExternal) {
-            return (
-              <a
-                key={link.href}
-                href={link.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="nav-link"
-                onClick={onClose}
-              >
-                {link.label}
-              </a>
-            );
-          }
+
           return (
             <Link
               key={link.href}

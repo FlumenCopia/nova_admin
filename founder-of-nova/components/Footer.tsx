@@ -1,10 +1,13 @@
 'use client';
 
+import { ServiceItem } from '../types';
+
 interface FooterProps {
+  services?: ServiceItem[];
   onNewsletterSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
 }
 
-export default function Footer({ onNewsletterSubmit }: FooterProps) {
+export default function Footer({ services = [], onNewsletterSubmit }: FooterProps) {
   return (
     <footer className="site-footer">
       <div className="footer-grid">
@@ -57,11 +60,15 @@ export default function Footer({ onNewsletterSubmit }: FooterProps) {
         <div className="footer-links-col">
           <h4 className="footer-col-title">Our Services</h4>
           <ul className="footer-links-list">
-            <li><a href="#services">Outdoor Highway Hoardings</a></li>
-            <li><a href="#services">KSRTC Bus Transit Media</a></li>
-            <li><a href="#services">Shop &amp; Retail Facade Signage</a></li>
-            <li><a href="#services">Event Stall Fabrication</a></li>
-            <li><a href="#services">Design Studio &amp; Flex Printing</a></li>
+            {services.length > 0 ? (
+              services.map((srv) => (
+                <li key={srv.id || srv.title}>
+                  <a href="#services">{srv.title}</a>
+                </li>
+              ))
+            ) : (
+              <li><a href="#services">Outdoor Highway Hoardings</a></li>
+            )}
           </ul>
         </div>
 
@@ -85,14 +92,15 @@ export default function Footer({ onNewsletterSubmit }: FooterProps) {
       </div>
 
       <div className="footer-bottom">
-        <p>&copy; 2026 NOVA Innovations (Outdoors • Design Studio • Events). All Rights Reserved.</p>
-        <div className="footer-legal">
-          <a href="tel:+919539000640">+91 9539000640</a>
-          <span className="sep">•</span>
-          <a href="mailto:novainnovations2020@gmail.com">novainnovations2020@gmail.com</a>
+        <p>© 2026 NOVA Innovations. All Rights Reserved. Director & CEO — Gireesh Kumar S.</p>
+        <div className="footer-bottom-links">
+          <a href="#hero">Privacy Policy</a>
+          <a href="#hero">Terms of Service</a>
+          <a href="https://novainnovations.in/" target="_blank" rel="noopener noreferrer">
+            novainnovations.in
+          </a>
         </div>
       </div>
     </footer>
   );
 }
-

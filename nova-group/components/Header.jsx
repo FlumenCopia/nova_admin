@@ -3,11 +3,13 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { PhoneCall } from 'lucide-react';
+import { PhoneCall, ChevronDown } from 'lucide-react';
+import { fetchApi } from '../lib/api';
 
 export default function Header({ onOpenModal, onToggleMobile, isMobileOpen }) {
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
+  const [services, setServices] = useState([]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -17,11 +19,26 @@ export default function Header({ onOpenModal, onToggleMobile, isMobileOpen }) {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  useEffect(() => {
+    async function loadServices() {
+      try {
+        const res = await fetchApi('/public/services');
+        if (res && res.success && Array.isArray(res.data)) {
+          setServices(res.data.filter((s) => s.isActive !== false));
+        }
+      } catch (err) {
+        console.error('Failed to load services for header dropdown:', err);
+      }
+    }
+    loadServices();
+  }, []);
+
   const navLinks = [
     { href: '/', label: 'Home' },
     { href: '/about', label: 'About Us' },
-    { href: '/services', label: 'Services' },
+    { href: '/services', label: 'Services', hasDropdown: true },
     { href: '/gallery', label: 'Campaign Gallery' },
+    { href: 'https://gireeshkumar.novainnovations.in', label: 'Founder Profile', isExternal: true },
     { href: '/contact', label: 'Contact' },
   ];
 
@@ -34,36 +51,34 @@ export default function Header({ onOpenModal, onToggleMobile, isMobileOpen }) {
 
         <nav className="nav-links" id="main-nav">
           {navLinks.map((link) => {
-            const isStaticHtml = link.href.endsWith('.html');
-            const isActive = link.isExternal
-              ? false
-              : (link.href === '/'
-                  ? pathname === '/'
-                  : pathname === link.href || (link.href === '/founder-of-nova' && (pathname === '/founder' || pathname.startsWith('/founder'))));
-            if (link.isExternal) {
+            const isActive = link.href === '/' ? pathname === '/' : pathname === link.href;
+
+            if (link.hasDropdown && services.length > 0) {
               return (
-                <a
-                  key={link.href}
-                  href={link.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="nav-link"
-                >
-                  {link.label}
-                </a>
+                <div key={link.href} className="nav-dropdown-wrapper">
+                  <Link
+                    href={link.href}
+                    className={`nav-link ${isActive ? 'active' : ''}`}
+                    style={{ display: 'inline-flex', alignItems: 'center', gap: '4px' }}
+                  >
+                    {link.label}
+                    <ChevronDown size={14} style={{ transition: 'transform 0.2s ease' }} />
+                  </Link>
+                  <div className="nav-dropdown-menu">
+                    {services.map((srv) => (
+                      <Link
+                        key={srv.id || srv._id || srv.title}
+                        href="/services"
+                        className="nav-dropdown-item"
+                      >
+                        {srv.title}
+                      </Link>
+                    ))}
+                  </div>
+                </div>
               );
             }
-            if (isStaticHtml) {
-              return (
-                <a
-                  key={link.href}
-                  href={link.href}
-                  className={`nav-link ${isActive ? 'active' : ''}`}
-                >
-                  {link.label}
-                </a>
-              );
-            }
+
             return (
               <Link
                 key={link.href}
