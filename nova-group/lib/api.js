@@ -1,11 +1,11 @@
-
 export function getApiBase() {
   if (process.env.NEXT_PUBLIC_API_URL) {
-    return process.env.NEXT_PUBLIC_API_URL.replace(/\/+$/, '');
+    const url = process.env.NEXT_PUBLIC_API_URL.replace(/\/+$/, '');
+    return url.endsWith('/api') ? url : `${url}/api`;
   }
   if (typeof window !== 'undefined') {
     const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-    return isLocal ? 'http://localhost:5000/api' : `${window.location.origin}/api`;
+    return isLocal ? 'http://localhost:5000/api' : 'https://api.novainnovations.in/api';
   }
   return 'http://127.0.0.1:5000/api';
 }
@@ -34,6 +34,8 @@ export async function fetchApi(endpoint, options = {}) {
       ...options,
     });
     if (!res.ok) return { success: false, data: null };
+    const contentType = res.headers.get('content-type') || '';
+    if (!contentType.includes('application/json')) return { success: false, data: null };
     return await res.json();
   } catch (error) {
     console.error(`Fetch API error [${endpoint}]:`, error);

@@ -1,15 +1,13 @@
 export function getApiBase() {
   if (process.env.NEXT_PUBLIC_API_URL) {
-    return process.env.NEXT_PUBLIC_API_URL.replace(/\/+$/, '');
+    const url = process.env.NEXT_PUBLIC_API_URL.replace(/\/+$/, '');
+    return url.endsWith('/api') ? url : `${url}/api`;
   }
   if (typeof window !== 'undefined') {
     const host = window.location.hostname;
     const isLocal = host === 'localhost' || host === '127.0.0.1';
     if (!isLocal) {
-      if (host.includes('novainnovations.in')) {
-        return 'https://novainnovations.in/api';
-      }
-      return `${window.location.origin}/api`;
+      return 'https://api.novainnovations.in/api';
     }
   }
   return 'http://localhost:5000/api';
@@ -58,6 +56,13 @@ export async function apiRequest(endpoint, options = {}) {
 
   try {
     const res = await fetch(url, config);
+    const contentType = res.headers.get('content-type') || '';
+    if (!contentType.includes('application/json')) {
+      return {
+        success: false,
+        message: `API server returned HTML (${res.status} ${res.statusText || 'Error'}). Please verify that https://api.novainnovations.in is running.`,
+      };
+    }
     const data = await res.json();
     if (!res.ok) {
       return { success: false, message: data.message || 'API request failed' };
@@ -65,7 +70,7 @@ export async function apiRequest(endpoint, options = {}) {
     return data;
   } catch (error) {
     console.error(`API Error [${endpoint}]:`, error);
-    return { success: false, message: error.message || 'Network error' };
+    return { success: false, message: error.message || 'Network error connecting to API' };
   }
 }
 
