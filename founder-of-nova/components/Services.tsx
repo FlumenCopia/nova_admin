@@ -1,6 +1,6 @@
 'use client';
 
-import { ServiceItem } from '@/types';
+import { ServiceItem } from '../types';
 
 interface ServicesProps {
   services: ServiceItem[];

@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { GALLERY_SLIDES } from '@/data/content';
+import { GALLERY_SLIDES } from '../data/content';
 
 interface GalleryProps {
   onOpenModal: (subject: string) => void;

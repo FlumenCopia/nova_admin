@@ -1,7 +1,7 @@
 'use client';
 
-import { ClientItem } from '@/types';
-import { DEFAULT_CLIENT_LOGOS } from '@/data/content';
+import { ClientItem } from '../types';
+import { DEFAULT_CLIENT_LOGOS } from '../data/content';
 
 interface ClientsMarqueeProps {
   title?: string;

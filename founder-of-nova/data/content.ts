@@ -1,4 +1,4 @@
-import { ServiceItem, ClientItem, GallerySlide } from '@/types';
+import { ServiceItem, ClientItem, GallerySlide } from '../types';
 
 export const DEFAULT_SERVICES: ServiceItem[] = [
   {

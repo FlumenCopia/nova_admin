@@ -1,6 +1,6 @@
 'use client';
 
-import { ToastData } from '@/types';
+import { ToastData } from '../types';
 
 interface ToastProps {
   toast: ToastData;

@@ -1,22 +1,22 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import Navbar from '@/components/Navbar';
-import MobileDrawer from '@/components/MobileDrawer';
-import Hero from '@/components/Hero';
-import Services from '@/components/Services';
-import About from '@/components/About';
-import FounderSpotlight from '@/components/FounderSpotlight';
-import ClientsMarquee from '@/components/ClientsMarquee';
-import Gallery from '@/components/Gallery';
-import CtaBanner from '@/components/CtaBanner';
-import Contact from '@/components/Contact';
-import Footer from '@/components/Footer';
-import BookingModal from '@/components/BookingModal';
-import Toast from '@/components/Toast';
+import Navbar from '../components/Navbar';
+import MobileDrawer from '../components/MobileDrawer';
+import Hero from '../components/Hero';
+import Services from '../components/Services';
+import About from '../components/About';
+import FounderSpotlight from '../components/FounderSpotlight';
+import ClientsMarquee from '../components/ClientsMarquee';
+import Gallery from '../components/Gallery';
+import CtaBanner from '../components/CtaBanner';
+import Contact from '../components/Contact';
+import Footer from '../components/Footer';
+import BookingModal from '../components/BookingModal';
+import Toast from '../components/Toast';
 
-import { DEFAULT_SERVICES } from '@/data/content';
-import { ClientItem, ServiceItem, ToastData } from '@/types';
+import { DEFAULT_SERVICES } from '../data/content';
+import { ClientItem, ServiceItem, ToastData } from '../types';
 
 export default function FounderPage() {
   const [theme, setTheme] = useState<'light' | 'dark'>('light');
