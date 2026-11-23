@@ -1,10 +1,15 @@
-const store = require('./store');
+const Admin = require('./Admin');
+const Enquiry = require('./Enquiry');
+const PortfolioItem = require('./PortfolioItem');
+const ClientLogo = require('./ClientLogo');
+const Service = require('./Service');
+const SiteSettings = require('./SiteSettings');
 
 module.exports = {
-  Admin: store.Admin,
-  Enquiry: store.Enquiry,
-  PortfolioItem: store.PortfolioItem,
-  ClientLogo: store.ClientLogo,
-  Service: store.Service,
-  SiteSettings: store.SiteSettings,
+  Admin,
+  Enquiry,
+  PortfolioItem,
+  ClientLogo,
+  Service,
+  SiteSettings,
 };
