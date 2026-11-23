@@ -15,17 +15,38 @@ export default function ClientsMarquee({
   const logos = clients.length > 0 ? clients : DEFAULT_CLIENT_LOGOS;
 
   const resolveLogoSrc = (logo: ClientItem) => {
-    if (logo.file) return `/client-logos/${logo.file}`;
+    if (logo.file) {
+      const clean = logo.file.replace(/^client_/, '');
+      return `/client-logos/${clean}`;
+    }
     if (logo.logoUrl) {
-      if (logo.logoUrl.startsWith('http') || logo.logoUrl.startsWith('//')) {
+      if (logo.logoUrl.startsWith('http://') || logo.logoUrl.startsWith('https://') || logo.logoUrl.startsWith('//')) {
         return logo.logoUrl;
       }
-      if (logo.logoUrl.startsWith('/uploads')) {
-        return `http://localhost:5000${logo.logoUrl}`;
+      if (logo.logoUrl.startsWith('/uploads/')) {
+        const filename = logo.logoUrl.split('/').pop() || '';
+        // If client logo already bundled locally in /client-logos, serve directly for instant load
+        if (filename) {
+          return `/client-logos/${filename}`;
+        }
+        return `https://api.novainnovations.in${logo.logoUrl}`;
       }
-      return logo.logoUrl;
+      if (logo.logoUrl.startsWith('/client-logos/')) {
+        return logo.logoUrl;
+      }
+      return `/client-logos/${logo.logoUrl.replace(/^\//, '')}`;
     }
-    return '/logo.png';
+    return '/client-logos/myg.png';
+  };
+
+  const handleImgError = (e: React.SyntheticEvent<HTMLImageElement>) => {
+    const target = e.currentTarget;
+    if (!target.dataset.fallback) {
+      target.dataset.fallback = 'true';
+      target.src = '/client-logos/myg.png';
+    } else {
+      target.style.display = 'none';
+    }
   };
 
   return (
@@ -43,9 +64,7 @@ export default function ClientsMarquee({
                 src={resolveLogoSrc(logo)}
                 alt={logo.name}
                 className="partner-logo-img"
-                onError={(e) => {
-                  (e.target as HTMLElement).style.display = 'none';
-                }}
+                onError={handleImgError}
               />
             </div>
           ))}
@@ -56,9 +75,7 @@ export default function ClientsMarquee({
                 src={resolveLogoSrc(logo)}
                 alt={logo.name}
                 className="partner-logo-img"
-                onError={(e) => {
-                  (e.target as HTMLElement).style.display = 'none';
-                }}
+                onError={handleImgError}
               />
             </div>
           ))}

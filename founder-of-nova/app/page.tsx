@@ -81,11 +81,13 @@ export default function FounderPage() {
   const [contactEmail, setContactEmail] = useState('novainnovations2020@gmail.com');
   const [hqAddress, setHqAddress] = useState('T.C 26/929(2), C.K. Tower, Panavila Junction, Thiruvananthapuram, Kerala - 695001');
 
-  const apiBase =
+  const apiHost =
     typeof window !== 'undefined' &&
     (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
-      ? 'http://localhost:5000/api'
-      : 'https://api.novainnovations.in/api';
+      ? 'http://localhost:5000'
+      : 'https://api.novainnovations.in';
+
+  const apiBase = `${apiHost}/api`;
 
   // Theme setup
   useEffect(() => {
@@ -147,7 +149,7 @@ export default function FounderPage() {
               img.startsWith('http') || img.startsWith('//')
                 ? img
                 : img.startsWith('/uploads')
-                ? `http://localhost:5000${img}`
+                ? `${apiHost}${img}`
                 : img;
             setFounderImg(fullUrl);
           }
@@ -178,7 +180,7 @@ export default function FounderPage() {
               lImg.startsWith('http') || lImg.startsWith('//')
                 ? lImg
                 : lImg.startsWith('/uploads')
-                ? `http://localhost:5000${lImg}`
+                ? `${apiHost}${lImg}`
                 : lImg;
             setSpotlightImage(fullLUrl);
           }
