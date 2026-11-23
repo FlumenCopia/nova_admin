@@ -29,8 +29,21 @@ export function getPublicSiteUrl() {
   return 'http://localhost:3000';
 }
 
+export function getFounderSiteUrl() {
+  if (process.env.NEXT_PUBLIC_FOUNDER_SITE_URL) return process.env.NEXT_PUBLIC_FOUNDER_SITE_URL.replace(/\/+$/, '');
+  if (typeof window !== 'undefined') {
+    const host = window.location.hostname;
+    const isLocal = host === 'localhost' || host === '127.0.0.1';
+    if (!isLocal) {
+      return 'https://gireeshkumar.novainnovations.in';
+    }
+  }
+  return 'http://localhost:3002';
+}
+
 export const API_BASE = getApiBase();
 export const PUBLIC_SITE_URL = getPublicSiteUrl();
+export const FOUNDER_SITE_URL = getFounderSiteUrl();
 
 export async function apiRequest(endpoint, options = {}) {
   const base = getApiBase();

@@ -161,12 +161,12 @@ export default function LeadershipPage() {
         <div>
           <h1 style={{ fontSize: '1.75rem', fontWeight: 800 }}>Leadership Spotlight</h1>
           <p style={{ color: 'var(--color-text-muted)', fontSize: '0.9rem', marginTop: '4px' }}>
-            Manage the Founder & Director section displayed on the Nova Innovations homepage, about page, and founder page (<code>/founder-of-nova.html#founder</code>)
+            Manage the Founder & Director section displayed on the Nova Innovations homepage, about page, and founder profile
           </p>
         </div>
 
         <a
-          href={`${PUBLIC_SITE_URL}/founder-of-nova.html#founder`}
+          href={`${PUBLIC_SITE_URL}/about`}
           target="_blank"
           rel="noopener noreferrer"
           style={{

@@ -145,7 +145,7 @@ export default function ClientLogosPage() {
 
         <div className="page-header-actions" style={{ display: 'flex', gap: '10px' }}>
           <a
-            href={`${PUBLIC_SITE_URL}/founder-of-nova.html#partners`}
+            href={`${PUBLIC_SITE_URL}/#partners`}
             target="_blank"
             rel="noopener noreferrer"
             className="btn-secondary"

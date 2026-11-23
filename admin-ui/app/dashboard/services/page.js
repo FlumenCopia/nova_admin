@@ -219,7 +219,7 @@ export default function ServicesPage() {
 
         <div className="page-header-actions" style={{ display: 'flex', gap: '10px' }}>
           <a
-            href={`${PUBLIC_SITE_URL}/founder-of-nova.html#services`}
+            href={`${PUBLIC_SITE_URL}/#services`}
             target="_blank"
             rel="noopener noreferrer"
             className="btn-secondary"

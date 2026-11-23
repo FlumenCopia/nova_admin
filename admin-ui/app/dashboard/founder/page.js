@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from 'react';
 import Toast from '../../../components/Toast';
 import Modal from '../../../components/Modal';
-import { apiRequest, getMediaUrl, uploadFounderImage, PUBLIC_SITE_URL } from '../../../lib/api';
+import { apiRequest, getMediaUrl, uploadFounderImage, PUBLIC_SITE_URL, FOUNDER_SITE_URL } from '../../../lib/api';
 
 export default function FounderAdminPage() {
   const [activeTab, setActiveTab] = useState('hero'); // 'hero' | 'services'
@@ -441,12 +441,12 @@ export default function FounderAdminPage() {
             Founder Page Management
           </h1>
           <p style={{ color: '#6b7280', fontSize: '0.92rem', marginTop: '6px' }}>
-            Manage the content, services, and profile settings for <code>founder-of-nova</code> (Port 3002).
+            Manage the content, services, and profile settings for <code>founder-of-nova</code>
           </p>
         </div>
 
         <a
-          href="http://localhost:3002"
+          href={FOUNDER_SITE_URL}
           target="_blank"
           rel="noopener noreferrer"
           style={{
