@@ -125,6 +125,11 @@ app.use('/api/admin/clients', clientRoutes);
 app.use('/api/admin/services', serviceRoutes);
 app.use('/api/admin/settings', settingsRoutes);
 
+// Root endpoint
+app.get('/', (req, res) => {
+  res.status(200).json({ status: 'ok', service: 'Nova Admin API', endpoints: { health: '/api/health', settings: '/api/public/settings' } });
+});
+
 // Health check
 app.get('/api/health', (req, res) => {
   res.status(200).json({ status: 'ok', service: 'Nova Admin API', timestamp: new Date() });
@@ -156,8 +161,6 @@ app.use((err, req, res, next) => {
   });
 });
 
-
-const { connectDB } = require('./config/db');
 
 if (require.main === module) {
   connectDB().then(() => {
