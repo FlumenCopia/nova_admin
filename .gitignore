@@ -1,21 +1,22 @@
 # Dependencies
 node_modules/
-**/node_modules/
+.pnp
+.pnp.js
 
-# Next.js & Build outputs
+# Production builds
 .next/
-**/.next/
 out/
 build/
 dist/
 
-# Real Environment files (exclude real secrets, track examples)
+# Environment files
 .env
-.env.*
-!.env.example
-**/.env
-**/.env.*
-!**/.env.example
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+*.env
+!*.env.example
 
 # Logs & coverage
 *.log
@@ -30,16 +31,6 @@ Thumbs.db
 .vscode/
 .idea/
 *.swp
-
-# Backend Runtime Upload Files (Preserve folder structure via .gitkeep)
-admin-api/uploads/*
-!admin-api/uploads/.gitkeep
-!admin-api/uploads/portfolio/
-!admin-api/uploads/clients/
-admin-api/uploads/portfolio/*
-!admin-api/uploads/portfolio/.gitkeep
-admin-api/uploads/clients/*
-!admin-api/uploads/clients/.gitkeep
 
 # Old Site Backups & Temporary Scratch Scripts
 backup/

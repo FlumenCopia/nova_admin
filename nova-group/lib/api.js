@@ -15,6 +15,20 @@ export const API_BASE = getApiBase();
 export function getMediaUrl(url, fallback = '/mainhero1.png') {
   if (!url) return fallback;
   if (url.startsWith('http://') || url.startsWith('https://')) return url;
+  if (url.startsWith('/client-logos/') || url.startsWith('/logo.png') || url.startsWith('/image/')) return url;
+
+  // If it's a client logo upload, check if bundled in local /client-logos/ for instant load
+  if (url.startsWith('/uploads/clients/')) {
+    const filename = url.split('/').pop();
+    if (filename) return `/client-logos/${filename}`;
+  }
+
+  // If it's a portfolio upload, check if bundled in local /uploads/portfolio/ for instant load
+  if (url.startsWith('/uploads/portfolio/')) {
+    const filename = url.split('/').pop();
+    if (filename) return `/uploads/portfolio/${filename}`;
+  }
+
   // If it's a local public asset in the Next.js frontend (e.g. /mainhero1.png, /logo.png, etc)
   if (!url.startsWith('/uploads/') && !url.startsWith('uploads/')) {
     return url.startsWith('/') ? url : `/${url}`;
