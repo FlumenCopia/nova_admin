@@ -11,6 +11,7 @@ const portfolioRoutes = require('./routes/portfolioRoutes');
 const clientRoutes = require('./routes/clientRoutes');
 const serviceRoutes = require('./routes/serviceRoutes');
 const settingsRoutes = require('./routes/settingsRoutes');
+const founderSlideRoutes = require('./routes/founderSlideRoutes');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -124,6 +125,7 @@ app.use('/api/admin/portfolio', portfolioRoutes);
 app.use('/api/admin/clients', clientRoutes);
 app.use('/api/admin/services', serviceRoutes);
 app.use('/api/admin/settings', settingsRoutes);
+app.use('/api/admin/founder-gallery', founderSlideRoutes);
 
 // Root endpoint
 app.get('/', (req, res) => {

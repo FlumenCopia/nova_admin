@@ -16,15 +16,20 @@ export interface ClientItem {
 }
 
 export interface GallerySlide {
-  img: string;
-  badgeIcon: string;
-  badgeText: string;
-  counter: string;
+  _id?: string;
+  id?: string;
+  img?: string;
+  imageUrl?: string;
+  badgeIcon?: string;
+  badgeText?: string;
+  counter?: string;
   title: string;
-  metaIcon: string;
-  meta: string;
-  modalSubject: string;
-  actionText: string;
+  metaIcon?: string;
+  meta?: string;
+  modalSubject?: string;
+  actionText?: string;
+  order?: number;
+  isActive?: boolean;
 }
 
 export interface ToastData {

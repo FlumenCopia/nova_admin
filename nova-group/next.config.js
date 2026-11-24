@@ -23,11 +23,12 @@ const nextConfig = {
   },
   async redirects() {
     return [
-      { source: '/admin', destination: process.env.NEXT_PUBLIC_ADMIN_URL || 'http://localhost:3001', permanent: false },
+      { source: '/admin', destination: process.env.NEXT_PUBLIC_ADMIN_URL || 'https://admin.novainnovations.in', permanent: false },
       { source: '/index.html', destination: '/', permanent: true },
       { source: '/about.html', destination: '/about', permanent: true },
-      { source: '/founder-of-nova.html', destination: '/founder-of-nova', permanent: true },
-      { source: '/founder', destination: '/founder-of-nova', permanent: true },
+      { source: '/founder-of-nova', destination: 'https://gireeshkumar.novainnovations.in', permanent: false },
+      { source: '/founder-of-nova.html', destination: 'https://gireeshkumar.novainnovations.in', permanent: false },
+      { source: '/founder', destination: 'https://gireeshkumar.novainnovations.in', permanent: false },
       { source: '/services.html', destination: '/services', permanent: true },
       { source: '/gallery.html', destination: '/gallery', permanent: true },
       { source: '/contact.html', destination: '/contact', permanent: true },

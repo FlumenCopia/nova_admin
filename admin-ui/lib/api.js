@@ -91,20 +91,8 @@ export const apiFetch = apiRequest;
 
 export function getMediaUrl(url, fallback = '/logo.png') {
   if (!url) return fallback;
-  if (url.startsWith('http://') || url.startsWith('https://')) return url;
-  if (url.startsWith('/client-logos/') || url.startsWith('/logo.png') || url.startsWith('/image/')) return url;
-
-  // If it's a client logo upload, check if bundled in local /client-logos/ for instant load
-  if (url.startsWith('/uploads/clients/')) {
-    const filename = url.split('/').pop();
-    if (filename) return `/client-logos/${filename}`;
-  }
-
-  // If it's a portfolio upload, check if bundled in local /uploads/portfolio/ for instant load
-  if (url.startsWith('/uploads/portfolio/')) {
-    const filename = url.split('/').pop();
-    if (filename) return `/uploads/portfolio/${filename}`;
-  }
+  if (url.startsWith('http://') || url.startsWith('https://') || url.startsWith('//')) return url;
+  if (url.startsWith('/client-logos/') || url.startsWith('/logo.png') || url.startsWith('/image/') || url.startsWith('/assets/')) return url;
 
   const apiServer = getApiBase().replace(/\/api\/?$/, '');
   const cleanPath = url.startsWith('/') ? url : `/${url}`;

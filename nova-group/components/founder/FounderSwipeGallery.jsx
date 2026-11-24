@@ -1,6 +1,7 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { fetchApi } from '../../lib/api';
 
 const slidesData = [
   {
@@ -65,18 +66,55 @@ const slidesData = [
   },
 ];
 
-export default function FounderSwipeGallery({ onOpenModal }) {
+export default function FounderSwipeGallery({ onOpenModal, slides: propSlides }) {
+  const [slides, setSlides] = useState(propSlides || slidesData);
   const [current, setCurrent] = useState(0);
 
+  useEffect(() => {
+    if (propSlides && propSlides.length > 0) {
+      setSlides(propSlides);
+      return;
+    }
+    async function loadSlides() {
+      try {
+        const res = await fetchApi('/public/founder-gallery');
+        if (res && res.success && Array.isArray(res.data) && res.data.length > 0) {
+          const active = res.data.filter((s) => s.isActive !== false);
+          if (active.length > 0) {
+            setSlides(active);
+          }
+        }
+      } catch (err) {
+        // Fall back to slidesData
+      }
+    }
+    loadSlides();
+  }, [propSlides]);
+
+  const activeSlides = slides && slides.length > 0 ? slides : slidesData;
+  const slide = activeSlides[current] || activeSlides[0] || slidesData[0];
+
   const prevSlide = () => {
-    setCurrent((prev) => (prev === 0 ? slidesData.length - 1 : prev - 1));
+    setCurrent((prev) => (prev === 0 ? activeSlides.length - 1 : prev - 1));
   };
 
   const nextSlide = () => {
-    setCurrent((prev) => (prev === slidesData.length - 1 ? 0 : prev + 1));
+    setCurrent((prev) => (prev === activeSlides.length - 1 ? 0 : prev + 1));
   };
 
-  const slide = slidesData[current];
+  const resolveSlideImg = (s) => {
+    const raw = s.imageUrl || s.img || '';
+    if (!raw) return '/assets/founder_gireesh.jpg';
+    if (raw.startsWith('http://') || raw.startsWith('https://') || raw.startsWith('//')) {
+      return raw;
+    }
+    if (raw.startsWith('/uploads/')) {
+      return `https://api.novainnovations.in${raw}`;
+    }
+    return raw;
+  };
+
+  const counterDisplay = `${String(current + 1).padStart(2, '0')} / ${String(activeSlides.length).padStart(2, '0')}`;
 
   return (
     <section className="gallery-swipe-section" id="gallery">
@@ -106,27 +144,38 @@ export default function FounderSwipeGallery({ onOpenModal }) {
           <div className="swipe-track-wrapper">
             <div className="swipe-slide active">
               <div className="slide-image-wrapper">
-                <img src={slide.img} alt={slide.title} className="slide-img" />
+                <img
+                  src={resolveSlideImg(slide)}
+                  alt={slide.title}
+                  className="slide-img"
+                  onError={(e) => {
+                    const target = e.currentTarget;
+                    if (!target.dataset.fallback) {
+                      target.dataset.fallback = 'true';
+                      target.src = '/assets/founder_gireesh.jpg';
+                    }
+                  }}
+                />
                 <div className="slide-gradient-overlay"></div>
               </div>
               <div className="slide-caption-card">
                 <div className="caption-header">
                   <span className="slide-badge">
-                    <i className={`fa-solid ${slide.icon}`} style={{ marginRight: '6px' }}></i> {slide.badge}
+                    <i className={`fa-solid ${slide.badgeIcon || slide.icon || 'fa-award'}`} style={{ marginRight: '6px' }}></i> {slide.badgeText || slide.badge || 'Showcase'}
                   </span>
-                  <span className="slide-counter">{slide.counter}</span>
+                  <span className="slide-counter">{counterDisplay}</span>
                 </div>
                 <h3 className="slide-title">{slide.title}</h3>
                 <p className="slide-meta">
-                  <i className="fa-solid fa-award" style={{ marginRight: '6px', color: '#e02b20' }}></i> {slide.meta}
+                  <i className={`fa-solid ${slide.metaIcon || 'fa-award'}`} style={{ marginRight: '6px', color: '#e02b20' }}></i> {slide.meta}
                 </p>
                 <div className="slide-actions">
                   <button
                     type="button"
                     className="btn btn-primary btn-sm"
-                    onClick={() => onOpenModal && onOpenModal(slide.serviceKey)}
+                    onClick={() => onOpenModal && onOpenModal(slide.modalSubject || slide.serviceKey || 'Founder Meeting')}
                   >
-                    <span>{slide.actionText}</span> <i className="fa-solid fa-arrow-right"></i>
+                    <span>{slide.actionText || 'Connect with Director'}</span> <i className="fa-solid fa-arrow-right"></i>
                   </button>
                 </div>
               </div>
@@ -145,7 +194,7 @@ export default function FounderSwipeGallery({ onOpenModal }) {
 
         {/* Dots */}
         <div className="swipe-dots-container">
-          {slidesData.map((_, idx) => (
+          {activeSlides.map((_, idx) => (
             <span
               key={idx}
               className={`swipe-dot ${idx === current ? 'active' : ''}`}

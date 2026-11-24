@@ -210,6 +210,33 @@ const processMultiplePortfolioImages = async (req, res, next) => {
   }
 };
 
+// Middleware to process Founder Showcase / Award slide image with Sharp
+const processFounderSlideImage = async (req, res, next) => {
+  if (!req.file) return next();
+
+  try {
+    const filename = `founder-slide-${Date.now()}-${Math.round(Math.random() * 1e9)}.webp`;
+    const targetFolder = path.join(__dirname, '../../uploads/founder');
+
+    if (!fs.existsSync(targetFolder)) {
+      fs.mkdirSync(targetFolder, { recursive: true });
+    }
+
+    const outputPath = path.join(targetFolder, filename);
+
+    await sharp(req.file.buffer, { limitInputPixels: 40000000 })
+      .resize(1920, 1080, { fit: 'cover', position: 'center' })
+      .webp({ quality: 85 })
+      .toFile(outputPath);
+
+    req.processedImageUrl = `/uploads/founder/${filename}`;
+    next();
+  } catch (error) {
+    console.error('Sharp founder slide processing error:', error);
+    return res.status(400).json({ success: false, message: 'Failed to process founder showcase image.' });
+  }
+};
+
 module.exports = {
   uploadSingle: upload.single('image'),
   galleryUploadMultiple,
@@ -217,4 +244,5 @@ module.exports = {
   processMultiplePortfolioImages,
   processClientLogoImage,
   processBannerImage,
+  processFounderSlideImage,
 };

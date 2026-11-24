@@ -15,8 +15,8 @@ import Footer from '../components/Footer';
 import BookingModal from '../components/BookingModal';
 import Toast from '../components/Toast';
 
-import { DEFAULT_SERVICES } from '../data/content';
-import { ClientItem, ServiceItem, ToastData } from '../types';
+import { DEFAULT_SERVICES, GALLERY_SLIDES } from '../data/content';
+import { ClientItem, ServiceItem, ToastData, GallerySlide } from '../types';
 
 export default function FounderPage() {
   const [theme, setTheme] = useState<'light' | 'dark'>('light');
@@ -58,6 +58,9 @@ export default function FounderPage() {
   // Clients
   const [partnersTitle, setPartnersTitle] = useState('OUR ESTEEMED CLIENTS & BRAND PARTNERS');
   const [clients, setClients] = useState<ClientItem[]>([]);
+
+  // Showcase Gallery Slides
+  const [gallerySlides, setGallerySlides] = useState<GallerySlide[]>(GALLERY_SLIDES);
 
   // Leadership Spotlight
   const [spotlightTag, setSpotlightTag] = useState('LEADERSHIP SPOTLIGHT');
@@ -215,6 +218,19 @@ export default function FounderPage() {
           const active = json.data.filter((item: ClientItem) => item.isActive !== false);
           if (active.length > 0) {
             setClients(active);
+          }
+        }
+      })
+      .catch(() => {});
+
+    // 4. Founder Showcase Slides from backend
+    fetch(`${apiBase}/public/founder-gallery`)
+      .then((res) => res.json())
+      .then((json) => {
+        if (json?.success && Array.isArray(json?.data) && json.data.length > 0) {
+          const active = json.data.filter((item: GallerySlide) => item.isActive !== false);
+          if (active.length > 0) {
+            setGallerySlides(active);
           }
         }
       })
@@ -393,7 +409,7 @@ export default function FounderPage() {
 
         <ClientsMarquee title={partnersTitle} clients={clients} />
 
-        <Gallery onOpenModal={openModal} />
+        <Gallery onOpenModal={openModal} slides={gallerySlides} />
 
         <CtaBanner />
 

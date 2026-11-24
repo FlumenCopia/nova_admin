@@ -15,20 +15,11 @@ export default function ClientsMarquee({
   const logos = clients.length > 0 ? clients : DEFAULT_CLIENT_LOGOS;
 
   const resolveLogoSrc = (logo: ClientItem) => {
-    if (logo.file) {
-      const clean = logo.file.replace(/^client_/, '');
-      return `/client-logos/${clean}`;
-    }
     if (logo.logoUrl) {
       if (logo.logoUrl.startsWith('http://') || logo.logoUrl.startsWith('https://') || logo.logoUrl.startsWith('//')) {
         return logo.logoUrl;
       }
       if (logo.logoUrl.startsWith('/uploads/')) {
-        const filename = logo.logoUrl.split('/').pop() || '';
-        // If client logo already bundled locally in /client-logos, serve directly for instant load
-        if (filename) {
-          return `/client-logos/${filename}`;
-        }
         return `https://api.novainnovations.in${logo.logoUrl}`;
       }
       if (logo.logoUrl.startsWith('/client-logos/')) {
@@ -36,17 +27,30 @@ export default function ClientsMarquee({
       }
       return `/client-logos/${logo.logoUrl.replace(/^\//, '')}`;
     }
+    if (logo.file) {
+      const clean = logo.file.replace(/^client_/, '');
+      return `/client-logos/${clean}`;
+    }
     return '/client-logos/myg.png';
   };
 
   const handleImgError = (e: React.SyntheticEvent<HTMLImageElement>) => {
     const target = e.currentTarget;
-    if (!target.dataset.fallback) {
-      target.dataset.fallback = 'true';
-      target.src = '/client-logos/myg.png';
-    } else {
-      target.style.display = 'none';
+    const currentSrc = target.src || '';
+    if (!target.dataset.fallback1) {
+      target.dataset.fallback1 = 'true';
+      const filename = currentSrc.split('/').pop() || '';
+      if (filename && !currentSrc.includes('/client-logos/')) {
+        target.src = `/client-logos/${filename.replace(/^client_/, '')}`;
+        return;
+      }
     }
+    if (!target.dataset.fallbackFinal) {
+      target.dataset.fallbackFinal = 'true';
+      target.src = '/client-logos/myg.png';
+      return;
+    }
+    target.style.display = 'none';
   };
 
   return (

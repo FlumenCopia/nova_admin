@@ -48,6 +48,28 @@ export default function FounderAdminPage() {
   });
   const [savingServiceItem, setSavingServiceItem] = useState(false);
 
+  // --- SECTION 3: SHOWCASE GALLERY & AWARDS STATE ---
+  const [slidesList, setSlidesList] = useState([]);
+  const [loadingSlides, setLoadingSlides] = useState(true);
+  const [isSlideModalOpen, setIsSlideModalOpen] = useState(false);
+  const [editingSlideId, setEditingSlideId] = useState(null);
+  const [slideFormData, setSlideFormData] = useState({
+    title: '',
+    badgeText: 'Award & Milestone',
+    badgeIcon: 'fa-award',
+    meta: '',
+    metaIcon: 'fa-location-dot',
+    actionText: 'Connect with Director',
+    modalSubject: 'Founder Meeting',
+    order: 1,
+    isActive: true,
+    imageUrl: '',
+  });
+  const [slideImageFile, setSlideImageFile] = useState(null);
+  const [slideImagePreview, setSlideImagePreview] = useState(null);
+  const [savingSlide, setSavingSlide] = useState(false);
+  const slideFileInputRef = useRef(null);
+
 
   // --- SECTION 4: CLIENT & PARTNER LOGOS STATE ---
   const [partnersTitle, setPartnersTitle] = useState('OUR ESTEEMED CLIENTS & BRAND PARTNERS');
@@ -144,10 +166,25 @@ export default function FounderAdminPage() {
     }
   };
 
+  const fetchSlides = async () => {
+    setLoadingSlides(true);
+    try {
+      const res = await apiRequest('/admin/founder-gallery');
+      if (res && res.success && Array.isArray(res.data)) {
+        setSlidesList(res.data);
+      }
+    } catch (err) {
+      console.error('Failed to load founder gallery slides:', err);
+    } finally {
+      setLoadingSlides(false);
+    }
+  };
+
   useEffect(() => {
     fetchSettings();
     fetchServices();
     fetchClients();
+    fetchSlides();
   }, []);
 
   // --- HERO SAVE ---
@@ -423,6 +460,140 @@ export default function FounderAdminPage() {
     }
   };
 
+  // --- FOUNDER SHOWCASE SLIDES CRUD HANDLERS ---
+  const handleOpenAddSlideModal = () => {
+    setEditingSlideId(null);
+    setSlideFormData({
+      title: '',
+      badgeText: 'Award & Milestone',
+      badgeIcon: 'fa-award',
+      meta: '',
+      metaIcon: 'fa-location-dot',
+      actionText: 'Connect with Director',
+      modalSubject: 'Founder Meeting',
+      order: slidesList.length + 1,
+      isActive: true,
+      imageUrl: '',
+    });
+    setSlideImageFile(null);
+    setSlideImagePreview(null);
+    setIsSlideModalOpen(true);
+  };
+
+  const handleOpenEditSlideModal = (slide) => {
+    setEditingSlideId(slide._id || slide.id);
+    setSlideFormData({
+      title: slide.title || '',
+      badgeText: slide.badgeText || '',
+      badgeIcon: slide.badgeIcon || 'fa-award',
+      meta: slide.meta || '',
+      metaIcon: slide.metaIcon || 'fa-location-dot',
+      actionText: slide.actionText || 'Connect with Director',
+      modalSubject: slide.modalSubject || 'Founder Meeting',
+      order: slide.order !== undefined ? slide.order : 1,
+      isActive: slide.isActive !== false,
+      imageUrl: slide.imageUrl || '',
+    });
+    setSlideImageFile(null);
+    setSlideImagePreview(null);
+    setIsSlideModalOpen(true);
+  };
+
+  const handleSaveSlide = async (e) => {
+    e.preventDefault();
+    if (!slideFormData.title.trim()) {
+      setToastType('error');
+      setToastMsg('Please enter a slide title');
+      return;
+    }
+    if (!slideImageFile && !slideFormData.imageUrl) {
+      setToastType('error');
+      setToastMsg('Please select an image file or enter an image URL');
+      return;
+    }
+
+    setSavingSlide(true);
+    try {
+      const formData = new FormData();
+      formData.append('title', slideFormData.title.trim());
+      formData.append('badgeText', slideFormData.badgeText.trim());
+      formData.append('badgeIcon', slideFormData.badgeIcon.trim());
+      formData.append('meta', slideFormData.meta.trim());
+      formData.append('metaIcon', slideFormData.metaIcon.trim());
+      formData.append('actionText', slideFormData.actionText.trim());
+      formData.append('modalSubject', slideFormData.modalSubject.trim());
+      formData.append('order', String(slideFormData.order));
+      formData.append('isActive', String(slideFormData.isActive));
+
+      if (slideImageFile) {
+        formData.append('image', slideImageFile);
+      } else if (slideFormData.imageUrl) {
+        formData.append('imageUrl', slideFormData.imageUrl.trim());
+      }
+
+      let res;
+      if (editingSlideId) {
+        res = await apiRequest(`/admin/founder-gallery/${editingSlideId}`, {
+          method: 'PUT',
+          body: formData,
+        });
+      } else {
+        res = await apiRequest('/admin/founder-gallery', {
+          method: 'POST',
+          body: formData,
+        });
+      }
+
+      if (res && res.success) {
+        setToastType('success');
+        setToastMsg(editingSlideId ? 'Showcase slide updated successfully!' : 'New showcase slide added!');
+        setIsSlideModalOpen(false);
+        fetchSlides();
+      } else {
+        throw new Error(res.message || 'Failed to save showcase slide');
+      }
+    } catch (err) {
+      setToastType('error');
+      setToastMsg(err.message || 'Error saving slide');
+    } finally {
+      setSavingSlide(false);
+    }
+  };
+
+  const handleToggleSlideActive = async (id, currentStatus) => {
+    try {
+      const res = await apiRequest(`/admin/founder-gallery/${id}`, {
+        method: 'PUT',
+        body: JSON.stringify({ isActive: !currentStatus }),
+      });
+      if (res && res.success) {
+        setToastType('success');
+        setToastMsg(`Showcase slide ${!currentStatus ? 'activated' : 'hidden'}!`);
+        fetchSlides();
+      }
+    } catch (err) {
+      setToastType('error');
+      setToastMsg('Failed to change slide visibility');
+    }
+  };
+
+  const handleDeleteSlide = async (id) => {
+    if (!window.confirm('Are you sure you want to delete this showcase slide?')) return;
+    try {
+      const res = await apiRequest(`/admin/founder-gallery/${id}`, {
+        method: 'DELETE',
+      });
+      if (res && res.success) {
+        setToastType('success');
+        setToastMsg('Showcase slide deleted.');
+        fetchSlides();
+      }
+    } catch (err) {
+      setToastType('error');
+      setToastMsg('Failed to delete slide');
+    }
+  };
+
   const currentPhotoDisplay = imagePreview || getMediaUrl(founderImage) || '/heroman.jpeg';
 
   return (
@@ -441,7 +612,7 @@ export default function FounderAdminPage() {
             Founder Page Management
           </h1>
           <p style={{ color: '#6b7280', fontSize: '0.92rem', marginTop: '6px' }}>
-            Manage the content, services, and profile settings for <code>founder-of-nova</code>
+            Manage the content, services, and profile settings for the live Founder Portfolio (gireeshkumar.novainnovations.in)
           </p>
         </div>
 
@@ -515,6 +686,27 @@ export default function FounderAdminPage() {
           }}
         >
           <span>2. Comprehensive Services Section ({servicesList.length})</span>
+        </button>
+
+        <button
+          type="button"
+          onClick={() => setActiveTab('gallery')}
+          style={{
+            padding: '12px 20px',
+            fontSize: '0.95rem',
+            fontWeight: 700,
+            background: 'none',
+            border: 'none',
+            borderBottom: activeTab === 'gallery' ? '3px solid #dc2626' : '3px solid transparent',
+            color: activeTab === 'gallery' ? '#dc2626' : '#6b7280',
+            cursor: 'pointer',
+            transition: 'all 0.15s ease',
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '8px',
+          }}
+        >
+          <span>3. Awards & Media Showcase Carousel ({slidesList.length})</span>
         </button>
       </div>
 
@@ -1159,6 +1351,268 @@ export default function FounderAdminPage() {
       )}
 
       {/* ========================================================================= */}
+      {/* TAB 3: SHOWCASE GALLERY & AWARDS SECTION */}
+      {/* ========================================================================= */}
+      {activeTab === 'gallery' && (
+        <div>
+          {/* SECTION HEADER CARD */}
+          <div style={{ background: '#ffffff', borderRadius: '16px', border: '1px solid #e5e7eb', padding: '28px', marginBottom: '32px' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <div>
+                <span style={{ fontSize: '0.8rem', fontWeight: 700, color: '#dc2626', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                  FEATURED MEDIA & AWARDS CAROUSEL
+                </span>
+                <h3 style={{ fontSize: '1.25rem', fontWeight: 800, color: '#111827', margin: '4px 0 6px 0' }}>
+                  Founder Showcase & Milestone Slides
+                </h3>
+                <p style={{ color: '#6b7280', fontSize: '0.9rem', margin: 0 }}>
+                  Manage the high-impact photo cards, event inaugurations, and awards displayed in the swipeable showcase carousel on the Founder Portfolio.
+                </p>
+              </div>
+
+              <button
+                type="button"
+                onClick={handleOpenAddSlideModal}
+                style={{
+                  background: '#dc2626',
+                  color: '#ffffff',
+                  border: 'none',
+                  padding: '10px 20px',
+                  borderRadius: '8px',
+                  fontWeight: 700,
+                  fontSize: '0.92rem',
+                  cursor: 'pointer',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                }}
+              >
+                <span>+ Add Showcase Slide</span>
+              </button>
+            </div>
+          </div>
+
+          {/* SLIDES GRID */}
+          {loadingSlides ? (
+            <div style={{ textAlign: 'center', padding: '48px', color: '#6b7280' }}>
+              Loading founder showcase slides...
+            </div>
+          ) : slidesList.length === 0 ? (
+            <div style={{ background: '#ffffff', borderRadius: '16px', border: '1px dashed #d1d5db', padding: '48px', textAlign: 'center' }}>
+              <p style={{ color: '#6b7280', margin: '0 0 16px 0' }}>No showcase slides found. Default slides will seed automatically.</p>
+              <button
+                type="button"
+                onClick={handleOpenAddSlideModal}
+                style={{
+                  background: '#dc2626',
+                  color: '#ffffff',
+                  border: 'none',
+                  padding: '10px 20px',
+                  borderRadius: '8px',
+                  fontWeight: 700,
+                  cursor: 'pointer',
+                }}
+              >
+                + Add First Slide
+              </button>
+            </div>
+          ) : (
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(360px, 1fr))', gap: '24px' }}>
+              {slidesList.map((slide, sIdx) => {
+                const slideId = slide._id || slide.id;
+                const imgDisplay = getMediaUrl(slide.imageUrl);
+                return (
+                  <div
+                    key={slideId || sIdx}
+                    style={{
+                      background: '#ffffff',
+                      borderRadius: '16px',
+                      border: '1px solid #e5e7eb',
+                      overflow: 'hidden',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.05)',
+                    }}
+                  >
+                    {/* Slide Image Preview with Gradient and Badge */}
+                    <div style={{ position: 'relative', width: '100%', height: '210px', background: '#111827' }}>
+                      <img
+                        src={imgDisplay}
+                        alt={slide.title}
+                        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                        onError={(e) => {
+                          e.target.onerror = null;
+                          e.target.src = '/assets/founder_gireesh.jpg';
+                        }}
+                      />
+                      <div
+                        style={{
+                          position: 'absolute',
+                          top: '12px',
+                          left: '12px',
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '6px',
+                          background: 'rgba(220, 38, 38, 0.95)',
+                          color: '#ffffff',
+                          padding: '4px 10px',
+                          borderRadius: '6px',
+                          fontSize: '0.75rem',
+                          fontWeight: 700,
+                          textTransform: 'uppercase',
+                          letterSpacing: '0.04em',
+                        }}
+                      >
+                        <i className={`fa-solid ${slide.badgeIcon || 'fa-award'}`}></i>
+                        <span>{slide.badgeText || 'Milestone'}</span>
+                      </div>
+                      <div
+                        style={{
+                          position: 'absolute',
+                          top: '12px',
+                          right: '12px',
+                          background: 'rgba(0, 0, 0, 0.75)',
+                          color: '#ffffff',
+                          padding: '3px 8px',
+                          borderRadius: '6px',
+                          fontSize: '0.75rem',
+                          fontWeight: 700,
+                          fontFamily: 'monospace',
+                        }}
+                      >
+                        Order #{slide.order || sIdx + 1}
+                      </div>
+                      <div
+                        style={{
+                          position: 'absolute',
+                          bottom: '10px',
+                          right: '12px',
+                        }}
+                      >
+                        <span
+                          style={{
+                            background: slide.isActive !== false ? '#dcfce7' : '#f3f4f6',
+                            color: slide.isActive !== false ? '#15803d' : '#6b7280',
+                            padding: '3px 8px',
+                            borderRadius: '9999px',
+                            fontSize: '0.72rem',
+                            fontWeight: 700,
+                          }}
+                        >
+                          {slide.isActive !== false ? '● ACTIVE' : '○ HIDDEN'}
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Card Body */}
+                    <div style={{ padding: '20px', flex: 1, display: 'flex', flexDirection: 'column' }}>
+                      <h4
+                        style={{
+                          fontSize: '1.05rem',
+                          fontWeight: 800,
+                          color: '#111827',
+                          margin: '0 0 8px 0',
+                          lineHeight: 1.3,
+                        }}
+                      >
+                        {slide.title}
+                      </h4>
+
+                      <p
+                        style={{
+                          color: '#6b7280',
+                          fontSize: '0.85rem',
+                          lineHeight: 1.5,
+                          margin: '0 0 16px 0',
+                          flex: 1,
+                        }}
+                      >
+                        {slide.meta || 'No description provided'}
+                      </p>
+
+                      <div
+                        style={{
+                          background: '#f9fafb',
+                          padding: '8px 12px',
+                          borderRadius: '8px',
+                          fontSize: '0.8rem',
+                          color: '#4b5563',
+                          marginBottom: '16px',
+                          display: 'flex',
+                          justifyContent: 'space-between',
+                          alignItems: 'center',
+                        }}
+                      >
+                        <span>
+                          <strong>Button:</strong> {slide.actionText || 'Connect'}
+                        </span>
+                        <span>
+                          <strong>Modal:</strong> {slide.modalSubject || 'Inquiry'}
+                        </span>
+                      </div>
+
+                      {/* Card Actions */}
+                      <div style={{ display: 'flex', gap: '8px', borderTop: '1px solid #f3f4f6', paddingTop: '16px' }}>
+                        <button
+                          type="button"
+                          onClick={() => handleOpenEditSlideModal(slide)}
+                          style={{
+                            flex: 1,
+                            background: '#f3f4f6',
+                            border: '1px solid #d1d5db',
+                            color: '#111827',
+                            padding: '8px 12px',
+                            borderRadius: '6px',
+                            fontSize: '0.82rem',
+                            fontWeight: 600,
+                            cursor: 'pointer',
+                          }}
+                        >
+                          Edit
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => handleToggleSlideActive(slideId, slide.isActive !== false)}
+                          style={{
+                            background: '#ffffff',
+                            border: '1px solid #e5e7eb',
+                            color: slide.isActive !== false ? '#6b7280' : '#15803d',
+                            padding: '8px 12px',
+                            borderRadius: '6px',
+                            fontSize: '0.82rem',
+                            fontWeight: 600,
+                            cursor: 'pointer',
+                          }}
+                        >
+                          {slide.isActive !== false ? 'Hide' : 'Show'}
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => handleDeleteSlide(slideId)}
+                          style={{
+                            background: '#fee2e2',
+                            border: '1px solid #fecaca',
+                            color: '#dc2626',
+                            padding: '8px 12px',
+                            borderRadius: '6px',
+                            fontSize: '0.82rem',
+                            fontWeight: 600,
+                            cursor: 'pointer',
+                          }}
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* ========================================================================= */}
       {/* SERVICE EDIT / CREATE MODAL */}
       {/* ========================================================================= */}
       <Modal
@@ -1330,6 +1784,315 @@ export default function FounderAdminPage() {
               }}
             >
               {savingServiceItem ? 'Saving Card...' : 'Save Service Card'}
+            </button>
+          </div>
+        </form>
+      </Modal>
+
+      {/* ========================================================================= */}
+      {/* FOUNDER SHOWCASE SLIDE MODAL */}
+      {/* ========================================================================= */}
+      <Modal
+        isOpen={isSlideModalOpen}
+        onClose={() => setIsSlideModalOpen(false)}
+        title={editingSlideId ? 'Edit Showcase Slide & Award' : 'Add New Showcase Slide & Award'}
+      >
+        <form onSubmit={handleSaveSlide}>
+          {/* Image Upload / Preview */}
+          <div style={{ marginBottom: '18px' }}>
+            <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 700, color: '#374151', marginBottom: '6px' }}>
+              Slide Photograph * (WebP/JPEG/PNG — High Resolution)
+            </label>
+            <div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
+              <div
+                style={{
+                  width: '120px',
+                  height: '80px',
+                  borderRadius: '8px',
+                  overflow: 'hidden',
+                  background: '#111827',
+                  border: '1px solid #e5e7eb',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  flexShrink: 0,
+                }}
+              >
+                {slideImagePreview || slideFormData.imageUrl ? (
+                  <img
+                    src={slideImagePreview || getMediaUrl(slideFormData.imageUrl)}
+                    alt="Preview"
+                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                    onError={(e) => {
+                      e.target.onerror = null;
+                      e.target.src = '/assets/founder_gireesh.jpg';
+                    }}
+                  />
+                ) : (
+                  <span style={{ color: '#9ca3af', fontSize: '0.75rem' }}>No image</span>
+                )}
+              </div>
+
+              <div style={{ flex: 1 }}>
+                <input
+                  type="file"
+                  accept="image/jpeg,image/png,image/webp"
+                  ref={slideFileInputRef}
+                  onChange={(e) => {
+                    const file = e.target.files && e.target.files[0];
+                    if (file) {
+                      setSlideImageFile(file);
+                      setSlideImagePreview(URL.createObjectURL(file));
+                    }
+                  }}
+                  style={{ display: 'none' }}
+                />
+                <button
+                  type="button"
+                  onClick={() => slideFileInputRef.current && slideFileInputRef.current.click()}
+                  style={{
+                    background: '#f3f4f6',
+                    border: '1px solid #d1d5db',
+                    color: '#374151',
+                    padding: '8px 14px',
+                    borderRadius: '6px',
+                    fontSize: '0.85rem',
+                    fontWeight: 600,
+                    cursor: 'pointer',
+                    marginRight: '8px',
+                  }}
+                >
+                  Choose New Photo
+                </button>
+                {slideImageFile && (
+                  <span style={{ fontSize: '0.8rem', color: '#15803d', fontWeight: 600 }}>
+                    {slideImageFile.name}
+                  </span>
+                )}
+              </div>
+            </div>
+            <div style={{ marginTop: '8px' }}>
+              <input
+                type="text"
+                placeholder="Or paste image URL (e.g. /assets/founder_retail.jpg or /uploads/founder/...)"
+                value={slideFormData.imageUrl}
+                onChange={(e) => setSlideFormData({ ...slideFormData, imageUrl: e.target.value })}
+                style={{
+                  width: '100%',
+                  padding: '8px 12px',
+                  borderRadius: '6px',
+                  border: '1px solid #e5e7eb',
+                  fontSize: '0.82rem',
+                }}
+              />
+            </div>
+          </div>
+
+          <div style={{ marginBottom: '16px' }}>
+            <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 700, color: '#374151', marginBottom: '6px' }}>
+              Slide Headline / Milestone Title *
+            </label>
+            <input
+              type="text"
+              value={slideFormData.title}
+              onChange={(e) => setSlideFormData({ ...slideFormData, title: e.target.value })}
+              placeholder="e.g. Retail Facade & 3D LED Display Unveiling"
+              required
+              style={{
+                width: '100%',
+                padding: '10px 14px',
+                borderRadius: '8px',
+                border: '1px solid #d1d5db',
+                fontSize: '0.92rem',
+                outline: 'none',
+              }}
+            />
+          </div>
+
+          <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: '16px', marginBottom: '16px' }}>
+            <div>
+              <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 700, color: '#374151', marginBottom: '6px' }}>
+                Badge Text (Category Pill)
+              </label>
+              <input
+                type="text"
+                value={slideFormData.badgeText}
+                onChange={(e) => setSlideFormData({ ...slideFormData, badgeText: e.target.value })}
+                placeholder="e.g. Retail Unveiling, Keynote, Award"
+                style={{
+                  width: '100%',
+                  padding: '10px 14px',
+                  borderRadius: '8px',
+                  border: '1px solid #d1d5db',
+                  fontSize: '0.92rem',
+                  outline: 'none',
+                }}
+              />
+            </div>
+            <div>
+              <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 700, color: '#374151', marginBottom: '6px' }}>
+                Badge Icon Class
+              </label>
+              <select
+                value={slideFormData.badgeIcon}
+                onChange={(e) => setSlideFormData({ ...slideFormData, badgeIcon: e.target.value })}
+                style={{
+                  width: '100%',
+                  padding: '10px 14px',
+                  borderRadius: '8px',
+                  border: '1px solid #d1d5db',
+                  fontSize: '0.92rem',
+                  outline: 'none',
+                  background: '#ffffff',
+                }}
+              >
+                <option value="fa-award">Award (fa-award)</option>
+                <option value="fa-trophy">Trophy (fa-trophy)</option>
+                <option value="fa-user-tie">Executive (fa-user-tie)</option>
+                <option value="fa-store">Retail / Shop (fa-store)</option>
+                <option value="fa-bus">Transit / Bus (fa-bus)</option>
+                <option value="fa-bolt">Inspection / Bolt (fa-bolt)</option>
+                <option value="fa-microphone">Keynote / Mic (fa-microphone)</option>
+                <option value="fa-wand-magic-sparkles">Studio (fa-wand-magic-sparkles)</option>
+                <option value="fa-wrench">Execution (fa-wrench)</option>
+                <option value="fa-star">Star (fa-star)</option>
+              </select>
+            </div>
+          </div>
+
+          <div style={{ marginBottom: '16px' }}>
+            <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 700, color: '#374151', marginBottom: '6px' }}>
+              Location / Event Meta Description
+            </label>
+            <input
+              type="text"
+              value={slideFormData.meta}
+              onChange={(e) => setSlideFormData({ ...slideFormData, meta: e.target.value })}
+              placeholder="e.g. Highway Commercial Hub • Gireesh Kumar S at Architectural Facade Opening"
+              style={{
+                width: '100%',
+                padding: '10px 14px',
+                borderRadius: '8px',
+                border: '1px solid #d1d5db',
+                fontSize: '0.92rem',
+                outline: 'none',
+              }}
+            />
+          </div>
+
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '16px' }}>
+            <div>
+              <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 700, color: '#374151', marginBottom: '6px' }}>
+                Action Button Text
+              </label>
+              <input
+                type="text"
+                value={slideFormData.actionText}
+                onChange={(e) => setSlideFormData({ ...slideFormData, actionText: e.target.value })}
+                placeholder="e.g. Inquire Branding"
+                style={{
+                  width: '100%',
+                  padding: '10px 14px',
+                  borderRadius: '8px',
+                  border: '1px solid #d1d5db',
+                  fontSize: '0.92rem',
+                  outline: 'none',
+                }}
+              />
+            </div>
+            <div>
+              <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 700, color: '#374151', marginBottom: '6px' }}>
+                Booking Modal Subject
+              </label>
+              <input
+                type="text"
+                value={slideFormData.modalSubject}
+                onChange={(e) => setSlideFormData({ ...slideFormData, modalSubject: e.target.value })}
+                placeholder="e.g. Retail Facade"
+                style={{
+                  width: '100%',
+                  padding: '10px 14px',
+                  borderRadius: '8px',
+                  border: '1px solid #d1d5db',
+                  fontSize: '0.92rem',
+                  outline: 'none',
+                }}
+              />
+            </div>
+          </div>
+
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '24px' }}>
+            <div>
+              <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 700, color: '#374151', marginBottom: '6px' }}>
+                Sequence Order (Sort)
+              </label>
+              <input
+                type="number"
+                value={slideFormData.order}
+                onChange={(e) => setSlideFormData({ ...slideFormData, order: Number(e.target.value) })}
+                style={{
+                  width: '100%',
+                  padding: '10px 14px',
+                  borderRadius: '8px',
+                  border: '1px solid #d1d5db',
+                  fontSize: '0.92rem',
+                  outline: 'none',
+                }}
+              />
+            </div>
+            <div>
+              <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 700, color: '#374151', marginBottom: '6px' }}>
+                Visibility Status
+              </label>
+              <select
+                value={slideFormData.isActive ? 'true' : 'false'}
+                onChange={(e) => setSlideFormData({ ...slideFormData, isActive: e.target.value === 'true' })}
+                style={{
+                  width: '100%',
+                  padding: '10px 14px',
+                  borderRadius: '8px',
+                  border: '1px solid #d1d5db',
+                  fontSize: '0.92rem',
+                  outline: 'none',
+                  background: '#ffffff',
+                }}
+              >
+                <option value="true">Active (Visible in Carousel)</option>
+                <option value="false">Hidden (Draft mode)</option>
+              </select>
+            </div>
+          </div>
+
+          <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '12px' }}>
+            <button
+              type="button"
+              onClick={() => setIsSlideModalOpen(false)}
+              style={{
+                background: '#f3f4f6',
+                border: '1px solid #d1d5db',
+                color: '#374151',
+                padding: '10px 18px',
+                borderRadius: '8px',
+                fontWeight: 600,
+                cursor: 'pointer',
+              }}
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              disabled={savingSlide}
+              style={{
+                background: '#dc2626',
+                color: '#ffffff',
+                border: 'none',
+                padding: '10px 22px',
+                borderRadius: '8px',
+                fontWeight: 700,
+                cursor: savingSlide ? 'not-allowed' : 'pointer',
+              }}
+            >
+              {savingSlide ? 'Saving Slide...' : 'Save Showcase Slide'}
             </button>
           </div>
         </form>
