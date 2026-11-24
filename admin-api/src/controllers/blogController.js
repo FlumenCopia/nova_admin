@@ -142,7 +142,7 @@ const getPublicBlogs = async (req, res) => {
       ];
     }
 
-    const pageSize = Math.min(Math.max(parseInt(limit, 10) || 20, 1), 50);
+    const pageSize = Math.min(Math.max(parseInt(limit, 10) || 20, 1), 100);
     const currentPage = Math.max(parseInt(page, 10) || 1, 1);
     const skip = (currentPage - 1) * pageSize;
 

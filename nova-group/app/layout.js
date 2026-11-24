@@ -9,24 +9,25 @@ export const viewport = {
 
 export const metadata = {
   title: {
-    default: 'NOVA Innovations | A-to-Z Billboard, Hoarding & Vehicle Advertising Kerala & TVM',
-    template: '%s | NOVA Innovations',
+    default: 'Best Billboard Advertising Companies in TVM | Outdoor Hoardings Kerala - NOVA Innovations',
+    template: '%s | Best Billboard Advertising Company in TVM - NOVA Innovations',
   },
   description:
-    "Kerala's premier turnkey outdoor advertising agency headquartered in Trivandrum (TVM). We plan, host, design, print, physically place, and maintain 500+ prime billboards, highway hoardings on NH 66, and KSRTC bus fleet wraps from A to Z across all 14 districts.",
+    "NOVA Innovations is rated among the best billboard advertising companies in TVM & across Kerala. 27+ years of turnkey excellence, 500+ prime highway hoardings on NH 66, Kazhakkoottam Technopark bypass unipoles, Kowdiar, MG Road, and statewide KSRTC bus fleet branding.",
   keywords: [
-    'turnkey outdoor advertising agency kerala',
-    'billboard advertising trivandrum',
-    'billboard advertising kerala',
+    'best billboard advertising companies in tvm',
+    'best billboard advertising company in tvm',
+    'billboard advertising in trivandrum',
     'hoarding advertising tvm',
-    'vehicle advertising kerala',
+    'outdoor advertising companies in thiruvananthapuram',
+    'top billboard advertising agency kerala',
+    'hoarding rates in trivandrum',
+    'kazhakkoottam technopark billboard advertising',
+    'kowdiar billboard advertising tvm',
+    'mg road trivandrum hoardings',
+    'highway unipoles nh 66 kerala',
     'ksrtc bus branding agency kerala',
-    'outdoor hoardings placement and maintenance',
-    'unipole advertising kerala',
-    'a to z physical advertising kerala',
-    'ooh media planning and hosting tvm',
-    'commercial wall painting kerala',
-    '3d led signboard branding trivandrum',
+    'turnkey outdoor advertising agency kerala',
     'nova innovations',
   ],
   metadataBase: new URL('https://novainnovations.in'),
@@ -75,89 +76,132 @@ export const metadata = {
 
 const schemaData = {
   '@context': 'https://schema.org',
-  '@type': 'AdvertisingAgency',
-  name: 'NOVA Innovations',
-  alternateName: ['Nova Advertising Kerala', 'Nova Innovations OOH', 'Nova Media Trivandrum'],
-  url: 'https://novainnovations.in',
-  logo: 'https://novainnovations.in/icon-512.png',
-  image: 'https://novainnovations.in/mainhero1.png',
-  description:
-    "Kerala's premier turnkey outdoor advertising agency headquartered in Trivandrum. We provide full A-to-Z services: Strategic Media Planning, Site Space Hosting, Creative Design Studio, In-House Industrial Flex/Vinyl Printing, Physical Overnight Crane Placement, and 24/7 Illumination & Structural Maintenance for 500+ highway hoardings, unipoles, and KSRTC bus fleet wraps across all 14 districts of Kerala.",
-  telephone: '+919539000640',
-  email: 'novainnovations2020@gmail.com',
-  address: {
-    '@type': 'PostalAddress',
-    streetAddress: 'T.C. 29/314, S J Tower, M P Appan Road, Vazhuthacaud - Poojappura Rd, Thycaud',
-    addressLocality: 'Thiruvananthapuram',
-    addressRegion: 'Kerala',
-    postalCode: '695014',
-    addressCountry: 'IN',
-  },
-  geo: {
-    '@type': 'GeoCoordinates',
-    latitude: 8.4988,
-    longitude: 76.9616,
-  },
-  areaServed: [
-    { '@type': 'AdministrativeArea', name: 'Kerala' },
-    { '@type': 'City', name: 'Thiruvananthapuram (TVM)' },
-    { '@type': 'Place', name: 'Kazhakkoottam Technopark Bypass' },
-    { '@type': 'Place', name: 'Kowdiar & MG Road Trivandrum' },
-    { '@type': 'Place', name: 'NH 66 Highway Corridor Kerala' },
-    { '@type': 'City', name: 'Kochi' },
-    { '@type': 'City', name: 'Kozhikode' },
-    { '@type': 'City', name: 'Kollam' },
-    { '@type': 'City', name: 'Palakkad' },
-    { '@type': 'City', name: 'Thrissur' },
-    { '@type': 'City', name: 'Alappuzha' },
-    { '@type': 'City', name: 'Kottayam' },
-    { '@type': 'City', name: 'Kannur' },
-  ],
-  hasOfferCatalog: {
-    '@type': 'OfferCatalog',
-    name: 'Turnkey A-to-Z Outdoor & Physical Advertising Services',
-    itemListElement: [
-      {
-        '@type': 'Offer',
-        itemOffered: {
-          '@type': 'Service',
-          name: 'Prime Highway Billboard & Hoarding Placement & Hosting',
-          description: 'Hosting, physical placement, spot illumination, and 24/7 maintenance of 500+ prime highway billboards and unipoles across Kerala & TVM.',
-        },
-      },
-      {
-        '@type': 'Offer',
-        itemOffered: {
-          '@type': 'Service',
-          name: 'KSRTC Bus Fleet & Commercial Vehicle Advertising',
-          description: 'Official KSRTC bus full wraps, auto hood branding, and mobile LED publicity vans operating across all 14 Kerala districts.',
-        },
-      },
-      {
-        '@type': 'Offer',
-        itemOffered: {
-          '@type': 'Service',
-          name: 'Turnkey A-to-Z Campaign Planning & Overnight Execution',
-          description: 'End-to-end campaign lifecycle: audience analytics, location scouting, artwork design, large-format printing, overnight crane mounting, and 24/7 site warranty.',
-        },
-      },
-      {
-        '@type': 'Offer',
-        itemOffered: {
-          '@type': 'Service',
-          name: 'Retail Storefront 3D LED Signages & ACP Facades',
-          description: 'Design, fabrication, and structural placement of 3D acrylic channel letters, glow signboards, and dealer network branding across Kerala.',
-        },
-      },
-    ],
-  },
-  priceRange: '₹₹',
-  openingHoursSpecification: [
+  '@graph': [
     {
-      '@type': 'OpeningHoursSpecification',
-      dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
-      opens: '09:00',
-      closes: '20:00',
+      '@type': ['AdvertisingAgency', 'LocalBusiness'],
+      '@id': 'https://novainnovations.in/#organization',
+      name: 'NOVA Innovations',
+      alternateName: ['Nova Advertising Kerala', 'Nova Innovations OOH', 'Nova Media Trivandrum', 'Best Billboard Advertising Company in TVM'],
+      url: 'https://novainnovations.in',
+      logo: 'https://novainnovations.in/icon-512.png',
+      image: 'https://novainnovations.in/mainhero1.png',
+      description:
+        "Recognized among the best billboard advertising companies in TVM & across Kerala. 27+ years of turnkey excellence, managing 500+ prime highway hoardings, Kazhakkoottam Technopark bypass unipoles, Kowdiar Avenue, MG Road, and statewide KSRTC bus fleet wraps with 100% legal clearance and 24/7 illumination maintenance.",
+      telephone: '+919539000640',
+      email: 'novainnovations2020@gmail.com',
+      address: {
+        '@type': 'PostalAddress',
+        streetAddress: 'T.C. 29/314, S J Tower, M P Appan Road, Vazhuthacaud - Poojappura Rd, Thycaud',
+        addressLocality: 'Thiruvananthapuram',
+        addressRegion: 'Kerala',
+        postalCode: '695014',
+        addressCountry: 'IN',
+      },
+      geo: {
+        '@type': 'GeoCoordinates',
+        latitude: 8.4988,
+        longitude: 76.9616,
+      },
+      areaServed: [
+        { '@type': 'AdministrativeArea', name: 'Kerala' },
+        { '@type': 'City', name: 'Thiruvananthapuram (TVM)' },
+        { '@type': 'Place', name: 'Kazhakkoottam Technopark Bypass' },
+        { '@type': 'Place', name: 'Kowdiar & MG Road Trivandrum' },
+        { '@type': 'Place', name: 'NH 66 Highway Corridor Kerala' },
+        { '@type': 'City', name: 'Kochi' },
+        { '@type': 'City', name: 'Kozhikode' },
+        { '@type': 'City', name: 'Kollam' },
+        { '@type': 'City', name: 'Palakkad' },
+        { '@type': 'City', name: 'Thrissur' },
+        { '@type': 'City', name: 'Alappuzha' },
+        { '@type': 'City', name: 'Kottayam' },
+        { '@type': 'City', name: 'Kannur' },
+      ],
+      hasOfferCatalog: {
+        '@type': 'OfferCatalog',
+        name: 'Turnkey A-to-Z Outdoor & Physical Advertising Services',
+        itemListElement: [
+          {
+            '@type': 'Offer',
+            itemOffered: {
+              '@type': 'Service',
+              name: 'Prime Highway Billboard & Hoarding Placement & Hosting',
+              description: 'Hosting, physical placement, spot illumination, and 24/7 maintenance of 500+ prime highway billboards and unipoles across Kerala & TVM.',
+            },
+          },
+          {
+            '@type': 'Offer',
+            itemOffered: {
+              '@type': 'Service',
+              name: 'KSRTC Bus Fleet & Commercial Vehicle Advertising',
+              description: 'Official KSRTC bus full wraps, auto hood branding, and mobile LED publicity vans operating across all 14 Kerala districts.',
+            },
+          },
+          {
+            '@type': 'Offer',
+            itemOffered: {
+              '@type': 'Service',
+              name: 'Turnkey A-to-Z Campaign Planning & Overnight Execution',
+              description: 'End-to-end campaign lifecycle: audience analytics, location scouting, artwork design, large-format printing, overnight crane mounting, and 24/7 site warranty.',
+            },
+          },
+          {
+            '@type': 'Offer',
+            itemOffered: {
+              '@type': 'Service',
+              name: 'Retail Storefront 3D LED Signages & ACP Facades',
+              description: 'Design, fabrication, and structural placement of 3D acrylic channel letters, glow signboards, and dealer network branding across Kerala.',
+            },
+          },
+        ],
+      },
+      priceRange: '₹₹',
+      openingHoursSpecification: [
+        {
+          '@type': 'OpeningHoursSpecification',
+          dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+          opens: '09:00',
+          closes: '20:00',
+        },
+      ],
+    },
+    {
+      '@type': 'FAQPage',
+      '@id': 'https://novainnovations.in/#faq',
+      mainEntity: [
+        {
+          '@type': 'Question',
+          name: 'Which is the best billboard advertising company in TVM (Thiruvananthapuram)?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'NOVA Innovations is recognized as the best billboard advertising company in TVM (Thiruvananthapuram) and across Kerala. Headquartered at Vazhuthacaud with 27+ years of leadership, NOVA Innovations directly operates 500+ prime hoarding sites, highway unipoles on the Kazhakkoottam Technopark Bypass, Kowdiar, and MG Road, and provides full turnkey A-to-Z services with overnight mounting capability.',
+          },
+        },
+        {
+          '@type': 'Question',
+          name: 'What are the prime billboard and hoarding advertising locations in Trivandrum (TVM)?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'Prime billboard locations in TVM include Kazhakkoottam Technopark Bypass (NH 66), Kowdiar Avenue, Vellayambalam Junction, MG Road (Palayam, Statue, Overbridge), Pattom, Enchakkal Lulu Mall bypass, and Thampanoor Central Railway Station. All hoardings feature municipal approvals and high-lumen night illumination.',
+          },
+        },
+        {
+          '@type': 'Question',
+          name: 'What is the cost of renting a billboard or hoarding in Trivandrum?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'Hoarding costs in Trivandrum vary by location tier and dimension. Prime junctions like Kazhakkoottam Bypass or Kowdiar range from ₹1,20,000 to ₹2,50,000 per month, commercial arteries like Pattom and Vellayambalam range from ₹60,000 to ₹1,20,000 per month, and suburban feeder roads range from ₹30,000 to ₹60,000 per month, inclusive of mounting and structural warranty.',
+          },
+        },
+        {
+          '@type': 'Question',
+          name: 'Does Nova Innovations offer statewide outdoor advertising across all 14 districts in Kerala?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'Yes. NOVA Innovations manages an interconnected network of 500+ prime hoardings across all 14 districts of Kerala—including Trivandrum, Kochi (Ernakulam), Kozhikode (Calicut), Kollam, Thrissur, and Palakkad—with specialized overnight synchronized rollout capability.',
+          },
+        },
+      ],
     },
   ],
 };

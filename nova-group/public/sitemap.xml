@@ -1,10 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://novainnovations.in/</loc>
+    <loc>https://novainnovations.in</loc>
     <lastmod>2026-11-24</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://novainnovations.in/about</loc>
+    <lastmod>2026-11-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
   </url>
   <url>
     <loc>https://novainnovations.in/services</loc>
@@ -13,52 +19,291 @@
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://novainnovations.in/gallery</loc>
+    <loc>https://novainnovations.in/portfolio</loc>
     <lastmod>2026-11-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://gireeshkumar.novainnovations.in/</loc>
-    <lastmod>2026-11-24</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://novainnovations.in/about</loc>
-    <lastmod>2026-11-24</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://novainnovations.in/contact</loc>
     <lastmod>2026-11-24</lastmod>
-    <changefreq>weekly</changefreq>
+    <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://novainnovations.in/blog</loc>
     <lastmod>2026-11-24</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
   </url>
   <url>
     <loc>https://novainnovations.in/blog/kerala-outdoor-advertising-guide-2026</loc>
     <lastmod>2026-11-24</lastmod>
-    <changefreq>monthly</changefreq>
+    <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://novainnovations.in/blog/highway-billboards-vs-transit-advertising-roi-kerala</loc>
     <lastmod>2026-11-24</lastmod>
-    <changefreq>monthly</changefreq>
+    <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://novainnovations.in/blog/evolution-dooh-3d-billboards-kochi-trivandrum</loc>
     <lastmod>2026-11-24</lastmod>
-    <changefreq>monthly</changefreq>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://novainnovations.in/blog/best-billboard-advertising-companies-in-tvm</loc>
+    <lastmod>2026-11-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://novainnovations.in/blog/billboard-advertising-in-trivandrum</loc>
+    <lastmod>2026-11-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://novainnovations.in/blog/hoarding-advertising-kazhakkoottam-technopark-bypass</loc>
+    <lastmod>2026-11-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://novainnovations.in/blog/kowdiar-vellayambalam-premium-billboards-trivandrum</loc>
+    <lastmod>2026-11-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://novainnovations.in/blog/mg-road-trivandrum-hoardings-palayam-statue-overbridge</loc>
+    <lastmod>2026-11-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://novainnovations.in/blog/east-fort-thampanoor-transit-billboards-tvm</loc>
+    <lastmod>2026-11-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://novainnovations.in/blog/pattom-kesavadasapuram-commercial-billboard-corridor</loc>
+    <lastmod>2026-11-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://novainnovations.in/blog/enchakkal-bypass-lulu-mall-trivandrum-hoarding-sites</loc>
+    <lastmod>2026-11-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://novainnovations.in/blog/vizhinjam-port-expressway-outdoor-advertising-boom</loc>
+    <lastmod>2026-11-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://novainnovations.in/blog/peroorkada-nedumangad-corridor-billboard-advertising</loc>
+    <lastmod>2026-11-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://novainnovations.in/blog/top-10-billboard-locations-in-thiruvananthapuram</loc>
+    <lastmod>2026-11-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://novainnovations.in/blog/why-nova-innovations-is-best-billboard-agency-tvm</loc>
+    <lastmod>2026-11-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://novainnovations.in/blog/nh-66-expressway-6-lane-billboard-advertising-kerala</loc>
+    <lastmod>2026-11-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://novainnovations.in/blog/kochi-ernakulam-billboard-advertising-prime-locations</loc>
+    <lastmod>2026-11-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://novainnovations.in/blog/calicut-kozhikode-ooh-advertising-mavoor-road-bypass</loc>
+    <lastmod>2026-11-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://novainnovations.in/blog/kollam-billboard-advertising-chinnakada-parippally-nh66</loc>
+    <lastmod>2026-11-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://novainnovations.in/blog/thrissur-cultural-capital-billboards-swaraj-round</loc>
+    <lastmod>2026-11-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://novainnovations.in/blog/kottayam-alappuzha-palakkad-central-kerala-hoarding-network</loc>
+    <lastmod>2026-11-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://novainnovations.in/blog/malabar-outdoor-advertising-kannur-malappuram-kasaragod</loc>
+    <lastmod>2026-11-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://novainnovations.in/blog/multi-district-simultaneous-hoarding-campaigns-kerala</loc>
+    <lastmod>2026-11-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://novainnovations.in/blog/kerala-monsoon-weatherproofing-billboard-structural-safety</loc>
+    <lastmod>2026-11-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://novainnovations.in/blog/airport-road-aviation-outdoor-advertising-kerala</loc>
+    <lastmod>2026-11-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://novainnovations.in/blog/billboard-advertising-rates-in-trivandrum-2026-guide</loc>
+    <lastmod>2026-11-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://novainnovations.in/blog/hoarding-costs-across-kerala-cities-price-comparison</loc>
+    <lastmod>2026-11-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://novainnovations.in/blog/thiruvananthapuram-corporation-billboard-permits-rules</loc>
+    <lastmod>2026-11-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://novainnovations.in/blog/kmbr-kerala-municipality-building-rules-for-hoardings</loc>
+    <lastmod>2026-11-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://novainnovations.in/blog/calculating-ooh-roi-footfall-brand-recall-metrics-kerala</loc>
+    <lastmod>2026-11-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://novainnovations.in/blog/cpm-cost-per-thousand-ooh-vs-digital-ads-kerala</loc>
+    <lastmod>2026-11-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://novainnovations.in/blog/seasonal-billboard-buying-onam-vishu-wedding-media-planning</loc>
+    <lastmod>2026-11-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://novainnovations.in/blog/ksrtc-bus-wrap-advertising-kerala-cost-routes</loc>
+    <lastmod>2026-11-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://novainnovations.in/blog/city-bus-branding-trivandrum-kochi-commuter-reach</loc>
+    <lastmod>2026-11-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://novainnovations.in/blog/mobile-led-display-vans-kerala-campaign-strategies</loc>
+    <lastmod>2026-11-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://novainnovations.in/blog/auto-rickshaw-branding-hyperlocal-marketing-kerala</loc>
+    <lastmod>2026-11-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://novainnovations.in/blog/railway-station-cantilever-gantry-advertising-kerala</loc>
+    <lastmod>2026-11-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://novainnovations.in/blog/transit-vs-static-billboards-70-30-hybrid-strategy</loc>
+    <lastmod>2026-11-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://novainnovations.in/blog/rise-of-dooh-anamorphic-3d-screens-kerala</loc>
+    <lastmod>2026-11-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://novainnovations.in/blog/digital-billboards-trivandrum-high-lumen-led-screens</loc>
+    <lastmod>2026-11-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://novainnovations.in/blog/day-parting-programmatic-dooh-kerala-retailers</loc>
+    <lastmod>2026-11-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://novainnovations.in/blog/commercial-retail-signage-acp-glow-signs-kerala</loc>
+    <lastmod>2026-11-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://novainnovations.in/blog/event-stage-fabrication-brand-activations-tvm</loc>
+    <lastmod>2026-11-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://novainnovations.in/blog/eco-friendly-billboard-materials-non-pvc-flex-kerala</loc>
+    <lastmod>2026-11-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://novainnovations.in/blog/future-of-outdoor-advertising-kerala-ai-geofencing</loc>
+    <lastmod>2026-11-24</lastmod>
+    <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
 </urlset>
-

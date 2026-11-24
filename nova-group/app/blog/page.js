@@ -16,7 +16,7 @@ export default function BlogListingPage() {
     async function loadBlogs() {
       setLoading(true);
       try {
-        const res = await fetchApi('/public/blogs?limit=50');
+        const res = await fetchApi('/public/blogs?limit=100');
         if (res && res.success && Array.isArray(res.data)) {
           setBlogs(res.data);
           if (Array.isArray(res.categories) && res.categories.length > 0) {

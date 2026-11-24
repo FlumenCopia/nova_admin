@@ -37,3 +37,5 @@ backup/
 scratch/
 hostinger-package/
 *.zip
+__pycache__/
+*.pyc
