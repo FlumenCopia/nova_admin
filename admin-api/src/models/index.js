@@ -5,6 +5,7 @@ const ClientLogo = require('./ClientLogo');
 const Service = require('./Service');
 const SiteSettings = require('./SiteSettings');
 const FounderSlide = require('./FounderSlide');
+const BlogPost = require('./BlogPost');
 
 module.exports = {
   Admin,
@@ -14,4 +15,5 @@ module.exports = {
   Service,
   SiteSettings,
   FounderSlide,
+  BlogPost,
 };

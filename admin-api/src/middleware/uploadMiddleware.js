@@ -237,6 +237,33 @@ const processFounderSlideImage = async (req, res, next) => {
   }
 };
 
+// Middleware to process Blog Cover image with Sharp
+const processBlogCoverImage = async (req, res, next) => {
+  if (!req.file) return next();
+
+  try {
+    const filename = `blog-${Date.now()}-${Math.round(Math.random() * 1e9)}.webp`;
+    const targetFolder = path.join(__dirname, '../../uploads/blog');
+
+    if (!fs.existsSync(targetFolder)) {
+      fs.mkdirSync(targetFolder, { recursive: true });
+    }
+
+    const outputPath = path.join(targetFolder, filename);
+
+    await sharp(req.file.buffer, { limitInputPixels: 40000000 })
+      .resize(1600, 900, { fit: 'cover', position: 'center' })
+      .webp({ quality: 85 })
+      .toFile(outputPath);
+
+    req.processedImageUrl = `/uploads/blog/${filename}`;
+    next();
+  } catch (error) {
+    console.error('Sharp blog image processing error:', error);
+    return res.status(400).json({ success: false, message: 'Failed to process blog cover image.' });
+  }
+};
+
 module.exports = {
   uploadSingle: upload.single('image'),
   galleryUploadMultiple,
@@ -245,4 +272,5 @@ module.exports = {
   processClientLogoImage,
   processBannerImage,
   processFounderSlideImage,
+  processBlogCoverImage,
 };

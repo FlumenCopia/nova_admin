@@ -38,6 +38,7 @@ export default function Header({ onOpenModal, onToggleMobile, isMobileOpen }) {
     { href: '/about', label: 'About Us' },
     { href: '/services', label: 'Services', hasDropdown: true },
     { href: '/gallery', label: 'Campaign Gallery' },
+    { href: '/blog', label: 'Blog' },
     { href: 'https://gireeshkumar.novainnovations.in', label: 'Founder Profile', isExternal: true },
     { href: '/contact', label: 'Contact' },
   ];

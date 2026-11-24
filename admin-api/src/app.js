@@ -12,6 +12,7 @@ const clientRoutes = require('./routes/clientRoutes');
 const serviceRoutes = require('./routes/serviceRoutes');
 const settingsRoutes = require('./routes/settingsRoutes');
 const founderSlideRoutes = require('./routes/founderSlideRoutes');
+const blogRoutes = require('./routes/blogRoutes');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -85,15 +86,21 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Serve static uploaded files with isolated Cross-Origin-Resource-Policy header
-app.use('/uploads', (req, res, next) => {
-  res.setHeader('Cross-Origin-Resource-Policy', 'cross-origin');
-  next();
-}, express.static(path.join(__dirname, '../uploads'), {
-  maxAge: '7d',
-  setHeaders: (res) => {
+const staticUploadsMiddleware = [
+  (req, res, next) => {
     res.setHeader('Cross-Origin-Resource-Policy', 'cross-origin');
+    next();
   },
-}));
+  express.static(path.join(__dirname, '../uploads'), {
+    maxAge: '7d',
+    setHeaders: (res) => {
+      res.setHeader('Cross-Origin-Resource-Policy', 'cross-origin');
+    },
+  }),
+];
+
+app.use('/uploads', staticUploadsMiddleware);
+app.use('/api/uploads', staticUploadsMiddleware);
 
 const { connectDB } = require('./config/db');
 
@@ -126,6 +133,7 @@ app.use('/api/admin/clients', clientRoutes);
 app.use('/api/admin/services', serviceRoutes);
 app.use('/api/admin/settings', settingsRoutes);
 app.use('/api/admin/founder-gallery', founderSlideRoutes);
+app.use('/api/admin/blogs', blogRoutes);
 
 // Root endpoint
 app.get('/', (req, res) => {

@@ -20,6 +20,13 @@ export default function FounderHero({ onOpenModal }) {
       .then((res) => (res.ok ? res.json() : null))
       .then((data) => {
         if (data && data.success && data.data) {
+          const apiBase = getApiBase();
+          const apiHost = apiBase.replace(/\/api\/?$/, '');
+          let fImg = data.data.founderImage || prev.founderImage;
+          if (fImg && fImg.startsWith('/uploads/')) {
+            fImg = `${apiHost}${fImg}`;
+          }
+
           setSettings((prev) => ({
             ...prev,
             founderHeroTag: data.data.founderHeroTag || prev.founderHeroTag,
@@ -29,7 +36,7 @@ export default function FounderHero({ onOpenModal }) {
             founderHeroCtaPhone: data.data.founderHeroCtaPhone || prev.founderHeroCtaPhone,
             founderName: data.data.founderName || prev.founderName,
             founderRole: data.data.founderRole || prev.founderRole,
-            founderImage: data.data.founderImage || prev.founderImage,
+            founderImage: fImg,
           }));
         }
       })
@@ -91,6 +98,19 @@ export default function FounderHero({ onOpenModal }) {
                 alt={settings.founderName}
                 className="hero-founder-img"
                 id="founder-hero-img"
+                onError={(e) => {
+                  const target = e.currentTarget;
+                  if (!target.dataset.fallback1) {
+                    target.dataset.fallback1 = 'true';
+                    target.src = '/assets/hero_man.jpeg';
+                    return;
+                  }
+                  if (!target.dataset.fallback2) {
+                    target.dataset.fallback2 = 'true';
+                    target.src = '/heroman.jpeg';
+                    return;
+                  }
+                }}
               />
             </div>
 

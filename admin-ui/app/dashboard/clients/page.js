@@ -236,7 +236,21 @@ export default function ClientLogosPage() {
                     src={imgSrc}
                     alt={item.name}
                     style={{ maxHeight: '70px', maxWidth: '85%', objectFit: 'contain' }}
-                    onError={(e) => { e.target.src = '/logo.png'; }}
+                    onError={(e) => {
+                      const target = e.currentTarget;
+                      const rawFile = (item.logoUrl || '').split('/').pop();
+                      if (!target.dataset.triedLocal && rawFile) {
+                        target.dataset.triedLocal = 'true';
+                        target.src = `/client-logos/${rawFile}`;
+                        return;
+                      }
+                      if (!target.dataset.triedUploads && rawFile) {
+                        target.dataset.triedUploads = 'true';
+                        target.src = `/uploads/clients/${rawFile}`;
+                        return;
+                      }
+                      target.src = '/logo.png';
+                    }}
                   />
                 </div>
 

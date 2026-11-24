@@ -30,6 +30,7 @@ export default function MobileDrawer({ isOpen, onClose, onOpenModal }) {
     { href: '/about', label: 'About Us' },
     { href: '/services', label: 'Services', hasDropdown: true },
     { href: '/gallery', label: 'Campaign Gallery' },
+    { href: '/blog', label: 'Blog & Articles' },
     { href: 'https://gireeshkumar.novainnovations.in', label: 'Founder Profile (Gireesh Kumar S)', isExternal: true },
     { href: '/contact', label: 'Contact' },
   ];

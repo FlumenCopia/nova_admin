@@ -515,7 +515,21 @@ export default function CampaignGalleryPage() {
                     src={imgSrc}
                     alt={item.title}
                     style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                    onError={(e) => { e.target.src = '/logo.png'; }}
+                    onError={(e) => {
+                      const target = e.currentTarget;
+                      const rawFile = (item.imageUrl || '').split('/').pop();
+                      if (!target.dataset.triedLocal && rawFile) {
+                        target.dataset.triedLocal = 'true';
+                        target.src = `/uploads/portfolio/${rawFile}`;
+                        return;
+                      }
+                      if (!target.dataset.triedAssets) {
+                        target.dataset.triedAssets = 'true';
+                        target.src = '/assets/about_hoarding.jpg';
+                        return;
+                      }
+                      target.src = '/logo.png';
+                    }}
                   />
                   <span
                     style={{

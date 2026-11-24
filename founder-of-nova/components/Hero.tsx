@@ -67,7 +67,30 @@ export default function Hero({
           <div className="visual-wrapper">
             <div className="hero-blue-circle"></div>
             <div className="hero-img-box">
-              <img src={founderImg} alt={founderName} className="hero-founder-img" id="founder-hero-img" />
+              <img
+                src={founderImg}
+                alt={founderName}
+                className="hero-founder-img"
+                id="founder-hero-img"
+                onError={(e) => {
+                  const target = e.currentTarget;
+                  if (!target.dataset.fallback1) {
+                    target.dataset.fallback1 = 'true';
+                    target.src = '/assets/hero_man.jpeg';
+                    return;
+                  }
+                  if (!target.dataset.fallback2) {
+                    target.dataset.fallback2 = 'true';
+                    target.src = '/heroman.jpeg';
+                    return;
+                  }
+                  if (!target.dataset.fallback3) {
+                    target.dataset.fallback3 = 'true';
+                    target.src = '/assets/founder_gireesh.jpg';
+                    return;
+                  }
+                }}
+              />
             </div>
             <div className="founder-title-badge">
               <strong id="founder-hero-name">{founderName}</strong>

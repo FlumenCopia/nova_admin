@@ -7,6 +7,7 @@ const ClientLogo = require('../models/ClientLogo');
 const Service = require('../models/Service');
 const SiteSettings = require('../models/SiteSettings');
 const FounderSlide = require('../models/FounderSlide');
+const BlogPost = require('../models/BlogPost');
 
 // Ensure reliable DNS resolution across varied hosting container environments
 try {
@@ -64,4 +65,5 @@ module.exports = {
   Service,
   SiteSettings,
   FounderSlide,
+  BlogPost,
 };
