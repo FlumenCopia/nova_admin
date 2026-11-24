@@ -32,6 +32,7 @@ const nextConfig = {
       { source: '/services.html', destination: '/services', permanent: true },
       { source: '/gallery.html', destination: '/gallery', permanent: true },
       { source: '/contact.html', destination: '/contact', permanent: true },
+      { source: '/wp-content/:path*', destination: '/icon-192.png', permanent: true },
     ];
   },
 };
