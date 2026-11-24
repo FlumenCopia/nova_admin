@@ -224,9 +224,10 @@ const processFounderSlideImage = async (req, res, next) => {
 
     const outputPath = path.join(targetFolder, filename);
 
+    // Use fit: 'inside' withoutEnlargement so full banners and wide posters are NEVER cropped on sides or top/bottom
     await sharp(req.file.buffer, { limitInputPixels: 40000000 })
-      .resize(1920, 1080, { fit: 'cover', position: 'center' })
-      .webp({ quality: 85 })
+      .resize(2560, 1440, { fit: 'inside', withoutEnlargement: true })
+      .webp({ quality: 92 })
       .toFile(outputPath);
 
     req.processedImageUrl = `/uploads/founder/${filename}`;
