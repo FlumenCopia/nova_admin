@@ -4,7 +4,7 @@ import "./styles.css";
 export const metadata: Metadata = {
   title: "GIREESH KUMAR S | Founder, Director & CEO — Nova Innovations Kerala",
   description:
-    "Official executive portfolio of Gireesh Kumar S, Founder & CEO of Nova Innovations. 27+ years pioneering outdoor advertising, highway hoardings, and transit fleet media across Kerala.",
+    "Official executive portfolio of Gireesh Kumar S, Founder & CEO of Nova Innovations. 27+ years pioneering turnkey A-to-Z outdoor advertising: planning, hosting, physical placement, and 24/7 maintenance of 500+ prime billboards and KSRTC bus fleets across Kerala & TVM.",
   metadataBase: new URL("https://gireeshkumar.novainnovations.in"),
   alternates: {
     canonical: "https://gireeshkumar.novainnovations.in",
@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Gireesh Kumar S — Founder, Director & CEO | Nova Innovations",
     description:
-      "Managing 500+ prime outdoor advertising corridors and 24/7 overnight campaign executions across Kerala.",
+      "27+ years pioneering A-to-Z billboard hosting, physical crane placement, and transit media across Trivandrum (TVM) and all 14 Kerala districts.",
     url: "https://gireeshkumar.novainnovations.in",
     siteName: "Gireesh Kumar S — Nova Innovations",
     images: [
@@ -30,7 +30,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Gireesh Kumar S — Founder, Director & CEO | Nova Innovations",
     description:
-      "27+ Years of Creative Advertising Excellence & Highway Hoarding Leadership across Kerala.",
+      "A-to-Z Outdoor Media Infrastructure: Planning, Hosting 500+ Corridors, Physical Placement & 24/7 Maintenance across Kerala & TVM.",
     images: ["/assets/hero_man.jpeg"],
   },
   icons: {
@@ -75,14 +75,16 @@ const personSchema = {
     telephone: "+919539000640",
     email: "novainnovations2020@gmail.com",
     description:
-      "Founder and Chief Executive Officer of Nova Innovations with over 27 years of experience managing highway hoardings, KSRTC transit wraps, and large-format outdoor advertising across Kerala.",
+      "Founder and Chief Executive Officer of Nova Innovations with over 27 years of experience pioneering turnkey A-to-Z outdoor advertising: strategic media planning, hosting 500+ prime highway billboards, physical crane placement, and 24/7 structural maintenance across Kerala.",
     knowsAbout: [
       "Out of Home Advertising (OOH)",
-      "Highway Hoardings",
-      "KSRTC Bus Branding",
-      "Retail Showroom Signages",
-      "Overnight Campaign Execution",
-      "Advertising Strategy",
+      "Turnkey Billboard Space Hosting & Media Planning",
+      "Highway Hoardings & High-Rise Unipoles",
+      "KSRTC Bus Fleet Transit Advertising",
+      "Trivandrum Highway Corridors & NH 66",
+      "24/7 Billboard Illumination & Structural Maintenance",
+      "Overnight Campaign Execution across Kerala",
+      "Retail Showroom Signages & ACP Facades",
     ],
   },
 };
@@ -95,9 +97,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <link rel="icon" type="image/png" href="/logo.png" />
-        <link rel="shortcut icon" href="/logo.png" />
-        <link rel="apple-touch-icon" href="/logo.png" />
+        <link rel="icon" href="/favicon.ico" sizes="any" />
+        <link rel="icon" type="image/png" sizes="48x48" href="/icon-48.png" />
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
           rel="preconnect"
