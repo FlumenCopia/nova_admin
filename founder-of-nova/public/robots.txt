@@ -1,10 +1,10 @@
-# Robots.txt for Nova Innovations (novainnovations.in)
+# Robots.txt for Gireesh Kumar S — Founder & CEO of Nova Innovations
 User-agent: *
 Allow: /
 Disallow: /api/
 Disallow: /_next/
 
 # Host & Sitemap
-Host: https://novainnovations.in
-Sitemap: https://novainnovations.in/sitemap.xml
+Host: https://gireeshkumar.novainnovations.in
+Sitemap: https://gireeshkumar.novainnovations.in/sitemap.xml
 
