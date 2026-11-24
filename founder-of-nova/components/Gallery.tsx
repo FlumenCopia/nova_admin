@@ -80,12 +80,6 @@ export default function Gallery({
                     <div className="slide-image-wrapper">
                       <img
                         src={resolveSlideImg(slide)}
-                        alt=""
-                        className="slide-backdrop-blur"
-                        aria-hidden="true"
-                      />
-                      <img
-                        src={resolveSlideImg(slide)}
                         alt={slide.title}
                         className="slide-img"
                         onError={(e) => {
