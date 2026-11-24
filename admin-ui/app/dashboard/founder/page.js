@@ -60,6 +60,8 @@ export default function FounderAdminPage() {
     meta: '',
     metaIcon: 'fa-location-dot',
     actionText: 'Connect with Director',
+    actionType: 'modal',
+    actionUrl: '',
     modalSubject: 'Founder Meeting',
     order: 1,
     isActive: true,
@@ -510,6 +512,8 @@ export default function FounderAdminPage() {
       meta: '',
       metaIcon: 'fa-location-dot',
       actionText: 'Connect with Director',
+      actionType: 'modal',
+      actionUrl: '',
       modalSubject: 'Founder Meeting',
       order: slidesList.length + 1,
       isActive: true,
@@ -529,6 +533,8 @@ export default function FounderAdminPage() {
       meta: slide.meta || '',
       metaIcon: slide.metaIcon || 'fa-location-dot',
       actionText: slide.actionText || 'Connect with Director',
+      actionType: slide.actionType || 'modal',
+      actionUrl: slide.actionUrl || '',
       modalSubject: slide.modalSubject || 'Founder Meeting',
       order: slide.order !== undefined ? slide.order : 1,
       isActive: slide.isActive !== false,
@@ -561,6 +567,8 @@ export default function FounderAdminPage() {
       formData.append('meta', slideFormData.meta.trim());
       formData.append('metaIcon', slideFormData.metaIcon.trim());
       formData.append('actionText', slideFormData.actionText.trim());
+      formData.append('actionType', slideFormData.actionType || 'modal');
+      formData.append('actionUrl', (slideFormData.actionUrl || '').trim());
       formData.append('modalSubject', slideFormData.modalSubject.trim());
       formData.append('order', String(slideFormData.order));
       formData.append('isActive', String(slideFormData.isActive));
@@ -1521,6 +1529,52 @@ export default function FounderAdminPage() {
             </form>
           </div>
 
+          {/* SLIDES TOOLBAR */}
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              marginBottom: '20px',
+              flexWrap: 'wrap',
+              gap: '14px',
+              background: '#ffffff',
+              padding: '16px 20px',
+              borderRadius: '12px',
+              border: '1px solid #e5e7eb',
+              boxShadow: '0 2px 4px rgba(0,0,0,0.03)',
+            }}
+          >
+            <div>
+              <h4 style={{ fontSize: '1.1rem', fontWeight: 800, color: '#111827', margin: 0 }}>
+                Carousel Milestone Slides ({slidesList.length})
+              </h4>
+              <p style={{ color: '#6b7280', fontSize: '0.85rem', margin: '3px 0 0 0' }}>
+                Manage photos, executive milestones, and action button behaviors (Modal, WhatsApp, Call, or Link).
+              </p>
+            </div>
+            <button
+              type="button"
+              onClick={handleOpenAddSlideModal}
+              style={{
+                background: '#dc2626',
+                color: '#ffffff',
+                border: 'none',
+                padding: '10px 22px',
+                borderRadius: '8px',
+                fontWeight: 700,
+                fontSize: '0.92rem',
+                cursor: 'pointer',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '8px',
+                boxShadow: '0 4px 12px rgba(220, 38, 38, 0.25)',
+              }}
+            >
+              <span>+ Add New Showcase Slide</span>
+            </button>
+          </div>
+
           {/* SLIDES GRID */}
           {loadingSlides ? (
             <div style={{ textAlign: 'center', padding: '48px', color: '#6b7280' }}>
@@ -1662,22 +1716,64 @@ export default function FounderAdminPage() {
                       <div
                         style={{
                           background: '#f9fafb',
-                          padding: '8px 12px',
+                          padding: '10px 12px',
                           borderRadius: '8px',
                           fontSize: '0.8rem',
                           color: '#4b5563',
                           marginBottom: '16px',
                           display: 'flex',
-                          justifyContent: 'space-between',
-                          alignItems: 'center',
+                          flexDirection: 'column',
+                          gap: '6px',
+                          border: '1px solid #f3f4f6',
                         }}
                       >
-                        <span>
-                          <strong>Button:</strong> {slide.actionText || 'Connect'}
-                        </span>
-                        <span>
-                          <strong>Modal:</strong> {slide.modalSubject || 'Inquiry'}
-                        </span>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                          <span>
+                            <strong>Button:</strong> {slide.actionText || 'Connect with Director'}
+                          </span>
+                          <span
+                            style={{
+                              fontSize: '0.72rem',
+                              fontWeight: 700,
+                              padding: '2px 8px',
+                              borderRadius: '4px',
+                              background:
+                                slide.actionType === 'whatsapp'
+                                  ? '#dcfce7'
+                                  : slide.actionType === 'call'
+                                  ? '#e0f2fe'
+                                  : slide.actionType === 'url'
+                                  ? '#f3e8ff'
+                                  : '#fee2e2',
+                              color:
+                                slide.actionType === 'whatsapp'
+                                  ? '#15803d'
+                                  : slide.actionType === 'call'
+                                  ? '#0369a1'
+                                  : slide.actionType === 'url'
+                                  ? '#6b21a8'
+                                  : '#b91c1c',
+                            }}
+                          >
+                            {slide.actionType === 'whatsapp'
+                              ? '💬 WhatsApp'
+                              : slide.actionType === 'call'
+                              ? '📞 Phone Call'
+                              : slide.actionType === 'url'
+                              ? '🔗 Web Link'
+                              : '📋 Consultation Modal'}
+                          </span>
+                        </div>
+                        <div style={{ fontSize: '0.75rem', color: '#6b7280' }}>
+                          <strong>Target:</strong>{' '}
+                          {slide.actionType === 'whatsapp'
+                            ? `WhatsApp (${slide.actionUrl || '+91 95390 00640'})`
+                            : slide.actionType === 'call'
+                            ? `Dial (${slide.actionUrl || '+91 95390 00640'})`
+                            : slide.actionType === 'url'
+                            ? `${slide.actionUrl || 'External Link'}`
+                            : `Modal Subject: "${slide.modalSubject || 'Founder Meeting'}"`}
+                        </div>
                       </div>
 
                       {/* Card Actions */}
@@ -2109,45 +2205,154 @@ export default function FounderAdminPage() {
             />
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '16px' }}>
-            <div>
-              <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 700, color: '#374151', marginBottom: '6px' }}>
-                Action Button Text
-              </label>
-              <input
-                type="text"
-                value={slideFormData.actionText}
-                onChange={(e) => setSlideFormData({ ...slideFormData, actionText: e.target.value })}
-                placeholder="e.g. Inquire Branding"
-                style={{
-                  width: '100%',
-                  padding: '10px 14px',
-                  borderRadius: '8px',
-                  border: '1px solid #d1d5db',
-                  fontSize: '0.92rem',
-                  outline: 'none',
-                }}
-              />
+          {/* ACTION BUTTON MANAGEMENT */}
+          <div style={{ background: '#f8fafc', padding: '16px', borderRadius: '10px', border: '1px solid #e2e8f0', marginBottom: '16px' }}>
+            <h4 style={{ fontSize: '0.9rem', fontWeight: 800, color: '#1e293b', margin: '0 0 12px 0' }}>
+              Slide Action Button Configuration
+            </h4>
+
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '12px' }}>
+              <div>
+                <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 700, color: '#374151', marginBottom: '6px' }}>
+                  Button Label Text *
+                </label>
+                <input
+                  type="text"
+                  value={slideFormData.actionText}
+                  onChange={(e) => setSlideFormData({ ...slideFormData, actionText: e.target.value })}
+                  placeholder="e.g. Connect with Director"
+                  required
+                  style={{
+                    width: '100%',
+                    padding: '10px 14px',
+                    borderRadius: '8px',
+                    border: '1px solid #d1d5db',
+                    fontSize: '0.92rem',
+                    outline: 'none',
+                    background: '#ffffff',
+                  }}
+                />
+              </div>
+
+              <div>
+                <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 700, color: '#374151', marginBottom: '6px' }}>
+                  Button Action Type *
+                </label>
+                <select
+                  value={slideFormData.actionType || 'modal'}
+                  onChange={(e) => setSlideFormData({ ...slideFormData, actionType: e.target.value })}
+                  style={{
+                    width: '100%',
+                    padding: '10px 14px',
+                    borderRadius: '8px',
+                    border: '1px solid #d1d5db',
+                    fontSize: '0.92rem',
+                    outline: 'none',
+                    background: '#ffffff',
+                    fontWeight: 600,
+                  }}
+                >
+                  <option value="modal">📋 Open Meeting / Booking Modal</option>
+                  <option value="whatsapp">💬 Open Direct WhatsApp Chat</option>
+                  <option value="call">📞 Direct Phone Call</option>
+                  <option value="url">🔗 Open Webpage / Article Link</option>
+                </select>
+              </div>
             </div>
-            <div>
-              <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 700, color: '#374151', marginBottom: '6px' }}>
-                Booking Modal Subject
-              </label>
-              <input
-                type="text"
-                value={slideFormData.modalSubject}
-                onChange={(e) => setSlideFormData({ ...slideFormData, modalSubject: e.target.value })}
-                placeholder="e.g. Retail Facade"
-                style={{
-                  width: '100%',
-                  padding: '10px 14px',
-                  borderRadius: '8px',
-                  border: '1px solid #d1d5db',
-                  fontSize: '0.92rem',
-                  outline: 'none',
-                }}
-              />
-            </div>
+
+            {/* Dynamic Target Input based on Action Type */}
+            {(!slideFormData.actionType || slideFormData.actionType === 'modal') && (
+              <div>
+                <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 700, color: '#374151', marginBottom: '6px' }}>
+                  Booking Modal Subject (pre-fills the consultation popup)
+                </label>
+                <input
+                  type="text"
+                  value={slideFormData.modalSubject}
+                  onChange={(e) => setSlideFormData({ ...slideFormData, modalSubject: e.target.value })}
+                  placeholder="e.g. Founder Meeting, Highway Hoarding, Executive Inquiry"
+                  style={{
+                    width: '100%',
+                    padding: '10px 14px',
+                    borderRadius: '8px',
+                    border: '1px solid #d1d5db',
+                    fontSize: '0.92rem',
+                    outline: 'none',
+                    background: '#ffffff',
+                  }}
+                />
+              </div>
+            )}
+
+            {slideFormData.actionType === 'whatsapp' && (
+              <div>
+                <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 700, color: '#374151', marginBottom: '6px' }}>
+                  WhatsApp Phone Number (optional — leave blank for official Nova desk +91 95390 00640)
+                </label>
+                <input
+                  type="text"
+                  value={slideFormData.actionUrl}
+                  onChange={(e) => setSlideFormData({ ...slideFormData, actionUrl: e.target.value })}
+                  placeholder="e.g. +91 95390 00640"
+                  style={{
+                    width: '100%',
+                    padding: '10px 14px',
+                    borderRadius: '8px',
+                    border: '1px solid #d1d5db',
+                    fontSize: '0.92rem',
+                    outline: 'none',
+                    background: '#ffffff',
+                  }}
+                />
+              </div>
+            )}
+
+            {slideFormData.actionType === 'call' && (
+              <div>
+                <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 700, color: '#374151', marginBottom: '6px' }}>
+                  Direct Dial Phone Number (optional — leave blank for +91 95390 00640)
+                </label>
+                <input
+                  type="text"
+                  value={slideFormData.actionUrl}
+                  onChange={(e) => setSlideFormData({ ...slideFormData, actionUrl: e.target.value })}
+                  placeholder="e.g. +91 95390 00640"
+                  style={{
+                    width: '100%',
+                    padding: '10px 14px',
+                    borderRadius: '8px',
+                    border: '1px solid #d1d5db',
+                    fontSize: '0.92rem',
+                    outline: 'none',
+                    background: '#ffffff',
+                  }}
+                />
+              </div>
+            )}
+
+            {slideFormData.actionType === 'url' && (
+              <div>
+                <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 700, color: '#374151', marginBottom: '6px' }}>
+                  Target Web Link / URL *
+                </label>
+                <input
+                  type="text"
+                  value={slideFormData.actionUrl}
+                  onChange={(e) => setSlideFormData({ ...slideFormData, actionUrl: e.target.value })}
+                  placeholder="e.g. https://novainnovations.in/gallery or external news article"
+                  required
+                  style={{
+                    width: '100%',
+                    padding: '10px 14px',
+                    borderRadius: '8px',
+                    border: '1px solid #d1d5db',
+                    fontSize: '0.92rem',
+                    outline: 'none',
+                    background: '#ffffff',
+                  }}
+                />
+              </div>
+            )}
           </div>
 
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '24px' }}>

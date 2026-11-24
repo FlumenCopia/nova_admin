@@ -28,6 +28,8 @@ export interface GallerySlide {
   meta?: string;
   modalSubject?: string;
   actionText?: string;
+  actionType?: 'modal' | 'whatsapp' | 'call' | 'url';
+  actionUrl?: string;
   order?: number;
   isActive?: boolean;
 }

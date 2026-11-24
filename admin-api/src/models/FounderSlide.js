@@ -37,6 +37,17 @@ const founderSlideSchema = new mongoose.Schema(
       trim: true,
       default: 'Connect with Director',
     },
+    actionType: {
+      type: String,
+      trim: true,
+      enum: ['modal', 'whatsapp', 'call', 'url'],
+      default: 'modal',
+    },
+    actionUrl: {
+      type: String,
+      trim: true,
+      default: '',
+    },
     modalSubject: {
       type: String,
       trim: true,

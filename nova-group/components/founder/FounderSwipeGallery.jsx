@@ -191,7 +191,20 @@ export default function FounderSwipeGallery({
                   <button
                     type="button"
                     className="btn btn-primary btn-sm"
-                    onClick={() => onOpenModal && onOpenModal(slide.modalSubject || slide.serviceKey || 'Founder Meeting')}
+                    onClick={() => {
+                      if (slide.actionType === 'whatsapp') {
+                        const phone = (slide.actionUrl || '+919539000640').replace(/[^0-9]/g, '');
+                        const msg = encodeURIComponent(`Hi Nova Innovations, I am inquiring regarding founder milestone/showcase: "${slide.title}".`);
+                        window.open(`https://wa.me/${phone}?text=${msg}`, '_blank');
+                      } else if (slide.actionType === 'call') {
+                        const phone = (slide.actionUrl || '+919539000640').replace(/\s+/g, '');
+                        window.location.href = `tel:${phone}`;
+                      } else if (slide.actionType === 'url' && slide.actionUrl) {
+                        window.open(slide.actionUrl, '_blank');
+                      } else {
+                        onOpenModal && onOpenModal(slide.modalSubject || slide.serviceKey || 'Founder Meeting');
+                      }
+                    }}
                   >
                     <span>{slide.actionText || 'Connect with Director'}</span> <i className="fa-solid fa-arrow-right"></i>
                   </button>

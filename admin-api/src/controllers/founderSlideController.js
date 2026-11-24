@@ -123,6 +123,8 @@ const createSlide = async (req, res) => {
       meta,
       metaIcon,
       actionText,
+      actionType,
+      actionUrl,
       modalSubject,
       order,
       isActive,
@@ -150,6 +152,8 @@ const createSlide = async (req, res) => {
       metaIcon: metaIcon ? metaIcon.trim() : 'fa-location-dot',
       imageUrl: imageUrl.trim(),
       actionText: actionText ? actionText.trim() : 'Connect with Director',
+      actionType: actionType && ['modal', 'whatsapp', 'call', 'url'].includes(actionType) ? actionType : 'modal',
+      actionUrl: actionUrl ? actionUrl.trim() : '',
       modalSubject: modalSubject ? modalSubject.trim() : 'Founder Meeting',
       order: finalOrder,
       isActive: isActive !== undefined ? isActive === true || isActive === 'true' : true,
@@ -177,6 +181,8 @@ const updateSlide = async (req, res) => {
       meta,
       metaIcon,
       actionText,
+      actionType,
+      actionUrl,
       modalSubject,
       order,
       isActive,
@@ -195,6 +201,10 @@ const updateSlide = async (req, res) => {
     if (meta !== undefined) updatePayload.meta = meta.trim();
     if (metaIcon !== undefined) updatePayload.metaIcon = metaIcon.trim();
     if (actionText !== undefined) updatePayload.actionText = actionText.trim();
+    if (actionType !== undefined && ['modal', 'whatsapp', 'call', 'url'].includes(actionType)) {
+      updatePayload.actionType = actionType;
+    }
+    if (actionUrl !== undefined) updatePayload.actionUrl = actionUrl.trim();
     if (modalSubject !== undefined) updatePayload.modalSubject = modalSubject.trim();
     if (order !== undefined) updatePayload.order = Number(order);
     if (isActive !== undefined) updatePayload.isActive = isActive === true || isActive === 'true';
