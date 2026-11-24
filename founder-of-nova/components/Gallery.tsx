@@ -73,11 +73,17 @@ export default function Gallery({
                 const counterDisplay = `${String(sIdx + 1).padStart(2, '0')} / ${String(activeSlides.length).padStart(2, '0')}`;
                 return (
                   <div
-                    className={`swipe-slide ${sIdx === currentSlide ? 'active' : ''}`}
+                    className={`swipe-slide gallery-slide ${sIdx === currentSlide ? 'active' : ''}`}
                     key={slide._id || slide.id || sIdx}
                     style={{ display: sIdx === currentSlide ? 'block' : 'none' }}
                   >
                     <div className="slide-image-wrapper">
+                      <img
+                        src={resolveSlideImg(slide)}
+                        alt=""
+                        className="slide-backdrop-blur"
+                        aria-hidden="true"
+                      />
                       <img
                         src={resolveSlideImg(slide)}
                         alt={slide.title}

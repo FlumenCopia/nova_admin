@@ -1618,11 +1618,26 @@ export default function FounderAdminPage() {
                     }}
                   >
                     {/* Slide Image Preview with Gradient and Badge */}
-                    <div style={{ position: 'relative', width: '100%', height: '210px', background: '#111827' }}>
+                    <div style={{ position: 'relative', width: '100%', height: '210px', background: '#0b0f19', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
+                      <img
+                        src={imgDisplay}
+                        alt=""
+                        style={{
+                          position: 'absolute',
+                          inset: '-10px',
+                          width: 'calc(100% + 20px)',
+                          height: 'calc(100% + 20px)',
+                          objectFit: 'cover',
+                          filter: 'blur(16px) brightness(0.4)',
+                          opacity: 0.6,
+                          pointerEvents: 'none',
+                        }}
+                        aria-hidden="true"
+                      />
                       <img
                         src={imgDisplay}
                         alt={slide.title}
-                        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                        style={{ position: 'relative', zIndex: 2, width: '100%', height: '100%', objectFit: 'contain', objectPosition: 'center' }}
                         onError={(e) => {
                           e.target.onerror = null;
                           e.target.src = '/assets/founder_gireesh.jpg';
@@ -2047,7 +2062,7 @@ export default function FounderAdminPage() {
                   <img
                     src={slideImagePreview || getMediaUrl(slideFormData.imageUrl)}
                     alt="Preview"
-                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                    style={{ width: '100%', height: '100%', objectFit: 'contain', objectPosition: 'center' }}
                     onError={(e) => {
                       e.target.onerror = null;
                       e.target.src = '/assets/founder_gireesh.jpg';

@@ -160,8 +160,14 @@ export default function FounderSwipeGallery({
           </button>
 
           <div className="swipe-track-wrapper">
-            <div className="swipe-slide active">
+            <div className="swipe-slide gallery-slide active">
               <div className="slide-image-wrapper">
+                <img
+                  src={resolveSlideImg(slide)}
+                  alt=""
+                  className="slide-backdrop-blur"
+                  aria-hidden="true"
+                />
                 <img
                   src={resolveSlideImg(slide)}
                   alt={slide.title}
