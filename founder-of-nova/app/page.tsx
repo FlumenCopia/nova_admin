@@ -61,6 +61,11 @@ export default function FounderPage() {
 
   // Showcase Gallery Slides
   const [gallerySlides, setGallerySlides] = useState<GallerySlide[]>(GALLERY_SLIDES);
+  const [gallerySubhead, setGallerySubhead] = useState('FEATURED MEDIA & AWARDS');
+  const [galleryHeading, setGalleryHeading] = useState('Founder Milestones & Executive Showcase');
+  const [galleryDesc, setGalleryDesc] = useState(
+    'Explore landmark billboard installations, executive inspections, media honours, and 27+ years of advertising excellence across Kerala.'
+  );
 
   // Leadership Spotlight
   const [spotlightTag, setSpotlightTag] = useState('LEADERSHIP SPOTLIGHT');
@@ -161,6 +166,11 @@ export default function FounderPage() {
           if (s.servicesSectionSubhead) setServicesSubhead(s.servicesSectionSubhead);
           if (s.servicesSectionHeading) setServicesHeading(s.servicesSectionHeading);
           if (s.servicesSectionDesc) setServicesDesc(s.servicesSectionDesc);
+
+          // Showcase Gallery Section Headers
+          if (s.founderGallerySubhead) setGallerySubhead(s.founderGallerySubhead);
+          if (s.founderGalleryHeading) setGalleryHeading(s.founderGalleryHeading);
+          if (s.founderGalleryDesc) setGalleryDesc(s.founderGalleryDesc);
 
           // Partners title
           if (s.partnersSectionTitle) setPartnersTitle(s.partnersSectionTitle);
@@ -409,7 +419,13 @@ export default function FounderPage() {
 
         <ClientsMarquee title={partnersTitle} clients={clients} />
 
-        <Gallery onOpenModal={openModal} slides={gallerySlides} />
+        <Gallery
+          onOpenModal={openModal}
+          slides={gallerySlides}
+          subhead={gallerySubhead}
+          heading={galleryHeading}
+          desc={galleryDesc}
+        />
 
         <CtaBanner />
 

@@ -166,6 +166,22 @@ const siteSettingsSchema = new mongoose.Schema(
       default: 'OUR ESTEEMED CLIENTS & BRAND PARTNERS',
       trim: true,
     },
+    // Founder Showcase / Awards Gallery Header
+    founderGallerySubhead: {
+      type: String,
+      default: 'FEATURED MEDIA & AWARDS',
+      trim: true,
+    },
+    founderGalleryHeading: {
+      type: String,
+      default: 'Founder Milestones & Executive Showcase',
+      trim: true,
+    },
+    founderGalleryDesc: {
+      type: String,
+      default: 'Explore landmark billboard installations, executive inspections, media honours, and 27+ years of advertising excellence across Kerala.',
+      trim: true,
+    },
   },
   {
     collection: 'SiteSettings',

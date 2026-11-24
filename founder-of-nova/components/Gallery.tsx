@@ -7,9 +7,18 @@ import { GallerySlide } from '../types';
 interface GalleryProps {
   onOpenModal: (subject: string) => void;
   slides?: GallerySlide[];
+  subhead?: string;
+  heading?: string;
+  desc?: string;
 }
 
-export default function Gallery({ onOpenModal, slides = [] }: GalleryProps) {
+export default function Gallery({
+  onOpenModal,
+  slides = [],
+  subhead = 'FEATURED MEDIA & AWARDS',
+  heading = 'Founder Milestones & Executive Showcase',
+  desc = 'Explore landmark billboard installations, executive inspections, media honours, and 27+ years of advertising excellence across Kerala.',
+}: GalleryProps) {
   const [currentSlide, setCurrentSlide] = useState(0);
 
   const activeSlides: GallerySlide[] = (slides && slides.length > 0 ? slides : GALLERY_SLIDES).filter(
@@ -43,12 +52,9 @@ export default function Gallery({ onOpenModal, slides = [] }: GalleryProps) {
           <span className="dot dot-red"></span>
           <span className="dot dot-red"></span>
         </div>
-        <span className="section-sub">FEATURED MEDIA GALLERY</span>
-        <h2 className="section-heading">High-Impact Campaign Showcase</h2>
-        <p className="section-desc">
-          Swipe through Nova Innovations&apos; landmark billboard installations, mobile transit fleets, and
-          architectural displays across Kerala.
-        </p>
+        <span className="section-sub">{subhead}</span>
+        <h2 className="section-heading">{heading}</h2>
+        <p className="section-desc">{desc}</p>
       </div>
 
       <div className="swipe-gallery-container">

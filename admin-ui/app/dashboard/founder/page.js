@@ -70,6 +70,14 @@ export default function FounderAdminPage() {
   const [savingSlide, setSavingSlide] = useState(false);
   const slideFileInputRef = useRef(null);
 
+  // Showcase Gallery Section Header Settings
+  const [founderGallerySubhead, setFounderGallerySubhead] = useState('FEATURED MEDIA & AWARDS');
+  const [founderGalleryHeading, setFounderGalleryHeading] = useState('Founder Milestones & Executive Showcase');
+  const [founderGalleryDesc, setFounderGalleryDesc] = useState(
+    'Explore landmark billboard installations, executive inspections, media honours, and 27+ years of advertising excellence across Kerala.'
+  );
+  const [savingGalleryHeader, setSavingGalleryHeader] = useState(false);
+
 
   // --- SECTION 4: CLIENT & PARTNER LOGOS STATE ---
   const [partnersTitle, setPartnersTitle] = useState('OUR ESTEEMED CLIENTS & BRAND PARTNERS');
@@ -118,6 +126,10 @@ export default function FounderAdminPage() {
         if (d.servicesSectionHeading !== undefined) setServicesHeading(d.servicesSectionHeading || 'Comprehensive Advertising Services');
         if (d.servicesSectionDesc !== undefined) setServicesDesc(d.servicesSectionDesc || '');
         if (d.partnersSectionTitle !== undefined) setPartnersTitle(d.partnersSectionTitle || 'OUR ESTEEMED CLIENTS & BRAND PARTNERS');
+
+        if (d.founderGallerySubhead !== undefined) setFounderGallerySubhead(d.founderGallerySubhead || 'FEATURED MEDIA & AWARDS');
+        if (d.founderGalleryHeading !== undefined) setFounderGalleryHeading(d.founderGalleryHeading || 'Founder Milestones & Executive Showcase');
+        if (d.founderGalleryDesc !== undefined) setFounderGalleryDesc(d.founderGalleryDesc || 'Explore landmark billboard installations, executive inspections, media honours, and 27+ years of advertising excellence across Kerala.');
 
         if (d.leaderTag !== undefined) setLeaderTag(d.leaderTag || 'LEADERSHIP SPOTLIGHT');
         if (d.leaderName !== undefined) setSpotlightName(d.leaderName || 'GIREESH KUMAR S');
@@ -347,6 +359,34 @@ export default function FounderAdminPage() {
       setToastMsg(err.message || 'Failed to update services header');
     } finally {
       setSavingServicesHeader(false);
+    }
+  };
+
+  // --- SHOWCASE GALLERY HEADER SAVE ---
+  const handleSaveGalleryHeader = async (e) => {
+    e.preventDefault();
+    setSavingGalleryHeader(true);
+    try {
+      const res = await apiRequest('/admin/settings', {
+        method: 'PUT',
+        body: JSON.stringify({
+          founderGallerySubhead,
+          founderGalleryHeading,
+          founderGalleryDesc,
+        }),
+      });
+
+      if (res && res.success) {
+        setToastType('success');
+        setToastMsg('Showcase Carousel Header updated successfully!');
+      } else {
+        throw new Error(res.message || 'Failed to update showcase header');
+      }
+    } catch (err) {
+      setToastType('error');
+      setToastMsg(err.message || 'Failed to update showcase header');
+    } finally {
+      setSavingGalleryHeader(false);
     }
   };
 
@@ -1357,16 +1397,16 @@ export default function FounderAdminPage() {
         <div>
           {/* SECTION HEADER CARD */}
           <div style={{ background: '#ffffff', borderRadius: '16px', border: '1px solid #e5e7eb', padding: '28px', marginBottom: '32px' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '24px' }}>
               <div>
                 <span style={{ fontSize: '0.8rem', fontWeight: 700, color: '#dc2626', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
                   FEATURED MEDIA & AWARDS CAROUSEL
                 </span>
                 <h3 style={{ fontSize: '1.25rem', fontWeight: 800, color: '#111827', margin: '4px 0 6px 0' }}>
-                  Founder Showcase & Milestone Slides
+                  Showcase Carousel Section Header
                 </h3>
                 <p style={{ color: '#6b7280', fontSize: '0.9rem', margin: 0 }}>
-                  Manage the high-impact photo cards, event inaugurations, and awards displayed in the swipeable showcase carousel on the Founder Portfolio.
+                  Customize the headline and descriptive subtitle that appear above the founder awards and milestones carousel on gireeshkumar.novainnovations.in.
                 </p>
               </div>
 
@@ -1385,11 +1425,100 @@ export default function FounderAdminPage() {
                   display: 'inline-flex',
                   alignItems: 'center',
                   gap: '8px',
+                  flexShrink: 0,
                 }}
               >
                 <span>+ Add Showcase Slide</span>
               </button>
             </div>
+
+            <form onSubmit={handleSaveGalleryHeader}>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: '16px', marginBottom: '16px' }}>
+                <div>
+                  <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 700, color: '#374151', marginBottom: '6px' }}>
+                    Section Small Tag / Subhead
+                  </label>
+                  <input
+                    type="text"
+                    value={founderGallerySubhead}
+                    onChange={(e) => setFounderGallerySubhead(e.target.value)}
+                    placeholder="e.g. FEATURED MEDIA & AWARDS"
+                    style={{
+                      width: '100%',
+                      padding: '10px 14px',
+                      borderRadius: '8px',
+                      border: '1px solid #d1d5db',
+                      fontSize: '0.92rem',
+                      outline: 'none',
+                    }}
+                  />
+                </div>
+                <div>
+                  <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 700, color: '#374151', marginBottom: '6px' }}>
+                    Main Section Heading *
+                  </label>
+                  <input
+                    type="text"
+                    value={founderGalleryHeading}
+                    onChange={(e) => setFounderGalleryHeading(e.target.value)}
+                    placeholder="e.g. Founder Milestones & Executive Showcase"
+                    required
+                    style={{
+                      width: '100%',
+                      padding: '10px 14px',
+                      borderRadius: '8px',
+                      border: '1px solid #d1d5db',
+                      fontSize: '0.92rem',
+                      outline: 'none',
+                      fontWeight: 700,
+                    }}
+                  />
+                </div>
+              </div>
+
+              <div style={{ marginBottom: '16px' }}>
+                <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 700, color: '#374151', marginBottom: '6px' }}>
+                  Section Description (displayed under the main heading)
+                </label>
+                <textarea
+                  rows={2}
+                  value={founderGalleryDesc}
+                  onChange={(e) => setFounderGalleryDesc(e.target.value)}
+                  placeholder="e.g. Explore landmark billboard installations, executive inspections, media honours, and 27+ years of advertising excellence across Kerala."
+                  style={{
+                    width: '100%',
+                    padding: '10px 14px',
+                    borderRadius: '8px',
+                    border: '1px solid #d1d5db',
+                    fontSize: '0.92rem',
+                    outline: 'none',
+                    fontFamily: 'inherit',
+                  }}
+                />
+              </div>
+
+              <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                <button
+                  type="submit"
+                  disabled={savingGalleryHeader}
+                  style={{
+                    background: '#111827',
+                    color: '#ffffff',
+                    border: 'none',
+                    padding: '10px 20px',
+                    borderRadius: '8px',
+                    fontWeight: 700,
+                    fontSize: '0.88rem',
+                    cursor: savingGalleryHeader ? 'not-allowed' : 'pointer',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                  }}
+                >
+                  <span>{savingGalleryHeader ? 'Saving Header...' : 'Save Carousel Header'}</span>
+                </button>
+              </div>
+            </form>
           </div>
 
           {/* SLIDES GRID */}

@@ -66,30 +66,50 @@ const slidesData = [
   },
 ];
 
-export default function FounderSwipeGallery({ onOpenModal, slides: propSlides }) {
+export default function FounderSwipeGallery({
+  onOpenModal,
+  slides: propSlides,
+  subhead: propSubhead,
+  heading: propHeading,
+  desc: propDesc,
+}) {
   const [slides, setSlides] = useState(propSlides || slidesData);
   const [current, setCurrent] = useState(0);
+  const [subhead, setSubhead] = useState(propSubhead || 'FEATURED MEDIA & AWARDS');
+  const [heading, setHeading] = useState(propHeading || 'Founder Milestones & Executive Showcase');
+  const [desc, setDesc] = useState(
+    propDesc ||
+      'Explore landmark billboard installations, executive inspections, media honours, and 27+ years of advertising excellence across Kerala.'
+  );
 
   useEffect(() => {
     if (propSlides && propSlides.length > 0) {
       setSlides(propSlides);
-      return;
-    }
-    async function loadSlides() {
-      try {
-        const res = await fetchApi('/public/founder-gallery');
-        if (res && res.success && Array.isArray(res.data) && res.data.length > 0) {
-          const active = res.data.filter((s) => s.isActive !== false);
-          if (active.length > 0) {
-            setSlides(active);
+    } else {
+      fetchApi('/public/founder-gallery')
+        .then((res) => {
+          if (res && res.success && Array.isArray(res.data) && res.data.length > 0) {
+            const active = res.data.filter((s) => s.isActive !== false);
+            if (active.length > 0) {
+              setSlides(active);
+            }
           }
-        }
-      } catch (err) {
-        // Fall back to slidesData
-      }
+        })
+        .catch(() => {});
     }
-    loadSlides();
-  }, [propSlides]);
+
+    if (!propHeading || !propSubhead || !propDesc) {
+      fetchApi('/public/settings')
+        .then((res) => {
+          if (res && res.success && res.data) {
+            if (res.data.founderGallerySubhead && !propSubhead) setSubhead(res.data.founderGallerySubhead);
+            if (res.data.founderGalleryHeading && !propHeading) setHeading(res.data.founderGalleryHeading);
+            if (res.data.founderGalleryDesc && !propDesc) setDesc(res.data.founderGalleryDesc);
+          }
+        })
+        .catch(() => {});
+    }
+  }, [propSlides, propSubhead, propHeading, propDesc]);
 
   const activeSlides = slides && slides.length > 0 ? slides : slidesData;
   const slide = activeSlides[current] || activeSlides[0] || slidesData[0];
@@ -123,11 +143,9 @@ export default function FounderSwipeGallery({ onOpenModal, slides: propSlides })
           <span className="dot dot-red"></span>
           <span className="dot dot-red"></span>
         </div>
-        <span className="section-sub">FEATURED MEDIA GALLERY</span>
-        <h2 className="section-heading">High-Impact Campaign Showcase</h2>
-        <p className="section-desc">
-          Swipe through Nova Innovations landmark billboard installations, mobile transit fleets, and architectural displays across Kerala.
-        </p>
+        <span className="section-sub">{subhead}</span>
+        <h2 className="section-heading">{heading}</h2>
+        <p className="section-desc">{desc}</p>
       </div>
 
       <div className="swipe-gallery-container">
