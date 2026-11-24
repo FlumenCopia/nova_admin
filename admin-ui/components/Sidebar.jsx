@@ -132,16 +132,8 @@ export default function Sidebar({ isOpen, onClose }) {
     <>
       <aside className={`admin-sidebar ${isOpen ? 'open' : ''}`}>
         <div className="sidebar-header" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-            <img src="/logo.png" alt="Nova Innovations" style={{ height: '34px', width: 'auto', objectFit: 'contain' }} />
-            <div style={{ display: 'flex', flexDirection: 'column' }}>
-              <span style={{ fontWeight: 800, fontSize: '0.92rem', color: 'var(--color-text-primary)', letterSpacing: '-0.02em', lineHeight: 1.15 }}>
-                Nova Innovations
-              </span>
-              <span style={{ fontWeight: 700, fontSize: '0.7rem', color: 'var(--color-primary)', letterSpacing: '0.06em', textTransform: 'uppercase', marginTop: '2px' }}>
-                Admin Workspace
-              </span>
-            </div>
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+            <img src="/logo.png" alt="Nova Innovations" style={{ height: '36px', width: 'auto', objectFit: 'contain' }} />
           </div>
 
           <button
