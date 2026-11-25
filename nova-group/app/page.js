@@ -128,11 +128,13 @@ export default function HomePage() {
           <div className="about-grid">
             <div className="about-text-col">
               <span style={{ color: 'var(--brand-red)', fontWeight: 700, textTransform: 'uppercase', fontSize: '0.85rem', letterSpacing: '0.08em' }}>
-                Rated #1 Best Billboard Advertising Company in TVM & Kerala
+                Top Billboard Design &amp; Best Advertising Company in Kerala, India
               </span>
-              <h2 className="heading-lg" style={{ marginTop: '6px' }}>Best Billboard Advertising in TVM & Turnkey OOH Networks Across Kerala</h2>
+              <h2 className="heading-lg" style={{ marginTop: '6px' }}>
+                Top Billboard Design in Kerala &amp; Best Advertising Company in TVM &amp; Kozhikode
+              </h2>
               <p className="about-paragraph">
-                We <strong>"Nova Innovations"</strong> are not merely an advertising broker — we are recognized as the <strong>best billboard advertising company in TVM</strong> and Kerala's complete <strong>A-to-Z outdoor advertising infrastructure partner</strong>. We host 500+ prime advertising spaces, engineer media placement plans, design high-recall creative concepts, print on industrial large-format presses, physically mount hoardings overnight, and maintain continuous 24/7 illumination and structural safety.
+                We <strong>"Nova Innovations"</strong> are recognized as the <strong>top billboard design company in Kerala</strong> and the premier <strong>advertising infrastructure agency across India</strong>. We directly host 500+ prime advertising spaces, engineer high-recall creative concepts, print on in-house industrial large-format presses, physically mount hoardings overnight with heavy hydraulic cranes, and maintain continuous 24/7 illumination and structural safety across Trivandrum (TVM), Kochi, Kozhikode, and all 14 districts.
               </p>
               <p className="about-paragraph" style={{ marginTop: '14px' }}>
                 From customized graphic conceptualization to prime NH 66 highway hoardings, KSRTC bus fleet wraps, shop signage, and end-to-end event production, we provide head-to-tail services with 100% legal clearances and storm-resistant structural warranty.

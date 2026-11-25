@@ -87,6 +87,7 @@ export default function Footer({ onShowToast }) {
               <li><Link href="/" className="footer-link">Home</Link></li>
               <li><Link href="/about" className="footer-link">About Us</Link></li>
               <li><Link href="/services" className="footer-link">Our Services</Link></li>
+              <li><Link href="/billboard-design-company-kerala" className="footer-link" style={{ color: 'var(--brand-red)', fontWeight: 600 }}>Billboard Design Studio</Link></li>
               <li><Link href="/gallery" className="footer-link">Campaign Gallery</Link></li>
               <li><Link href="/blog" className="footer-link">Blog & Insights</Link></li>
               <li><Link href="/contact" className="footer-link">Contact & Locations</Link></li>
