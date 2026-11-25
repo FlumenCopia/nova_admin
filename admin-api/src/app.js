@@ -126,6 +126,7 @@ app.use(async (req, res, next) => {
 
 // Routes
 app.use('/api/public', publicRoutes);
+app.use('/public', publicRoutes); // Dual mount for seamless routing with or without /api prefix
 app.use('/api/admin/auth', authRoutes);
 app.use('/api/admin/enquiries', enquiryRoutes);
 app.use('/api/admin/portfolio', portfolioRoutes);

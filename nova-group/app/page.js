@@ -137,6 +137,48 @@ export default function HomePage() {
               <p className="about-paragraph" style={{ marginTop: '14px' }}>
                 From customized graphic conceptualization to prime NH 66 highway hoardings, KSRTC bus fleet wraps, shop signage, and end-to-end event production, we provide head-to-tail services with 100% legal clearances and storm-resistant structural warranty.
               </p>
+
+              {/* Turnkey Pillars Feature Badges */}
+              <div className="about-feature-pills-grid">
+                <div className="about-feature-pill">
+                  <div className="about-feature-pill-icon"><Check size={16} strokeWidth={2.5} /></div>
+                  <div>
+                    <strong>500+ Prime Media Assets</strong>
+                    <span>Highway Unipoles, Gantries & TVM Corridors</span>
+                  </div>
+                </div>
+                <div className="about-feature-pill">
+                  <div className="about-feature-pill-icon"><Zap size={16} strokeWidth={2.5} /></div>
+                  <div>
+                    <strong>Overnight 14-District Rollout</strong>
+                    <span>Synchronized statewide mounting in 24 hrs</span>
+                  </div>
+                </div>
+                <div className="about-feature-pill">
+                  <div className="about-feature-pill-icon"><ShieldCheck size={16} strokeWidth={2.5} /></div>
+                  <div>
+                    <strong>100% Legal & Wind Certified</strong>
+                    <span>Full corporation permits & monsoon safety</span>
+                  </div>
+                </div>
+                <div className="about-feature-pill">
+                  <div className="about-feature-pill-icon"><Printer size={16} strokeWidth={2.5} /></div>
+                  <div>
+                    <strong>In-House Industrial Printing</strong>
+                    <span>Star flex, vinyl & 24/7 LED illumination</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Action Buttons */}
+              <div style={{ marginTop: '26px', display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+                <Link href="/portfolio" className="btn btn-primary" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
+                  Explore 500+ Prime Hoardings <ArrowRight size={16} />
+                </Link>
+                <Link href="/services" className="btn btn-outline">
+                  View All Services
+                </Link>
+              </div>
             </div>
 
             <div className="stats-grid" id="stats-counter">

@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { Check, Phone } from 'lucide-react';
+import { Check, Phone, ShieldCheck, Zap } from 'lucide-react';
 import LeadershipSection from '../../components/LeadershipSection';
 import AnimatedStatNumber from '../../components/AnimatedStatNumber';
 
@@ -47,9 +47,28 @@ export default function AboutPage() {
             <p className="about-paragraph" style={{ marginBottom: '16px' }}>
               We <strong>"Innovations"</strong> are the best innovative and creative advertising option for the new era of hoarding advertisements. We are very much responsible to each and every client firm to take them to the next levels of business hierarchy.
             </p>
-            <p className="about-paragraph" style={{ marginBottom: '28px' }}>
+            <p className="about-paragraph" style={{ marginBottom: '22px' }}>
               As our name suggests, we focus on the creation, development, and implementation of high-visibility visual projections. Irrespective of the industrial sector, we are the trusted business partner for leading brands like <strong>myG</strong>, corporate giants, and retail chains across all 14 districts in Kerala.
             </p>
+
+            {/* Feature Highlights */}
+            <div className="about-feature-pills-grid" style={{ marginBottom: '28px' }}>
+              <div className="about-feature-pill">
+                <div className="about-feature-pill-icon"><Check size={16} strokeWidth={2.5} /></div>
+                <div>
+                  <strong>A-to-Z Media Infrastructure</strong>
+                  <span>Direct site hosting, industrial printing & crane mounting</span>
+                </div>
+              </div>
+              <div className="about-feature-pill">
+                <div className="about-feature-pill-icon"><ShieldCheck size={16} strokeWidth={2.5} /></div>
+                <div>
+                  <strong>100% Legal & Wind Certified</strong>
+                  <span>Corporation approvals & storm-resistant structures</span>
+                </div>
+              </div>
+            </div>
+
             <div className="stats-grid">
               <div className="stat-item">
                 <AnimatedStatNumber value="27+" />
