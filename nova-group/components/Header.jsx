@@ -66,13 +66,6 @@ export default function Header({ onOpenModal, onToggleMobile, isMobileOpen }) {
                     <ChevronDown size={14} style={{ transition: 'transform 0.2s ease' }} />
                   </Link>
                   <div className="nav-dropdown-menu">
-                    <Link
-                      href="/billboard-design-company-kerala"
-                      className="nav-dropdown-item"
-                      style={{ fontWeight: 700, color: 'var(--brand-red)' }}
-                    >
-                      ★ Billboard Design Studio
-                    </Link>
                     {services.map((srv) => (
                       <Link
                         key={srv.id || srv._id || srv.title}
