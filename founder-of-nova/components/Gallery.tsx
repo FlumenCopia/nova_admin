@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import { GALLERY_SLIDES } from '../data/content';
 import { GallerySlide } from '../types';
 
 interface GalleryProps {
@@ -21,9 +20,19 @@ export default function Gallery({
 }: GalleryProps) {
   const [currentSlide, setCurrentSlide] = useState(0);
 
-  const activeSlides: GallerySlide[] = (slides && slides.length > 0 ? slides : GALLERY_SLIDES).filter(
+  if (!slides || slides.length === 0) {
+    return null;
+  }
+
+  const activeSlides: GallerySlide[] = slides.filter(
     (s) => s.isActive !== false
   );
+
+  if (activeSlides.length === 0) {
+    return null;
+  }
+
+  const safeCurrent = currentSlide >= activeSlides.length ? 0 : currentSlide;
 
   const prevSlide = () => {
     setCurrentSlide((curr) => (curr === 0 ? activeSlides.length - 1 : curr - 1));
@@ -35,14 +44,14 @@ export default function Gallery({
 
   const resolveSlideImg = (slide: GallerySlide) => {
     const raw = slide.imageUrl || slide.img || '';
-    if (!raw) return '/assets/founder_gireesh.jpg';
+    if (!raw) return '';
     if (raw.startsWith('http://') || raw.startsWith('https://') || raw.startsWith('//')) {
       return raw;
     }
     if (raw.startsWith('/uploads/')) {
       return `https://api.novainnovations.in${raw}`;
     }
-    return raw; // /assets/founder_...
+    return raw;
   };
 
   return (
@@ -59,37 +68,35 @@ export default function Gallery({
 
       <div className="swipe-gallery-container">
         <div className="swipe-stage">
-          <button
-            className="swipe-nav-btn prev"
-            onClick={prevSlide}
-            aria-label="Previous Image Slide"
-          >
-            <i className="fa-solid fa-chevron-left"></i>
-          </button>
+          {activeSlides.length > 1 && (
+            <button
+              className="swipe-nav-btn prev"
+              onClick={prevSlide}
+              aria-label="Previous Image Slide"
+            >
+              <i className="fa-solid fa-chevron-left"></i>
+            </button>
+          )}
 
           <div className="swipe-track-wrapper">
             <div className="swipe-track">
               {activeSlides.map((slide, sIdx) => {
                 const counterDisplay = `${String(sIdx + 1).padStart(2, '0')} / ${String(activeSlides.length).padStart(2, '0')}`;
+                const imgSrc = resolveSlideImg(slide);
                 return (
                   <div
-                    className={`swipe-slide gallery-slide ${sIdx === currentSlide ? 'active' : ''}`}
+                    className={`swipe-slide gallery-slide ${sIdx === safeCurrent ? 'active' : ''}`}
                     key={slide._id || slide.id || sIdx}
-                    style={{ display: sIdx === currentSlide ? 'block' : 'none' }}
+                    style={{ display: sIdx === safeCurrent ? 'block' : 'none' }}
                   >
                     <div className="slide-image-wrapper">
-                      <img
-                        src={resolveSlideImg(slide)}
-                        alt={slide.title}
-                        className="slide-img"
-                        onError={(e) => {
-                          const target = e.currentTarget;
-                          if (!target.dataset.fallback) {
-                            target.dataset.fallback = 'true';
-                            target.src = '/assets/founder_gireesh.jpg';
-                          }
-                        }}
-                      />
+                      {imgSrc && (
+                        <img
+                          src={imgSrc}
+                          alt={slide.title}
+                          className="slide-img"
+                        />
+                      )}
                       <div className="slide-gradient-overlay"></div>
                     </div>
                     <div className="slide-caption-card">
@@ -100,9 +107,11 @@ export default function Gallery({
                         <span className="slide-counter">{counterDisplay}</span>
                       </div>
                       <h3 className="slide-title">{slide.title}</h3>
-                      <p className="slide-meta">
-                        <i className={`fa-solid ${slide.metaIcon || 'fa-location-dot'}`}></i> {slide.meta}
-                      </p>
+                      {slide.meta && (
+                        <p className="slide-meta">
+                          <i className={`fa-solid ${slide.metaIcon || 'fa-location-dot'}`}></i> {slide.meta}
+                        </p>
+                      )}
                       <div className="slide-actions">
                         <button
                           type="button"
@@ -132,26 +141,29 @@ export default function Gallery({
             </div>
           </div>
 
-          <button
-            className="swipe-nav-btn next"
-            onClick={nextSlide}
-            aria-label="Next Image Slide"
-          >
-            <i className="fa-solid fa-chevron-right"></i>
-          </button>
+          {activeSlides.length > 1 && (
+            <button
+              className="swipe-nav-btn next"
+              onClick={nextSlide}
+              aria-label="Next Image Slide"
+            >
+              <i className="fa-solid fa-chevron-right"></i>
+            </button>
+          )}
         </div>
 
-        <div className="swipe-dots-container">
-          {activeSlides.map((_, dotIdx) => (
-            <span
-              key={dotIdx}
-              className={`swipe-dot ${dotIdx === currentSlide ? 'active' : ''}`}
-              onClick={() => setCurrentSlide(dotIdx)}
-            ></span>
-          ))}
-        </div>
+        {activeSlides.length > 1 && (
+          <div className="swipe-dots-container">
+            {activeSlides.map((_, dotIdx) => (
+              <span
+                key={dotIdx}
+                className={`swipe-dot ${dotIdx === safeCurrent ? 'active' : ''}`}
+                onClick={() => setCurrentSlide(dotIdx)}
+              ></span>
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );
 }
-

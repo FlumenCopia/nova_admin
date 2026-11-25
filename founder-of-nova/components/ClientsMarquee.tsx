@@ -1,7 +1,6 @@
 'use client';
 
 import { ClientItem } from '../types';
-import { DEFAULT_CLIENT_LOGOS } from '../data/content';
 
 interface ClientsMarqueeProps {
   title?: string;
@@ -12,7 +11,20 @@ export default function ClientsMarquee({
   title = 'OUR ESTEEMED CLIENTS & BRAND PARTNERS',
   clients = [],
 }: ClientsMarqueeProps) {
-  const logos = clients.length > 0 ? clients : DEFAULT_CLIENT_LOGOS;
+  if (!clients || clients.length === 0) {
+    return null;
+  }
+
+  const activeClients = clients.filter((c) => c.isActive !== false);
+  if (activeClients.length === 0) {
+    return null;
+  }
+
+  // Ensure enough items for smooth continuous loop animation
+  let logos = activeClients;
+  while (logos.length > 0 && logos.length < 12) {
+    logos = [...logos, ...activeClients];
+  }
 
   const resolveLogoSrc = (logo: ClientItem) => {
     if (logo.logoUrl) {
@@ -31,25 +43,11 @@ export default function ClientsMarquee({
       const clean = logo.file.replace(/^client_/, '');
       return `/client-logos/${clean}`;
     }
-    return '/client-logos/myg.png';
+    return '';
   };
 
   const handleImgError = (e: React.SyntheticEvent<HTMLImageElement>) => {
     const target = e.currentTarget;
-    const currentSrc = target.src || '';
-    if (!target.dataset.fallback1) {
-      target.dataset.fallback1 = 'true';
-      const filename = currentSrc.split('/').pop() || '';
-      if (filename && !currentSrc.includes('/client-logos/')) {
-        target.src = `/client-logos/${filename.replace(/^client_/, '')}`;
-        return;
-      }
-    }
-    if (!target.dataset.fallbackFinal) {
-      target.dataset.fallbackFinal = 'true';
-      target.src = '/client-logos/myg.png';
-      return;
-    }
     target.style.display = 'none';
   };
 

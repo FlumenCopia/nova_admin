@@ -15,7 +15,6 @@ import Footer from '../components/Footer';
 import BookingModal from '../components/BookingModal';
 import Toast from '../components/Toast';
 
-import { DEFAULT_SERVICES, GALLERY_SLIDES } from '../data/content';
 import { ClientItem, ServiceItem, ToastData, GallerySlide } from '../types';
 
 export default function FounderPage() {
@@ -53,14 +52,14 @@ export default function FounderPage() {
   const [servicesDesc, setServicesDesc] = useState(
     'End-to-end outdoor advertising, design studio creations, transit branding, and corporate events across Kerala.'
   );
-  const [services, setServices] = useState<ServiceItem[]>(DEFAULT_SERVICES);
+  const [services, setServices] = useState<ServiceItem[]>([]);
 
   // Clients
   const [partnersTitle, setPartnersTitle] = useState('OUR ESTEEMED CLIENTS & BRAND PARTNERS');
   const [clients, setClients] = useState<ClientItem[]>([]);
 
   // Showcase Gallery Slides
-  const [gallerySlides, setGallerySlides] = useState<GallerySlide[]>(GALLERY_SLIDES);
+  const [gallerySlides, setGallerySlides] = useState<GallerySlide[]>([]);
   const [gallerySubhead, setGallerySubhead] = useState('FEATURED MEDIA & AWARDS');
   const [galleryHeading, setGalleryHeading] = useState('Founder Milestones & Executive Showcase');
   const [galleryDesc, setGalleryDesc] = useState(
@@ -213,12 +212,14 @@ export default function FounderPage() {
       .then((json) => {
         if (json?.success && Array.isArray(json?.data) && json.data.length > 0) {
           const active = json.data.filter((item: ServiceItem) => item.isActive !== false);
-          if (active.length > 0) {
-            setServices(active);
-          }
+          setServices(active);
+        } else {
+          setServices([]);
         }
       })
-      .catch(() => {});
+      .catch(() => {
+        setServices([]);
+      });
 
     // 3. Clients from backend
     fetch(`${apiBase}/public/clients`)
@@ -226,12 +227,14 @@ export default function FounderPage() {
       .then((json) => {
         if (json?.success && Array.isArray(json?.data) && json.data.length > 0) {
           const active = json.data.filter((item: ClientItem) => item.isActive !== false);
-          if (active.length > 0) {
-            setClients(active);
-          }
+          setClients(active);
+        } else {
+          setClients([]);
         }
       })
-      .catch(() => {});
+      .catch(() => {
+        setClients([]);
+      });
 
     // 4. Founder Showcase Slides from backend
     fetch(`${apiBase}/public/founder-gallery`)
@@ -239,12 +242,14 @@ export default function FounderPage() {
       .then((json) => {
         if (json?.success && Array.isArray(json?.data) && json.data.length > 0) {
           const active = json.data.filter((item: GallerySlide) => item.isActive !== false);
-          if (active.length > 0) {
-            setGallerySlides(active);
-          }
+          setGallerySlides(active);
+        } else {
+          setGallerySlides([]);
         }
       })
-      .catch(() => {});
+      .catch(() => {
+        setGallerySlides([]);
+      });
   }, [apiBase]);
 
   // Toast helper
@@ -376,13 +381,15 @@ export default function FounderPage() {
           onOpenModal={openModal}
         />
 
-        <Services
-          services={services}
-          subhead={servicesSubhead}
-          heading={servicesHeading}
-          desc={servicesDesc}
-          onOpenModal={openModal}
-        />
+        {services && services.length > 0 && (
+          <Services
+            services={services}
+            subhead={servicesSubhead}
+            heading={servicesHeading}
+            desc={servicesDesc}
+            onOpenModal={openModal}
+          />
+        )}
 
         <section className="testimonials-overview-section" id="about">
           {/* Overnight specialty highlight strip */}
@@ -417,15 +424,19 @@ export default function FounderPage() {
           />
         </section>
 
-        <ClientsMarquee title={partnersTitle} clients={clients} />
+        {clients && clients.length > 0 && (
+          <ClientsMarquee title={partnersTitle} clients={clients} />
+        )}
 
-        <Gallery
-          onOpenModal={openModal}
-          slides={gallerySlides}
-          subhead={gallerySubhead}
-          heading={galleryHeading}
-          desc={galleryDesc}
-        />
+        {gallerySlides && gallerySlides.length > 0 && (
+          <Gallery
+            onOpenModal={openModal}
+            slides={gallerySlides}
+            subhead={gallerySubhead}
+            heading={galleryHeading}
+            desc={galleryDesc}
+          />
+        )}
 
         <CtaBanner />
 

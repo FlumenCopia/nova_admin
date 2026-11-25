@@ -17,6 +17,9 @@ export default function Services({
   desc = 'End-to-end outdoor advertising, design studio creations, transit branding, and corporate events across Kerala.',
   onOpenModal,
 }: ServicesProps) {
+  if (!services || services.length === 0) {
+    return null;
+  }
   const getIconClass = (iconKey?: string, title?: string) => {
     const k = (iconKey || '').toLowerCase();
     const t = (title || '').toLowerCase();
